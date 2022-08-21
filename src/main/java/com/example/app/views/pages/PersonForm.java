@@ -6,28 +6,52 @@ import com.example.app.data.entity.Person;
 //import com.example.app.data.repository.CityRepository;
 //import com.example.app.data.repository.PersonRepository;
 //import com.example.app.data.service.AppService;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.MultiFileReceiver;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.FileBuffer;
+import com.vaadin.flow.component.upload.receivers.FileData;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.internal.MessageDigestUtil;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
+import io.swagger.v3.oas.models.Components;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.logging.Level;
 
 
 public class PersonForm extends FormLayout {
@@ -47,6 +71,29 @@ public class PersonForm extends FormLayout {
     TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
     TextField egyebKeszsegek    = new TextField("Egyéb készségek");
     TextField motivaciosLevel   = new TextField("Motivációs levél");
+
+   // FileBuffer fileBuffer = new FileBuffer();
+    //Upload singleFileUpload = new Upload(fileBuffer);
+
+    MemoryBuffer buffer = new MemoryBuffer();
+    Upload upload = new Upload(buffer);
+   // Div output = new Div();
+    //String relativeWebPath = "/WEB-INF/uploads";
+    //String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
+    //File uploadedFile = new File(absoluteFilePath, FilenameUtils.getName(item.getName()));
+
+    /*Upload upload = new Upload((MultiFileReceiver) (filename, mimeType) -> {
+        File file = new File(new File("uploaded-files"), filename);
+        try {
+            return new FileOutputStream(file);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+    });*/
+
+    Scroller scroller = new Scroller();
+
     TextField picture           = new TextField("Fénykép");
 
     ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
@@ -87,11 +134,179 @@ public class PersonForm extends FormLayout {
           egyebKeszsegek,
           motivaciosLevel,
           picture,
+          upload,
+              // output,
+          scroller,
+                //singleFileUpload,
           city,
           nyelvIsmeret,
           createButtonLayout()
         );
+
+        final String[] pictName = {""};
+        final String[] s = {""};
+        //upload.setAcceptedFileTypes("application/jpg", ".jpg");
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setMaxFileSize(10485760);
+        upload.addSucceededListener(event -> {
+            // Get information about the uploaded file
+            InputStream fileData = buffer.getInputStream();
+            String fileName = event.getFileName();
+            long contentLength = event.getContentLength();
+            String mimeType = event.getMIMEType();
+
+            picture.setValue(fileName);
+
+            pictName[0] = fileName;
+            // Do something with the file data
+            // processFile(fileData, fileName, contentLength, mimeType);
+
+            //add(new H1(event.getMIMEType()));
+            Component component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
+            //hideOutput(event.getFileName(), component, output);
+            //output.removeAll();
+            scroller.setContent(null);
+            showOutput(event.getFileName(), component, scroller);
+
+            String resourcesPath = "src/main/resources/images/";//"\\src\\main\\resources\\";
+            File targetFile = new File(resourcesPath+fileName);
+
+            Path currentRelativePath = Paths.get("");
+            s[0] = (currentRelativePath.toAbsolutePath().toString()+resourcesPath);
+
+            /*OutputStream outStream = null;
+            try {
+                outStream = new FileOutputStream(targetFile);
+                outStream.write(buffer.getInputStream());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }*/
+            try {
+                FileUtils.copyInputStreamToFile(buffer.getInputStream(), targetFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            //System.out.println(upload.getElement().isEnabled());
+            /*scroller.setWidth("200px");
+            scroller.setHeight("200px");
+            StreamResource imageResource = new StreamResource(""+pictName[0],
+                    () -> getClass().getResourceAsStream("/images/"+pictName[0]));    //"/images/jo18.png"));//
+            //String imageResource = pictName[0];
+            System.out.println(imageResource);
+            Image img = new Image(imageResource, "No image!");
+            scroller.setContent(img);*/
+
+        });
+
+
+        //System.out.println(upload.getElement().isEnabled());
+        /*singleFileUpload.addSucceededListener(event -> {
+            // Get information about the file that was written to the file system
+            FileData savedFileData = fileBuffer.getFileData();
+            String absolutePath = savedFileData.getFile().getAbsolutePath();
+
+            System.out.printf("File saved to: %s%n", absolutePath);
+        });*/
+
     }
+
+    private Component createComponent(String mimeType, String fileName,
+                                      InputStream stream) {
+        if (mimeType.startsWith("text")) {
+            return createTextComponent(stream);
+        } else if (mimeType.startsWith("image")) {
+            Image image = new Image();
+            try {
+
+                byte[] bytes = IOUtils.toByteArray(stream);
+                image.getElement().setAttribute("src", new StreamResource(
+                        fileName, () -> new ByteArrayInputStream(bytes)));
+                try (ImageInputStream in = ImageIO.createImageInputStream(
+                        new ByteArrayInputStream(bytes))) {
+                    final Iterator<ImageReader> readers = ImageIO
+                            .getImageReaders(in);
+                    if (readers.hasNext()) {
+                        ImageReader reader = readers.next();
+                        try {
+                            reader.setInput(in);
+                            image.setWidth(reader.getWidth(0) + "px");
+                            image.setHeight(reader.getHeight(0) + "px");
+                        } finally {
+                            reader.dispose();
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return image;
+        }
+        Div content = new Div();
+        String text = String.format("Mime type: '%s'\nSHA-256 hash: '%s'",
+                mimeType, MessageDigestUtil.sha256(stream.toString()));
+        content.setText(text);
+        return content;
+
+    }
+
+    private Component createTextComponent(InputStream stream) {
+        String text;
+        try {
+            text = IOUtils.toString(stream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            text = "exception reading stream";
+        }
+        return new Text(text);
+    }
+
+    private void showOutput(String text, Component content,
+                            Scroller scroller) {
+        HtmlComponent p = new HtmlComponent(Tag.P);
+        p.getElement().setText(text);
+        scroller.setWidth("200px");
+        scroller.setHeight("200px");
+        scroller.setContent(content);
+        //outputContainer.add(p);
+        //outputContainer.add(content);
+    }
+    /*private void hideOutput(String text, Component content,
+                            Scroller outputContainer) {
+        HtmlComponent p = new HtmlComponent(Tag.P);
+        p.getElement().setText(text);
+        outputContainer.add("");
+        outputContainer.remove(content);
+    }*/
+
+    /*public void FileCopyPicture(String selectedFile, ){
+        private Path to;
+        private Path from;
+        private File selectedFile;
+
+        // fájl bemásolása
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        //System.out.println("Current absolute path is: " + s);
+
+        selectedFile = upload.getElement().getChild(0)..getChild();//.getSelectedFile();
+        from = Paths.get(selectedFile.toURI());
+        to = Paths.get(s+"\\" + selectedFile.getName()); //to = Paths.get(s+"\\src\\main\\resources\\" + selectedFile.getName());
+        try {
+            // Files.copy(from.toFile(), to.toFile()); //gives a 'cannot resolve method error
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            System.out.println("fd");
+        }
+    }*/
+    /*private static File getUploadFolder() {
+        File folder = new File("uploaded-files");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder;
+    }*/
 
     public void setPerson(Person person){
         this.person = person;
