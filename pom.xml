@@ -141,6 +141,12 @@
             <version>5.1.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- DOCUMENTATION ez ad egy webes felületet nekünk, melyen fel tudjuk fedezni az egyes endpointokat. http://localhost:8080/swagger-ui/index.html-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.6</version>
+        </dependency>
     </dependencies>
 
     <build>
