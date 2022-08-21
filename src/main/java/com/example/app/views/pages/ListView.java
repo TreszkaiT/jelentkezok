@@ -66,7 +66,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new PersonForm(service.findAllCities(), service.findAllNyelvismeret());    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
+        form = new PersonForm(service.findAllCities(), service.findAllNyelvismeret());//, service);    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
         form.setWidth("25em");
 
         form.addListener(PersonForm.SaveEvent.class, this::savePerson);

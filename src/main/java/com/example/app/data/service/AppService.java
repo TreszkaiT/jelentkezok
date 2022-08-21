@@ -8,6 +8,10 @@ import com.example.app.data.repository.NyelvismeretRepository;
 import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,6 +68,11 @@ public class AppService {
         return cityRepository.findAll();
     }
 
+    /*
+    public static List<Country> getCountries() {
+        return Arrays.asList(getItems(Country[].class, "countries.json"));
+    }*/
+
     // Nyelvismeret Repository-s dolgok-
     public List<Nyelvismeret> findAllNyelvismeret(){
         return nyelvismeretRepository.findAll();
@@ -96,7 +105,17 @@ public class AppService {
         person1.setfirstName("Kiss");
         person1.setlastName("Géza");
         person1.setemail("valami@valami.hu");
-        person1.setszulDatum("2003.08.05");
+
+        String sDate1="31/12/1998";
+        SimpleDateFormat formatter1=new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date1=formatter1.parse(sDate1);
+            person1.setszulDatum(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         person1.setphone("0630-3564-874");
         person1.setaddress("Vasgyár utca 7/a");
         person1.setcity(city1);
@@ -114,7 +133,16 @@ public class AppService {
         person2.setfirstName("Nagy");
         person2.setlastName("István");
         person2.setemail("nagyi@valami.hu");
-        person2.setszulDatum("2000.08.05");
+
+        String sDate2="31/12/1998";
+        SimpleDateFormat formatter2=new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date2=formatter2.parse(sDate2);
+            person2.setszulDatum(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         person2.setphone("0630-3564-874");
         person2.setaddress("Vasgyár utca 7/a");
         person2.setcity(city2);

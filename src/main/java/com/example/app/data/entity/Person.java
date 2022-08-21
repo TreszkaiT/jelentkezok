@@ -5,6 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 
 @Entity
@@ -20,8 +21,8 @@ public class Person extends AbstractEntity {
     @Email
     @NotEmpty
     private String email = "";
-    @NotEmpty
-    private String szulDatum = "";
+    //@NotEmpty
+    private Date szulDatum;
     @NotEmpty
     private String phone = "";
 
@@ -96,11 +97,11 @@ public class Person extends AbstractEntity {
         this.email = email;
     }
 
-    public String getszulDatum() {
+    public Date getszulDatum() {
         return szulDatum;
     }
 
-    public void setszulDatum(String szulDatum) {
+    public void setszulDatum(Date szulDatum) {
         this.szulDatum = szulDatum;
     }
 
