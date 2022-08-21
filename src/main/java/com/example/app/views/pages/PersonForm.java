@@ -6,6 +6,7 @@ import com.example.app.data.entity.Person;
 //import com.example.app.data.repository.CityRepository;
 //import com.example.app.data.repository.PersonRepository;
 //import com.example.app.data.service.AppService;
+import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,6 +16,8 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -27,6 +30,7 @@ import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.internal.MessageDigestUtil;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
@@ -147,7 +151,27 @@ public class PersonForm extends FormLayout {
         final String[] s = {""};
         //upload.setAcceptedFileTypes("application/jpg", ".jpg");
         upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
-        upload.setMaxFileSize(10485760);
+        int maxFileSizeInBytes = 10 * 1024 * 1024; // 10MB
+        upload.setMaxFileSize(maxFileSizeInBytes);
+
+        upload.setMaxFiles(1);
+        UploadPictureI18N i18n = new UploadPictureI18N();
+        i18n.getError()
+                .setTooManyFiles(
+                        "You may only upload a maximum of three files at once.");
+        upload.setI18n(i18n);
+
+        upload.addFileRejectedListener(event -> {
+            String errorMessage = event.getErrorMessage();
+
+            Notification notification = Notification.show(
+                    errorMessage,
+                    5000,
+                    Notification.Position.MIDDLE
+            );
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        });
+
         upload.addSucceededListener(event -> {
             // Get information about the uploaded file
             InputStream fileData = buffer.getInputStream();
@@ -174,6 +198,13 @@ public class PersonForm extends FormLayout {
             Path currentRelativePath = Paths.get("");
             s[0] = (currentRelativePath.toAbsolutePath().toString()+resourcesPath);
 
+                // fájl feltöltése
+            try {
+                FileUtils.copyInputStreamToFile(buffer.getInputStream(), targetFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             /*OutputStream outStream = null;
             try {
                 outStream = new FileOutputStream(targetFile);
@@ -181,11 +212,42 @@ public class PersonForm extends FormLayout {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }*/
-            try {
-                FileUtils.copyInputStreamToFile(buffer.getInputStream(), targetFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+           /* InputStream inputStream = buffer.getInputStream(fileName);
+
+            if(inputStream != null) {
+                FileUploadDto fileUploadDto = new FileUploadDto();
+                fileUploadDto.setFileName(event.getFileName());
+                fileUploadDto.setMimeType(event.getMIMEType());
+                try {
+                    byte[] bytes = IOUtils.toByteArray(inputStream);
+                    fileUploadDto.setByteArrayDocument(bytes);
+                    fileUploadDtoList.add(fileUploadDto);
+
+                } catch (IOException exception) {
+                    log.error(exception.getMessage());
+                }
+            }*/
+            /*if (component != null) {
+                vlowerLayout.remove(component);
+
+            }*/
+                    //  File uploadnál a clear gombra kattintva X gombra
+            //component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
+            if (component instanceof Image) {
+                upload.getElement().addEventListener("file-remove",event1 -> {
+                    //System.out.println("File remove");
+                    scroller.setContent(null);
+                    targetFile.delete();
+                });
+                // upload.getElement().addEventData("event.detail.file.name");
             }
+            //p = new HtmlComponent(Tag.H3);
+            //p.getElement().setText(event.getFileName());
+            //vlowerLayout.add(component);
+
+
+
 
 
             //System.out.println(upload.getElement().isEnabled());
@@ -266,8 +328,9 @@ public class PersonForm extends FormLayout {
                             Scroller scroller) {
         HtmlComponent p = new HtmlComponent(Tag.P);
         p.getElement().setText(text);
-        scroller.setWidth("200px");
+        scroller.setWidthFull();//("200px");
         scroller.setHeight("200px");
+
         scroller.setContent(content);
         //outputContainer.add(p);
         //outputContainer.add(content);

@@ -48,7 +48,7 @@ public class MainLayout extends AppLayout {
         H2 appName = new H2("adatok");
         appName.addClassNames("app-name");
 
-        RouterLink listLink = new RouterLink("List", ListView.class);
+        RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName, listLink,
