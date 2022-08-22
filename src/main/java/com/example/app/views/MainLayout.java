@@ -16,6 +16,8 @@ import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 
+import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
+
 /**
  * The main view is a top-level placeholder for other views.
  */
@@ -29,6 +31,7 @@ public class MainLayout extends AppLayout {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         addToDrawer(createDrawerContent());
+        //SetButtonAppPropertyValue(1,1);
     }
 
     private Component createHeaderContent() {

@@ -14,14 +14,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import static com.example.app.data.properties.SetProperties.SetButtonNyelvPropertyValue;
+import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
 
 @Route(value = "startingdataupload", layout = MainLayout.class)
 @PageTitle("Adatszótárak feltöltése")
@@ -36,6 +33,7 @@ public class StartingDataUpload extends VerticalLayout {
     ProgressBar progressBar2 = new ProgressBar();
 
     public static int ConfigNyelvButton;
+    public static int ConfigCityButton;
 
     public StartingDataUpload(AppService service, DataService serviceData) {
         this.service = service;
@@ -52,7 +50,10 @@ public class StartingDataUpload extends VerticalLayout {
 
         GetProperties properties = new GetProperties();
         properties.getAppPropValues();
+        // kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
+        PropertiesNull();
 
+        // Nyelv adatok beírása az adatbázisba
         if(ConfigNyelvButton==2) button1.setEnabled(false);
         button1.addClickListener(event -> {
             //if(!button1.isEnabled()) return;
@@ -71,13 +72,15 @@ public class StartingDataUpload extends VerticalLayout {
                 //});
 
             }).start();
-            SetButtonNyelvPropertyValue(2);
+            //SetButtonAppPropertyValue(2,ConfigCityButton);
             progressBar1.setIndeterminate(false);
             button1.setEnabled(false);
+            //PropertiesNull();
 
         });
 
-        //if()
+        // City adatok beírása az adatbázisba
+        if(ConfigCityButton==2) button2.setEnabled(false);
         button2.addClickListener(event -> {
             progressBar2.setIndeterminate(true);
             new Thread(() -> {
@@ -94,13 +97,18 @@ public class StartingDataUpload extends VerticalLayout {
                 if(cities==null) System.out.println("null"); else service.saveCities(cities);
 
             }).start();
-            //set
+            //SetButtonAppPropertyValue(ConfigNyelvButton,2);
             progressBar2.setIndeterminate(false);
             button2.setEnabled(false);
-
+            //PropertiesNull();
         });
 
+    }
 
+    private void PropertiesNull(){
+        if(service.findAllNyelvismeret().size()<10) ConfigNyelvButton=1; else ConfigNyelvButton=2;
+        if(service.findAllCities().size()<10) ConfigCityButton=1; else ConfigCityButton=2;
+        SetButtonAppPropertyValue(ConfigNyelvButton,ConfigCityButton);
 
     }
 

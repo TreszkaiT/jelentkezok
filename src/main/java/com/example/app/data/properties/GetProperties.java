@@ -30,7 +30,7 @@ public class GetProperties {
 
             // get the property value and print it out
             StartingDataUpload.ConfigNyelvButton = Integer.parseInt(prop.getProperty("feltoltes_nyelv_button").trim());
-            //Casino.InPicFil = prop.getProperty("input_pict_file").trim();
+            StartingDataUpload.ConfigCityButton = Integer.parseInt(prop.getProperty("feltoltes_city_button").trim());
 
 
         } catch (Exception e) {
