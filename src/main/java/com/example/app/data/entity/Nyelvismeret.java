@@ -7,9 +7,18 @@ import javax.persistence.Entity;
 public class Nyelvismeret extends AbstractEntity {
 
 	private String name;
+	private String code;
 
 	public Nyelvismeret() {
 
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Nyelvismeret(String name) {

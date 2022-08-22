@@ -78,6 +78,28 @@ public class AppService {
         return nyelvismeretRepository.findAll();
     }
 
+    public  void saveCities(List<City> cities){
+        if(cities == null){
+            System.out.println("Nincsenek városok!");
+        }
+
+        for(City cit: cities){
+            cityRepository.save(cit);
+        }
+    }
+
+    public void saveNyelvismeret(List<Nyelvismeret> nyelvismerets){
+        if(nyelvismerets == null){
+            System.out.println("Nincsenek nyelvek");
+        }
+
+        //nyelvismerets.stream()
+        for (Nyelvismeret ny: nyelvismerets) {
+            nyelvismeretRepository.save(ny);
+            //System.out.println("1");
+        }
+    }
+
     private void PeldaadatokHozzaadasa() {
 
         City city1 = new City();

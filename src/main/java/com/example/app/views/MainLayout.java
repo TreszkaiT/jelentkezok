@@ -3,6 +3,7 @@ package com.example.app.views;
 
 import com.example.app.views.appnav.AppNav;
 import com.example.app.views.pages.ListView;
+import com.example.app.views.pages.StartingDataUpload;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -51,11 +52,17 @@ public class MainLayout extends AppLayout {
         RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName, listLink,
-                createNavigation(), createFooter());
+        var section = new com.vaadin.flow.component.html.Section(
+                appName,
+                listLink,
+                new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class),
+                createNavigation(),
+                createFooter()
+        );
         section.addClassNames("drawer-section");
         return section;
     }
+
 
     private AppNav createNavigation() {
         // AppNav is not yet an official component.
