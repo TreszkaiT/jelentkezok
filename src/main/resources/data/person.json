@@ -1,0 +1,38 @@
+[
+  {
+    "firstName": "Kiss",
+    "lastName": "Géza",
+    "email": "kiss.geza@company.com",
+	"szulDatum": "2000-20-13",
+	"phone": "06-30-12345-6789",
+    "address": "Vas utca 7/a",	
+	"city": "0",
+	"kozMedia": "facebook",
+	"messageApps": "messenger",
+	"webSite": "google.com",
+	"picture": "alma.jpg",
+	"tanulmanyok": "egyetem, főiskola",
+	"szakmaiTap": "nincs",
+	"egyebKeszsegek": "jogsi, beszédkészség",
+	"motivaciosLevel": "bla bla bla...",
+	"nyelvIsmeret": "1"
+  },
+  {
+    "firstName": "Nagy",
+    "lastName": "Endre",
+    "email": "nagy.e@company.com",
+	"szulDatum": "2001-20-13",
+	"phone": "06-30-12345-6789",
+    "address": "Havas utca 7/a",	
+	"city": "1",
+	"kozMedia": "facebook",
+	"messageApps": "messenger",
+	"webSite": "google.com",
+	"picture": "alma1.jpg",
+	"tanulmanyok": "egyetem, főiskola",
+	"szakmaiTap": "nincs",
+	"egyebKeszsegek": "jogsi, beszédkészség",
+	"motivaciosLevel": "bla bla bla...",
+	"nyelvIsmeret": "1"
+  }  
+]

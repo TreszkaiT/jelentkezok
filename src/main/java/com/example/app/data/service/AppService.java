@@ -48,9 +48,25 @@ public class AppService {
         }
     }
 
-    /*public City findByCity(String id) {
+    public Optional<City> findByCity(String id) {
         return cityRepository.findById(UUID.fromString(id));
-    }*/
+    }
+
+    public City findCityByName(String name){
+        List<City> cityFindAll = findAllCities();
+        for(City city: cityFindAll){
+            if(city.getName().equals(name)) return city;
+        }
+        return null;
+    }
+
+    public Nyelvismeret findNyelvismeretByName(String name){
+        List<Nyelvismeret> nyelvFindAll = findAllNyelvismeret();
+        for(Nyelvismeret nyelv: nyelvFindAll){
+            if(nyelv.getName().equals(name)) return nyelv;
+        }
+        return null;
+    }
 
     public long countPersons(){
         return personRepository.count();

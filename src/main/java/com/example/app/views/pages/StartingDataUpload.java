@@ -76,8 +76,10 @@ public class StartingDataUpload extends VerticalLayout {
                 for(Person pers : persons){
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
-                    pers.setcity(service.findAllCities().get(0));//findByCity("1"));
-                    pers.setnyelvIsmeret(service.findAllNyelvismeret().get(0));
+                    //pers.setcity(service.findAllCities().get(0));//findByCity("1"));
+                    //pers.setnyelvIsmeret(service.findAllNyelvismeret().get(0));
+                    pers.setcity(service.findCityByName("Nyíregyháza"));
+                    pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
                     personsok.add(pers);
                 }
                 service.savePerson(personsok);
