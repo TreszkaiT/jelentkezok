@@ -161,11 +161,11 @@ public class Person extends AbstractEntity {
         this.picture = picture;
     }
 
-    public String getTanulmanyok() {
+    public String gettanulmanyok() {
         return tanulmanyok;
     }
 
-    public void setTanulmanyok(String tanulmanyok) {
+    public void settanulmanyok(String tanulmanyok) {
         this.tanulmanyok = tanulmanyok;
     }
 

@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -32,7 +33,7 @@ public class AppService {
         this.cityRepository = cityRepository;
         this.nyelvismeretRepository = nyelvismeretRepository;
 
-        PeldaadatokHozzaadasa();
+        //PeldaadatokHozzaadasa();
     }
 
 
@@ -46,6 +47,10 @@ public class AppService {
             return personRepository.search(filterText);
         }
     }
+
+    /*public City findByCity(String id) {
+        return cityRepository.findById(UUID.fromString(id));
+    }*/
 
     public long countPersons(){
         return personRepository.count();
@@ -100,6 +105,12 @@ public class AppService {
         }
     }
 
+    public void savePerson(List<Person> persons){
+        if(persons == null) System.out.println("Nincsennek személyek");
+
+        for(Person per: persons) personRepository.save(per);
+    }
+
     private void PeldaadatokHozzaadasa() {
 
         City city1 = new City();
@@ -145,7 +156,7 @@ public class AppService {
         person1.setmessageApps("messenger");
         person1.setwebSite("google.com");
         person1.setpicture("1.jpg");
-        person1.setTanulmanyok("magyar, matek");
+        person1.settanulmanyok("magyar, matek");
         person1.setszakmaiTap("programozó, semmi");
         person1.setegyebKeszsegek("vezetés, olvasás");
         person1.setmotivaciosLevel("Egyszer volt hol nem volt");
@@ -172,7 +183,7 @@ public class AppService {
         person2.setmessageApps("messenger");
         person2.setwebSite("google.com");
         person2.setpicture("2.jpg");
-        person2.setTanulmanyok("magyar, matek");
+        person2.settanulmanyok("magyar, matek");
         person2.setszakmaiTap("programozó, semmi");
         person2.setegyebKeszsegek("vezetés, olvasás");
         person2.setmotivaciosLevel("Egyszer volt hol nem volt");

@@ -2,6 +2,7 @@ package com.example.app.views.pages;
 
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Person;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
 import com.example.app.data.service.AppService;
@@ -29,8 +30,10 @@ public class StartingDataUpload extends VerticalLayout {
 
     Button button1 = new Button("Nyelvek feltöltése");
     Button button2 = new Button("Városok feltöltése");
+    Button button3 = new Button("Emberek feltöltése");
     ProgressBar progressBar1 = new ProgressBar();
     ProgressBar progressBar2 = new ProgressBar();
+    ProgressBar progressBar3 = new ProgressBar();
 
     public static int ConfigNyelvButton;
     public static int ConfigCityButton;
@@ -40,12 +43,13 @@ public class StartingDataUpload extends VerticalLayout {
         this.serviceData = serviceData;
 
         List<Nyelvismeret> nyelvismerets = serviceData.getNyelvismeret();
+        List<Person> persons = serviceData.getPersonSerializer();//getPerson();
         //DataService.getNyelvismeret();
 
         addClassName("starting-data-upload");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
-        add(LanguageFillButton(), CityFillButton());
+        add(LanguageFillButton(), CityFillButton(), PersonFillButton());
 
 
         GetProperties properties = new GetProperties();
@@ -54,32 +58,36 @@ public class StartingDataUpload extends VerticalLayout {
         PropertiesNull();
 
         // Nyelv adatok beírása az adatbázisba
-        if(ConfigNyelvButton==2) button1.setEnabled(false);
-        button1.addClickListener(event -> {
-            //if(!button1.isEnabled()) return;
-
-            progressBar1.setIndeterminate(true);
-
-            new Thread(() -> {
-
-                // ide jön a feltöltés
-
-                service.saveNyelvismeret(nyelvismerets);
-
-                //this.getUI()..access(() -> {
-                    //progressBar1.se
-                    //
-                //});
-
-            }).start();
-            //SetButtonAppPropertyValue(2,ConfigCityButton);
-            progressBar1.setIndeterminate(false);
-            button1.setEnabled(false);
-            //PropertiesNull();
-
-        });
+        NyelvGombrakattintas(nyelvismerets);
 
         // City adatok beírása az adatbázisba
+        VarosGombraKattintas();
+
+        // Person adatok beírása az adatbázisba
+        PersonGombraKattintas(persons);
+
+    }
+
+    private void PersonGombraKattintas(List<Person> persons) {
+        button3.addClickListener(event -> {
+            progressBar3.setIndeterminate(true);
+            List<Person> personsok = new ArrayList<>();
+            new Thread(()->{
+                for(Person pers : persons){
+                    //if(pers.getcity()==null) pers.System.out.println("null city");
+                    //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
+                    pers.setcity(service.findAllCities().get(0));//findByCity("1"));
+                    pers.setnyelvIsmeret(service.findAllNyelvismeret().get(0));
+                    personsok.add(pers);
+                }
+                service.savePerson(personsok);
+            }).start();
+            progressBar3.setIndeterminate(false);
+            button3.setEnabled(false);
+        });
+    }
+
+    private void VarosGombraKattintas() {
         if(ConfigCityButton==2) button2.setEnabled(false);
         button2.addClickListener(event -> {
             progressBar2.setIndeterminate(true);
@@ -102,9 +110,38 @@ public class StartingDataUpload extends VerticalLayout {
             button2.setEnabled(false);
             //PropertiesNull();
         });
-
     }
 
+    private void NyelvGombrakattintas(List<Nyelvismeret> nyelvismerets) {
+        if(ConfigNyelvButton==2) button1.setEnabled(false);
+        button1.addClickListener(event -> {
+            //if(!button1.isEnabled()) return;
+
+            progressBar1.setIndeterminate(true);
+
+            new Thread(() -> {
+
+                // ide jön a feltöltés
+
+                service.saveNyelvismeret(nyelvismerets);
+
+                //this.getUI()..access(() -> {
+                //progressBar1.se
+                //
+                //});
+
+            }).start();
+            //SetButtonAppPropertyValue(2,ConfigCityButton);
+            progressBar1.setIndeterminate(false);
+            button1.setEnabled(false);
+            //PropertiesNull();
+
+        });
+    }
+
+    /**
+     * kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
+     */
     private void PropertiesNull(){
         if(service.findAllNyelvismeret().size()<10) ConfigNyelvButton=1; else ConfigNyelvButton=2;
         if(service.findAllCities().size()<10) ConfigCityButton=1; else ConfigCityButton=2;
@@ -127,6 +164,14 @@ public class StartingDataUpload extends VerticalLayout {
         layout2.add(button2, progressBar2);
         layout2.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         return layout2;
+    }
+
+    private Component PersonFillButton(){
+        HorizontalLayout layout3 = new HorizontalLayout();
+        button3.setDisableOnClick(true);
+        layout3.add(button3, progressBar3);
+        layout3.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        return layout3;
     }
 
 
