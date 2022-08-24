@@ -15,9 +15,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
 
@@ -74,12 +76,14 @@ public class StartingDataUpload extends VerticalLayout {
             List<Person> personsok = new ArrayList<>();
             new Thread(()->{
                 for(Person pers : persons){
+                    long rndCity = new RandomDataGenerator().nextLong(0, service.countCities());
+                    long rndNyelv= new RandomDataGenerator().nextLong(0, service.countNyelvismeret());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
-                    //pers.setcity(service.findAllCities().get(0));//findByCity("1"));
-                    //pers.setnyelvIsmeret(service.findAllNyelvismeret().get(0));
-                    pers.setcity(service.findCityByName("Nyíregyháza"));
-                    pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
+                    pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
+                    pers.setnyelvIsmeret(service.findAllNyelvismeret().get((int)rndNyelv));
+                    //pers.setcity(service.findCityByName("Nyíregyháza"));
+                    //pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
                     personsok.add(pers);
                 }
                 service.savePerson(personsok);

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -115,7 +117,9 @@ public class DataService {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-            pers.setszulDatum(szulDatumDate);
+
+            LocalDate szulDatumDateUj = LocalDate.ofInstant(szulDatumDate.toInstant(), ZoneId.systemDefault()); // import java.util.Date to java.time.LocalDate
+            pers.setszulDatum(szulDatumDateUj);
 
             JsonNode phoneNode = node.get("phone");     String phone = phoneNode.asText();      pers.setphone(phone);
             JsonNode addressNode = node.get("address");     String address = addressNode.asText();      pers.setaddress(address);

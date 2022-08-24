@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -40,11 +37,26 @@ public class AppService {
 
     // Person Repository-s dolgok-
 
-    public List<Person> findAllPersons(String filterText){
-        if(filterText == null || filterText.isEmpty()){
+    public List<Person> findAllPersons(String filterText, Date dt, String why){
+        if(filterText == null || filterText.isEmpty() || dt == null){
             return personRepository.findAll();
-        }else{
-            return personRepository.search(filterText);
+        }else if(why.equals("LANG")){
+            List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            List<Person> pers2 = new ArrayList<>();
+            for(Nyelvismeret ny: nyel){
+                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+                for(Person p: pers3){
+                    pers2.add(p);
+                }
+            }
+            return pers2;
+        }else if(why.equals("DATE")){
+            //Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(filterText);
+            //return personRepository.searchByDate(date1);
+            System.out.println("1");
+            return personRepository.searchByDate(dt);
+        }else {
+            return personRepository.searchByName(filterText);
         }
     }
 
@@ -70,6 +82,14 @@ public class AppService {
 
     public long countPersons(){
         return personRepository.count();
+    }
+
+    public long countCities(){
+        return cityRepository.count();
+    }
+
+    public long countNyelvismeret(){
+        return nyelvismeretRepository.count();
     }
 
     public void deletePerson(Person person){
@@ -127,7 +147,7 @@ public class AppService {
         for(Person per: persons) personRepository.save(per);
     }
 
-    private void PeldaadatokHozzaadasa() {
+   /* private void PeldaadatokHozzaadasa() {
 
         City city1 = new City();
         city1.setName("Nyíregyháza");
@@ -207,5 +227,5 @@ public class AppService {
 
         personRepository.save(person1);
         personRepository.save(person2);
-    }
+    }*/
 }
