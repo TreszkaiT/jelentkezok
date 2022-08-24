@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
@@ -62,18 +63,17 @@ public class ListView extends VerticalLayout {
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
         // ezt a Toolbar-ba kell beírni
     private void updateList(String why) {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = ft.parse("2022-08-23");
-            ZoneId defaultZoneId = ZoneId.systemDefault();
+        //SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
-            if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
-            else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextNyelv.getValue(), date, why));
-            else if(why=="DATE") grid.setItems(service.findAllPersons("", Date.from(getFilterDateDate.getValue().atStartOfDay(defaultZoneId).toInstant()), why));
+        //Date date = ft.parse("2022-08-23");
+        //ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate date = LocalDate.of(2022, 8, 23);
 
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
+        else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextNyelv.getValue(), date, why));
+        else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));
+        //else if(why=="DATE") grid.setItems(service.findAllPersons("", Date.from(getFilterDateDate.getValue().atStartOfDay(defaultZoneId).toInstant()), why));
+
     }
 
     private Component getContent() {
@@ -120,7 +120,6 @@ public class ListView extends VerticalLayout {
 
         getFilterDateDate.setPlaceholder("Filter by Date...");
         getFilterDateDate.setClearButtonVisible(true);
-        //getFilterDateDate
         //getFilterDateDate.setValueChangeMode(ValueChangeMode.LAZY);
         getFilterDateDate.addValueChangeListener(event -> updateList("DATE"));
 

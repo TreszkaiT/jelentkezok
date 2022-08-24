@@ -8,9 +8,11 @@ import com.example.app.data.repository.NyelvismeretRepository;
 import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -37,7 +39,7 @@ public class AppService {
 
     // Person Repository-s dolgok-
 
-    public List<Person> findAllPersons(String filterText, Date dt, String why){
+    public List<Person> findAllPersons(String filterText, LocalDate dt, String why){
         if(filterText == null || filterText.isEmpty() || dt == null){
             return personRepository.findAll();
         }else if(why.equals("LANG")){
@@ -51,9 +53,6 @@ public class AppService {
             }
             return pers2;
         }else if(why.equals("DATE")){
-            //Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(filterText);
-            //return personRepository.searchByDate(date1);
-            System.out.println("1");
             return personRepository.searchByDate(dt);
         }else {
             return personRepository.searchByName(filterText);

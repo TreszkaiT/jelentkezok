@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     List<Person> searchByNyelvismeret(Nyelvismeret filterText); // ez egy JPQL Query
 
     @Query("select c from Person c where c.szulDatum=?1")
-    List<Person> searchByDate(Date filterText);
+    List<Person> searchByDate(LocalDate filterText);
 
    /* @Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")
     Person findByLastnameOrFirstname(@Param("lastname") String lastname,
