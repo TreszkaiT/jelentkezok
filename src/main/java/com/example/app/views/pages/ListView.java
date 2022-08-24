@@ -15,12 +15,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.Locale;
 
 @Route(value="", layout = MainLayout.class)
 @PageTitle("Személyek listája")
@@ -63,17 +58,11 @@ public class ListView extends VerticalLayout {
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
         // ezt a Toolbar-ba kell beírni
     private void updateList(String why) {
-        //SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-
-        //Date date = ft.parse("2022-08-23");
-        //ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate date = LocalDate.of(2022, 8, 23);
 
         if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
         else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextNyelv.getValue(), date, why));
         else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));
-        //else if(why=="DATE") grid.setItems(service.findAllPersons("", Date.from(getFilterDateDate.getValue().atStartOfDay(defaultZoneId).toInstant()), why));
-
     }
 
     private Component getContent() {
@@ -140,11 +129,7 @@ public class ListView extends VerticalLayout {
         grid.addClassName("person-grid");  // CSS osztálynév hozzáadása
         grid.setSizeFull();
         grid.setColumns("firstName", "lastName", "email", "phone");
-        //DateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-        //grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Birth Date");
-        //LocalDateRenderer dr = new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Birth Date");
-        //grid.addColumn(Person::getszulDatum).setHeader("Birth Date");
         grid.addColumn(person -> person.getnyelvIsmeret().getName()).setHeader("Language"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 

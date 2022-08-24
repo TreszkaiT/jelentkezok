@@ -19,7 +19,6 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
 
@@ -39,14 +38,14 @@ public class StartingDataUpload extends VerticalLayout {
 
     public static int ConfigNyelvButton;
     public static int ConfigCityButton;
+    public static int ConfigPersonButton;
 
     public StartingDataUpload(AppService service, DataService serviceData) {
         this.service = service;
         this.serviceData = serviceData;
 
         List<Nyelvismeret> nyelvismerets = serviceData.getNyelvismeret();
-        List<Person> persons = serviceData.getPersonSerializer();//getPerson();
-        //DataService.getNyelvismeret();
+        List<Person> persons = serviceData.getPersonSerializer();
 
         addClassName("starting-data-upload");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -70,7 +69,56 @@ public class StartingDataUpload extends VerticalLayout {
 
     }
 
+    private void NyelvGombrakattintas(List<Nyelvismeret> nyelvismerets) {
+        if(ConfigNyelvButton==2) button1.setEnabled(false);
+        button1.addClickListener(event -> {
+            progressBar1.setIndeterminate(true);
+
+            new Thread(() -> {
+
+                // ide jön a feltöltés
+
+                service.saveNyelvismeret(nyelvismerets);
+
+                //this.getUI()..access(() -> {
+                //progressBar1.se
+                //
+                //});
+
+            }).start();
+            progressBar1.setIndeterminate(false);
+            button1.setEnabled(false);
+            if(!button1.isEnabled() && !button2.isEnabled()) button3.setEnabled(true);
+        });
+    }
+
+    private void VarosGombraKattintas() {
+        if(ConfigCityButton==2) button2.setEnabled(false);
+        button2.addClickListener(event -> {
+            progressBar2.setIndeterminate(true);
+            new Thread(() -> {
+
+                String[][] dataTable = ExcelXlsAndXlsxRead.getEXlsXlsx("telepulesek.xlsx", 0);		// read from cells -- .xls
+                List<City> cities = new ArrayList<>();
+                for(int i=0; i<dataTable.length; i++){
+                    if(dataTable[i][1]==null || dataTable[i][1].isEmpty() || dataTable[i][1].equals("")) {
+                    }else{
+                        cities.add(new City(dataTable[i][1], dataTable[i][0]));
+                    }
+                }
+
+                if(cities==null) System.out.println("null"); else service.saveCities(cities);
+
+            }).start();
+            progressBar2.setIndeterminate(false);
+            button2.setEnabled(false);
+            if(!button1.isEnabled() && !button2.isEnabled()) button3.setEnabled(true);
+        });
+    }
+
     private void PersonGombraKattintas(List<Person> persons) {
+        if(ConfigCityButton==1 || ConfigNyelvButton==1) button3.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
+            if(ConfigPersonButton==2) button3.setEnabled(false);
         button3.addClickListener(event -> {
             progressBar3.setIndeterminate(true);
             List<Person> personsok = new ArrayList<>();
@@ -93,65 +141,14 @@ public class StartingDataUpload extends VerticalLayout {
         });
     }
 
-    private void VarosGombraKattintas() {
-        if(ConfigCityButton==2) button2.setEnabled(false);
-        button2.addClickListener(event -> {
-            progressBar2.setIndeterminate(true);
-            new Thread(() -> {
-
-                String[][] dataTable = ExcelXlsAndXlsxRead.getEXlsXlsx("telepulesek.xlsx", 0);		// read from cells -- .xls
-                List<City> cities = new ArrayList<>();
-                for(int i=0; i<dataTable.length; i++){
-                    if(dataTable[i][1]==null || dataTable[i][1].isEmpty() || dataTable[i][1].equals("")) {
-                    }else{
-                        cities.add(new City(dataTable[i][1], dataTable[i][0]));
-                    }
-                }
-
-                if(cities==null) System.out.println("null"); else service.saveCities(cities);
-
-            }).start();
-            //SetButtonAppPropertyValue(ConfigNyelvButton,2);
-            progressBar2.setIndeterminate(false);
-            button2.setEnabled(false);
-            //PropertiesNull();
-        });
-    }
-
-    private void NyelvGombrakattintas(List<Nyelvismeret> nyelvismerets) {
-        if(ConfigNyelvButton==2) button1.setEnabled(false);
-        button1.addClickListener(event -> {
-            //if(!button1.isEnabled()) return;
-
-            progressBar1.setIndeterminate(true);
-
-            new Thread(() -> {
-
-                // ide jön a feltöltés
-
-                service.saveNyelvismeret(nyelvismerets);
-
-                //this.getUI()..access(() -> {
-                //progressBar1.se
-                //
-                //});
-
-            }).start();
-            //SetButtonAppPropertyValue(2,ConfigCityButton);
-            progressBar1.setIndeterminate(false);
-            button1.setEnabled(false);
-            //PropertiesNull();
-
-        });
-    }
-
     /**
      * kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
      */
     private void PropertiesNull(){
         if(service.findAllNyelvismeret().size()<10) ConfigNyelvButton=1; else ConfigNyelvButton=2;
         if(service.findAllCities().size()<10) ConfigCityButton=1; else ConfigCityButton=2;
-        SetButtonAppPropertyValue(ConfigNyelvButton,ConfigCityButton);
+        if(service.findAllPersons().size()<2) ConfigPersonButton=1; else ConfigPersonButton=2;
+        SetButtonAppPropertyValue(ConfigNyelvButton,ConfigCityButton,ConfigPersonButton);
 
     }
 

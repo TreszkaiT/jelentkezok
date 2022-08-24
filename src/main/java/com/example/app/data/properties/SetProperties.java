@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class SetProperties {
 
-    public static void SetButtonAppPropertyValue(int ConfigNyelvButton, int ConfigCityButton){
+    public static void SetButtonAppPropertyValue(int ConfigNyelvButton, int ConfigCityButton, int ConfigPersonButton){
         String path = "src/main/resources/data/conf.properties";
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
@@ -18,6 +18,7 @@ public class SetProperties {
 
             prop.setProperty("feltoltes_nyelv_button", String.valueOf(ConfigNyelvButton));
             prop.setProperty("feltoltes_city_button", String.valueOf(ConfigCityButton));
+            prop.setProperty("feltoltes_person_button", String.valueOf(ConfigPersonButton));
 
             // save properties to project root folder
             prop.store(output, null);

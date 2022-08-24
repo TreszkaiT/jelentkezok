@@ -118,6 +118,8 @@ public class AppService {
         return nyelvismeretRepository.findAll();
     }
 
+    public List<Person> findAllPersons(){return personRepository.findAll();};
+
     public  void saveCities(List<City> cities){
         if(cities == null){
             System.out.println("Nincsenek városok!");
