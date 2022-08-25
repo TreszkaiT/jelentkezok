@@ -1,5 +1,6 @@
 package com.example.app.views.pages;
 
+import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
 import com.example.app.data.service.AppService;
 import com.example.app.views.MainLayout;
@@ -16,6 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 @Route(value="", layout = MainLayout.class)
 @PageTitle("Személyek listája")
@@ -130,7 +132,7 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("firstName", "lastName", "email", "phone");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Birth Date");
-        grid.addColumn(person -> person.getnyelvIsmeret().getName()).setHeader("Language"); // LAMBDA ->
+        grid.addColumn(person -> person.getNyelvIsmeret().stream().map(Nyelvismeret::getName).collect(Collectors.joining(", "))).setHeader("Language"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
         grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor

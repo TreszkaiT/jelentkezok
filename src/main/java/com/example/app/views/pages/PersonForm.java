@@ -30,6 +30,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -41,6 +42,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,7 +90,7 @@ public class PersonForm extends FormLayout {
 
     TextField picture           = new TextField("Fénykép");
 
-    ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
+    MultiselectComboBox<Nyelvismeret>  nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     //MultiselectComboBox <Nyelvismeret>  nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
     //MultiselectComboBox<City>          city            = new MultiselectComboBox<>("Város");
@@ -107,11 +109,13 @@ public class PersonForm extends FormLayout {
 
         city.setItems(cities);//service.findAllCities());//cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
-
         nyelvIsmeret.setItems(nyelvIsmeretek);
+        nyelvIsmeret.setWidth("100%");
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+        nyelvIsmeret.setPlaceholder("Select an item of your choice");
 
-       // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
+
+        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();
        // motivaciosLevel1.setValue(textArea.getValue());//Person::getmotivaciosLevel);
        //motivaciosLevel1.setLabel("Motivációs levél");

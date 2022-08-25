@@ -1,11 +1,15 @@
 package com.example.app.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -58,8 +62,8 @@ public class Person extends AbstractEntity {
     // így ezt az Annotációt rá kell tenni. Azaz csinál hozzá egy külön kis táblát, és abból lesznek hozzácsatolva az egyes műfajok a Movies tábla adott filmjéhez
     //@ElementCollection
     @NotNull
-    @ManyToOne
-    private Nyelvismeret nyelvIsmeret;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Nyelvismeret> nyelvIsmeret = new HashSet<>();
 
     //@ElementCollection
     //private Set<String> szakmaiTap;
@@ -177,12 +181,13 @@ public class Person extends AbstractEntity {
         this.szakmaiTap = szakmaiTap;
     }
 
-    public Nyelvismeret getnyelvIsmeret() {
+    public Set<Nyelvismeret> getNyelvIsmeret() {
         return nyelvIsmeret;
     }
 
-    public void setnyelvIsmeret(Nyelvismeret nyelvIsmeret) {
+    public Person setNyelvIsmeret(Set<Nyelvismeret> nyelvIsmeret) {
         this.nyelvIsmeret = nyelvIsmeret;
+        return this;
     }
 
     public String getegyebKeszsegek() {
