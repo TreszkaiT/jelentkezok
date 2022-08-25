@@ -2,6 +2,7 @@ package com.example.app.data.service;
 
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
+import com.example.app.data.entity.PersonNyelv;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -54,7 +55,7 @@ public class DataService {
         return Arrays.asList(getItems(Person[].class, "person.json"));
     }
 
-
+    public static List<PersonNyelv> getPersonNyelv() {return Arrays.asList(getItems(PersonNyelv[].class, "personnyelv.json"));}
 
     /**
      * Mivel nem minden tartalom létezik a JSON fileba, mint a Person object-be, így Serializálni, sorosítani kell

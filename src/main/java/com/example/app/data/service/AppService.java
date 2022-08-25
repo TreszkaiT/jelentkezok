@@ -5,6 +5,7 @@ import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
 import com.example.app.data.repository.CityRepository;
 import com.example.app.data.repository.NyelvismeretRepository;
+import com.example.app.data.repository.PersonNyelvRepository;
 import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,17 @@ public class AppService {
     private final PersonRepository personRepository;
     private final CityRepository cityRepository;
     private final NyelvismeretRepository nyelvismeretRepository;
+    private final PersonNyelvRepository personNyelvRepository;
 
     public AppService(PersonRepository personRepository,
                       CityRepository cityRepository,
-                      NyelvismeretRepository nyelvismeretRepository) {
+                      NyelvismeretRepository nyelvismeretRepository,
+                      PersonNyelvRepository personNyelvRepository) {
 
         this.personRepository = personRepository;
         this.cityRepository = cityRepository;
         this.nyelvismeretRepository = nyelvismeretRepository;
+        this.personNyelvRepository = personNyelvRepository;
 
         //PeldaadatokHozzaadasa();
     }
@@ -43,7 +47,7 @@ public class AppService {
         if(filterText == null || filterText.isEmpty() || dt == null){
             return personRepository.findAll();
         }else if(why.equals("LANG")){
-            List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            /*List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
             List<Person> pers2 = new ArrayList<>();
             for(Nyelvismeret ny: nyel){
                 List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
@@ -51,7 +55,7 @@ public class AppService {
                     pers2.add(p);
                 }
             }
-            return pers2;
+            return pers2;*/ return personRepository.findAll();
         }else if(why.equals("DATE")){
             return personRepository.searchByDate(dt);
         }else {

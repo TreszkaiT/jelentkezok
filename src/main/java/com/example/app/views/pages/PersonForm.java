@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
+import com.example.app.data.entity.PersonNyelv;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -30,6 +31,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -88,8 +90,8 @@ public class PersonForm extends FormLayout {
 
     TextField picture           = new TextField("Fénykép");
 
-    ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
-    //MultiselectComboBox <Nyelvismeret>  nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
+    //ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
+    MultiselectComboBox<Nyelvismeret> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
     //MultiselectComboBox<City>          city            = new MultiselectComboBox<>("Város");
 
@@ -98,6 +100,7 @@ public class PersonForm extends FormLayout {
     Button cancel   = new Button("Cancel");
 
     private Person person;
+    private PersonNyelv nyelvism;
     //private AppService service;
 
     public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
@@ -108,8 +111,11 @@ public class PersonForm extends FormLayout {
         city.setItems(cities);//service.findAllCities());//cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
 
-        nyelvIsmeret.setItems(nyelvIsmeretek);
+        //nyelvIsmeret.setItems(nyelvIsmeretek);
+        //nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+        nyelvIsmeret.setItems(nyelvism.getNyelvIsmeret());
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+
 
        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();

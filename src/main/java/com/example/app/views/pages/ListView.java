@@ -130,7 +130,7 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("firstName", "lastName", "email", "phone");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Birth Date");
-        grid.addColumn(person -> person.getnyelvIsmeret().getName()).setHeader("Language"); // LAMBDA ->
+        grid.addColumn(person -> person.getPersonNyelvList()).setHeader("Language"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
         grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor

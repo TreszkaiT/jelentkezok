@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
+import com.example.app.data.entity.PersonNyelv;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
 import com.example.app.data.service.AppService;
@@ -46,6 +47,7 @@ public class StartingDataUpload extends VerticalLayout {
 
         List<Nyelvismeret> nyelvismerets = serviceData.getNyelvismeret();
         List<Person> persons = serviceData.getPersonSerializer();
+        List<PersonNyelv> personNyelv = DataService.getPersonNyelv();
 
         addClassName("starting-data-upload");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -129,7 +131,7 @@ public class StartingDataUpload extends VerticalLayout {
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
                     pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
-                    pers.setnyelvIsmeret(service.findAllNyelvismeret().get((int)rndNyelv));
+                    //pers.setnyelvIsmeret(service.findAllNyelvismeret().get((int)rndNyelv));
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
                     personsok.add(pers);

@@ -2,10 +2,12 @@ package com.example.app.data.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -57,9 +59,13 @@ public class Person extends AbstractEntity {
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
     // így ezt az Annotációt rá kell tenni. Azaz csinál hozzá egy külön kis táblát, és abból lesznek hozzácsatolva az egyes műfajok a Movies tábla adott filmjéhez
     //@ElementCollection
+    //@NotNull
+    //@ManyToOne
+    //private Nyelvismeret nyelvIsmeret;
     @NotNull
-    @ManyToOne
-    private Nyelvismeret nyelvIsmeret;
+    @OneToMany
+    private List<PersonNyelv> personNyelvList;
+    //private PersonNyelv personNyelv;
 
     //@ElementCollection
     //private Set<String> szakmaiTap;
@@ -71,6 +77,14 @@ public class Person extends AbstractEntity {
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    public List<PersonNyelv> getPersonNyelvList() {
+        return personNyelvList;
+    }
+
+    public void setPersonNyelvList(List<PersonNyelv> personNyelvList) {
+        this.personNyelvList = personNyelvList;
     }
 
     public String getfirstName() {
@@ -177,14 +191,14 @@ public class Person extends AbstractEntity {
         this.szakmaiTap = szakmaiTap;
     }
 
-    public Nyelvismeret getnyelvIsmeret() {
+  /*  public Nyelvismeret getnyelvIsmeret() {
         return nyelvIsmeret;
     }
 
     public void setnyelvIsmeret(Nyelvismeret nyelvIsmeret) {
         this.nyelvIsmeret = nyelvIsmeret;
     }
-
+*/
     public String getegyebKeszsegek() {
         return egyebKeszsegek;
     }
