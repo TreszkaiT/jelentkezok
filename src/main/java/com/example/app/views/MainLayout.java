@@ -21,7 +21,7 @@ import static com.example.app.data.properties.SetProperties.SetButtonAppProperty
 /**
  * The main view is a top-level placeholder for other views.
  */
-@PageTitle("Önéletrajz adatok")
+@PageTitle("Adatok")
 //@Route(value = "")
 public class MainLayout extends AppLayout {
 
@@ -49,7 +49,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("Menü");
+        H2 appName = new H2("adatok");
         appName.addClassNames("app-name");
 
         RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);

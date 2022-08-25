@@ -16,15 +16,12 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.internal.MessageDigestUtil;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
@@ -62,7 +59,6 @@ public class PersonForm extends FormLayout {
     TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
     TextField egyebKeszsegek    = new TextField("Egyéb készségek");
     TextField motivaciosLevel   = new TextField("Motivációs levél");
-    //RichTextEditor motivaciosLevel1 = new RichTextEditor();
 
    // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
@@ -111,11 +107,6 @@ public class PersonForm extends FormLayout {
         nyelvIsmeret.setItems(nyelvIsmeretek);
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
 
-       // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
-       // textArea.setWidthFull();
-       // motivaciosLevel1.setValue(textArea.getValue());//Person::getmotivaciosLevel);
-       //motivaciosLevel1.setLabel("Motivációs levél");
-
         add(
           firstName,
           lastName,
@@ -129,8 +120,7 @@ public class PersonForm extends FormLayout {
           tanulmanyok,
           szakmaiTap,
           egyebKeszsegek,
-                motivaciosLevel,
-          //motivaciosLevel1,
+          motivaciosLevel,
           picture,
           upload,
               // output,
@@ -386,12 +376,12 @@ public class PersonForm extends FormLayout {
     }
 
     private void validateAndSave() {
-        try {
-            binder.writeBean(person);
+       // try{
+            binder.readBean(person);
             fireEvent(new SaveEvent(this, person));
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
+       // } catch (ValidationException e){
+        //    e.printStackTrace();
+       // }
     }
 
     // Events
