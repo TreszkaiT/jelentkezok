@@ -130,8 +130,8 @@ public class StartingDataUpload extends VerticalLayout {
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
                     pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
-                    pers.getNyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv));
-                    pers.getNyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv2));
+                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv));
+                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv2));
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
                     personsok.add(pers);

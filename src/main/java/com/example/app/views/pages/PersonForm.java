@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
+import com.example.app.data.repository.NyelvismeretRepository;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -30,6 +31,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 import javax.imageio.ImageIO;
@@ -105,15 +107,17 @@ public class PersonForm extends FormLayout {
     public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
         //this.service = services;
         addClassName("contact-form");
-        binder.bindInstanceFields(this);        // a binder meghívása itt van. És this elég !!! azért, mert az itt lévő fenti nevek megyegyeznek a Person osztályban lévő nevekkel!!!
 
         city.setItems(cities);//service.findAllCities());//cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
         nyelvIsmeret.setItems(nyelvIsmeretek);
         nyelvIsmeret.setWidth("100%");
+        nyelvIsmeret.setReadOnly(false);
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+
         nyelvIsmeret.setPlaceholder("Select an item of your choice");
 
+        binder.bindInstanceFields(this);        // a binder meghívása itt van. És this elég !!! azért, mert az itt lévő fenti nevek megyegyeznek a Person osztályban lévő nevekkel!!!
 
         // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();
@@ -389,6 +393,7 @@ public class PersonForm extends FormLayout {
         return new HorizontalLayout(save, delete, cancel);
     }
 
+    NyelvismeretRepository nyelvismeretRepository;
     private void validateAndSave() {
         try {
             binder.writeBean(person);

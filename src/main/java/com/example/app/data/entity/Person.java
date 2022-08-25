@@ -63,18 +63,6 @@ public class Person extends AbstractEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Nyelvismeret> nyelvIsmeret = new HashSet<>();
 
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "NYELV_ID")
-//    private Nyelvismeret nyelvIsmeret;
-
-
-
-    //@ElementCollection
-    //private Set<String> szakmaiTap;
-
-
-
     public Person() {}
 
     @Override
@@ -186,13 +174,12 @@ public class Person extends AbstractEntity {
         this.szakmaiTap = szakmaiTap;
     }
 
-    public Set<Nyelvismeret> getNyelvIsmeret() {
+    public Set<Nyelvismeret> getnyelvIsmeret() {
         return nyelvIsmeret;
     }
 
-    public Person setNyelvIsmeret(Set<Nyelvismeret> nyelvIsmeret) {
+    public void setnyelvIsmeret(Set<Nyelvismeret> nyelvIsmeret) {
         this.nyelvIsmeret = nyelvIsmeret;
-        return this;
     }
 
     public String getegyebKeszsegek() {

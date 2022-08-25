@@ -11,7 +11,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <vaadin.version>23.1.6</vaadin.version>
+        <vaadin.version>22.0.21</vaadin.version>
         <selenium.version>4.2.1</selenium.version>
     </properties>
 
@@ -155,6 +155,11 @@
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
         </dependency>
     </dependencies>
 
