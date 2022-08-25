@@ -1,9 +1,6 @@
 package com.example.app.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -61,9 +58,17 @@ public class Person extends AbstractEntity {
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
     // így ezt az Annotációt rá kell tenni. Azaz csinál hozzá egy külön kis táblát, és abból lesznek hozzácsatolva az egyes műfajok a Movies tábla adott filmjéhez
     //@ElementCollection
+
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Nyelvismeret> nyelvIsmeret = new HashSet<>();
+
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "NYELV_ID")
+//    private Nyelvismeret nyelvIsmeret;
+
+
 
     //@ElementCollection
     //private Set<String> szakmaiTap;
