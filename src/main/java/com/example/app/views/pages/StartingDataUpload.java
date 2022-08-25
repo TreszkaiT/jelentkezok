@@ -126,10 +126,12 @@ public class StartingDataUpload extends VerticalLayout {
                 for(Person pers : persons){
                     long rndCity = new RandomDataGenerator().nextLong(0, service.countCities());
                     long rndNyelv= new RandomDataGenerator().nextLong(0, service.countNyelvismeret());
+                    long rndNyelv2= new RandomDataGenerator().nextLong(0, service.countNyelvismeret());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
                     pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
-                    pers.setnyelvIsmeret(service.findAllNyelvismeret().get((int)rndNyelv));
+                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv));
+                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv2));
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
                     personsok.add(pers);

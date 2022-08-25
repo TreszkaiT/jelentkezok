@@ -43,15 +43,18 @@ public class AppService {
         if(filterText == null || filterText.isEmpty() || dt == null){
             return personRepository.findAll();
         }else if(why.equals("LANG")){
-            List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            /*List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
             List<Person> pers2 = new ArrayList<>();
             for(Nyelvismeret ny: nyel){
                 List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
                 for(Person p: pers3){
                     pers2.add(p);
                 }
-            }
-            return pers2;
+            }*/
+            List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            System.out.println(nyel.size());
+            return personRepository.findAll();
+            //return pers2;
         }else if(why.equals("DATE")){
             return personRepository.searchByDate(dt);
         }else {

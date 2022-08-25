@@ -22,11 +22,13 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.internal.MessageDigestUtil;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.shared.Registration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -84,8 +86,8 @@ public class PersonForm extends FormLayout {
 
     TextField picture           = new TextField("Fénykép");
 
-    ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
-    //MultiselectComboBox <Nyelvismeret>  nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
+    //ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
+    MultiselectComboBox<Nyelvismeret> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
     //MultiselectComboBox<City>          city            = new MultiselectComboBox<>("Város");
 
@@ -376,12 +378,12 @@ public class PersonForm extends FormLayout {
     }
 
     private void validateAndSave() {
-       // try{
-            binder.readBean(person);
+        try {
+            binder.writeBean(person);
             fireEvent(new SaveEvent(this, person));
-       // } catch (ValidationException e){
-        //    e.printStackTrace();
-       // }
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Events
