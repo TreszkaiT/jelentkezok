@@ -2,7 +2,7 @@ package com.example.app.views.pages;
 
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
-import com.example.app.data.service.AppService;
+import com.example.app.service.AppService;
 import com.example.app.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

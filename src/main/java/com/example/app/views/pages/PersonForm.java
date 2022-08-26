@@ -3,7 +3,6 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
-//import com.example.app.data.entity.PersonNyelv;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -17,9 +16,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -71,29 +68,13 @@ public class PersonForm extends FormLayout {
 
     MemoryBuffer buffer = new MemoryBuffer();
     Upload upload = new Upload(buffer);
-   // Div output = new Div();
-    //String relativeWebPath = "/WEB-INF/uploads";
-    //String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
-    //File uploadedFile = new File(absoluteFilePath, FilenameUtils.getName(item.getName()));
-
-    /*Upload upload = new Upload((MultiFileReceiver) (filename, mimeType) -> {
-        File file = new File(new File("uploaded-files"), filename);
-        try {
-            return new FileOutputStream(file);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            return null;
-        }
-    });*/
 
     Scroller scroller = new Scroller();
 
     TextField picture           = new TextField("Fénykép");
 
-    //ComboBox<Nyelvismeret>  nyelvIsmeret    = new ComboBox<>("Nyelvismeret");
     MultiselectComboBox<Nyelvismeret> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
-    //MultiselectComboBox<City>          city            = new MultiselectComboBox<>("Város");
 
     Button save     = new Button("Mentés");
     Button delete   = new Button("Törlés");
@@ -104,15 +85,14 @@ public class PersonForm extends FormLayout {
     //private AppService service;
 
     public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
-        //this.service = services;
+
         addClassName("contact-form");
+
         binder.bindInstanceFields(this);        // a binder meghívása itt van. És this elég !!! azért, mert az itt lévő fenti nevek megyegyeznek a Person osztályban lévő nevekkel!!!
 
-        city.setItems(cities);//service.findAllCities());//cities);
+        city.setItems(cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
 
-        //nyelvIsmeret.setItems(nyelvIsmeretek);
-        //nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
         nyelvIsmeret.setItems(nyelvIsmeretek);
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
 
@@ -139,26 +119,29 @@ public class PersonForm extends FormLayout {
           //motivaciosLevel1,
           picture,
           upload,
-              // output,
           scroller,
-                //singleFileUpload,
           city,
           nyelvIsmeret,
           createButtonLayout()
         );
 
-        final String[] pictName = {""};
-        final String[] s = {""};
-        //upload.setAcceptedFileTypes("application/jpg", ".jpg");
+
+        UploadBeallitasa();
+
+        UploadUtanKepBetoltese();
+
+    }
+
+    /**
+     * Image gomb figyelése, hibakezelés
+     */
+    private void UploadBeallitasa() {
         upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
         int maxFileSizeInBytes = 10 * 1024 * 1024; // 10MB
         upload.setMaxFileSize(maxFileSizeInBytes);
-
         upload.setMaxFiles(1);
         UploadPictureI18N i18n = new UploadPictureI18N();
-        i18n.getError()
-                .setTooManyFiles(
-                        "Egyszerre legfeljebb egy fájlt tölthetsz fel.");
+        i18n.getError().setTooManyFiles("Egyszerre legfeljebb egy fájlt tölthetsz fel.");
         upload.setI18n(i18n);
 
         upload.addFileRejectedListener(event -> {
@@ -171,7 +154,11 @@ public class PersonForm extends FormLayout {
             );
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
+    }
 
+    private void UploadUtanKepBetoltese() {
+        final String[] pictName = {""};
+        final String[] s = {""};
         upload.addSucceededListener(event -> {
             // Get information about the uploaded file
             InputStream fileData = buffer.getInputStream();
@@ -183,56 +170,25 @@ public class PersonForm extends FormLayout {
 
             pictName[0] = fileName;
             // Do something with the file data
-            // processFile(fileData, fileName, contentLength, mimeType);
-
-            //add(new H1(event.getMIMEType()));
             Component component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
-            //hideOutput(event.getFileName(), component, output);
-            //output.removeAll();
+
             scroller.setContent(null);
             showOutput(event.getFileName(), component, scroller);
 
-            String resourcesPath = "src/main/resources/images/";//"\\src\\main\\resources\\";
+            String resourcesPath = "src/main/resources/images/";
             File targetFile = new File(resourcesPath+fileName);
 
             Path currentRelativePath = Paths.get("");
             s[0] = (currentRelativePath.toAbsolutePath().toString()+resourcesPath);
 
-                // fájl feltöltése
+            // fájl feltöltése
             try {
                 FileUtils.copyInputStreamToFile(buffer.getInputStream(), targetFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            /*OutputStream outStream = null;
-            try {
-                outStream = new FileOutputStream(targetFile);
-                outStream.write(buffer.getInputStream());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }*/
-
-           /* InputStream inputStream = buffer.getInputStream(fileName);
-
-            if(inputStream != null) {
-                FileUploadDto fileUploadDto = new FileUploadDto();
-                fileUploadDto.setFileName(event.getFileName());
-                fileUploadDto.setMimeType(event.getMIMEType());
-                try {
-                    byte[] bytes = IOUtils.toByteArray(inputStream);
-                    fileUploadDto.setByteArrayDocument(bytes);
-                    fileUploadDtoList.add(fileUploadDto);
-
-                } catch (IOException exception) {
-                    log.error(exception.getMessage());
-                }
-            }*/
-            /*if (component != null) {
-                vlowerLayout.remove(component);
-
-            }*/
-                    //  File uploadnál a clear gombra kattintva X gombra
+            //  File uploadnál a clear gombra kattintva X gombra
             //component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
             if (component instanceof Image) {
                 upload.getElement().addEventListener("file-remove",event1 -> {
@@ -240,40 +196,19 @@ public class PersonForm extends FormLayout {
                     scroller.setContent(null);
                     targetFile.delete();
                 });
-                // upload.getElement().addEventData("event.detail.file.name");
             }
-            //p = new HtmlComponent(Tag.H3);
-            //p.getElement().setText(event.getFileName());
-            //vlowerLayout.add(component);
 
-
-
-
-
-            //System.out.println(upload.getElement().isEnabled());
-            /*scroller.setWidth("200px");
-            scroller.setHeight("200px");
-            StreamResource imageResource = new StreamResource(""+pictName[0],
-                    () -> getClass().getResourceAsStream("/images/"+pictName[0]));    //"/images/jo18.png"));//
-            //String imageResource = pictName[0];
-            System.out.println(imageResource);
-            Image img = new Image(imageResource, "No image!");
-            scroller.setContent(img);*/
 
         });
-
-
-        //System.out.println(upload.getElement().isEnabled());
-        /*singleFileUpload.addSucceededListener(event -> {
-            // Get information about the file that was written to the file system
-            FileData savedFileData = fileBuffer.getFileData();
-            String absolutePath = savedFileData.getFile().getAbsolutePath();
-
-            System.out.printf("File saved to: %s%n", absolutePath);
-        });*/
-
     }
 
+    /**
+     * Image feltöltése, és eseménykezelése
+     * @param mimeType
+     * @param fileName
+     * @param stream
+     * @return
+     */
     private Component createComponent(String mimeType, String fileName,
                                       InputStream stream) {
         if (mimeType.startsWith("text")) {
@@ -335,47 +270,11 @@ public class PersonForm extends FormLayout {
         //outputContainer.add(p);
         //outputContainer.add(content);
     }
-    /*private void hideOutput(String text, Component content,
-                            Scroller outputContainer) {
-        HtmlComponent p = new HtmlComponent(Tag.P);
-        p.getElement().setText(text);
-        outputContainer.add("");
-        outputContainer.remove(content);
-    }*/
 
-    /*public void FileCopyPicture(String selectedFile, ){
-        private Path to;
-        private Path from;
-        private File selectedFile;
-
-        // fájl bemásolása
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        //System.out.println("Current absolute path is: " + s);
-
-        selectedFile = upload.getElement().getChild(0)..getChild();//.getSelectedFile();
-        from = Paths.get(selectedFile.toURI());
-        to = Paths.get(s+"\\" + selectedFile.getName()); //to = Paths.get(s+"\\src\\main\\resources\\" + selectedFile.getName());
-        try {
-            // Files.copy(from.toFile(), to.toFile()); //gives a 'cannot resolve method error
-            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            System.out.println("fd");
-        }
-    }*/
-    /*private static File getUploadFolder() {
-        File folder = new File("uploaded-files");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        return folder;
-    }*/
-
-    public void setPerson(Person person){
-        this.person = person;
-        binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
-    }
-
+    /**
+     * Buttons Layer összeállítása
+     * @return
+     */
     private Component createButtonLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -391,6 +290,16 @@ public class PersonForm extends FormLayout {
         return new HorizontalLayout(save, delete, cancel);
     }
 
+
+    /**
+     * Person adatok beállítása és mentése
+     * @param person
+     */
+    public void setPerson(Person person){
+        this.person = person;
+        binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
+    }
+
     private void validateAndSave() {
         try {
             binder.writeBean(person);
@@ -400,7 +309,9 @@ public class PersonForm extends FormLayout {
         }
     }
 
-    // Events
+    /**
+     * Eventek Class elkészítése
+     */
     public static abstract class PersonFormEvent extends ComponentEvent<PersonForm> {
         private Person person;
 

@@ -1,4 +1,4 @@
-package com.example.app.data.service;
+package com.example.app.service;
 
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
@@ -9,7 +9,6 @@ import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

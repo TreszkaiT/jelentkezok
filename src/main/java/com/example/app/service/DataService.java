@@ -1,4 +1,4 @@
-package com.example.app.data.service;
+package com.example.app.service;
 
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
