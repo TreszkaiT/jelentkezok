@@ -16,29 +16,29 @@ import java.util.Arrays;
 public class UploadPictureI18N extends UploadI18N {
     public UploadPictureI18N() {
         setDropFiles(new DropFiles()
-                .setOne("Drop file here")
-                .setMany("Drop files here"));
+                .setOne("A fájlt csak húzd ide")
+                .setMany("A fájlokat csak húzd ide"));
         setAddFiles(new AddFiles()
-                .setOne("Upload File...")
-                .setMany("Upload Files..."));
-        setCancel("Cancel");
+                .setOne("Fájl feltöltése...")
+                .setMany("Fájlok feltöltése..."));
+        setCancel("Mégsem");
         setError(new Error()
-                .setTooManyFiles("Too Many Files.")
-                .setFileIsTooBig("File is Too Big.")
-                .setIncorrectFileType("Incorrect File Type."));
+                .setTooManyFiles("Túl sok fájl.")
+                .setFileIsTooBig("A fájl mérete túl nagy.")
+                .setIncorrectFileType("Nem jó a fájl típusa."));
         setUploading(new Uploading()
                 .setStatus(new Uploading.Status()
-                        .setConnecting("Connecting...")
-                        .setStalled("Stalled")
-                        .setProcessing("Processing File...")
-                        .setHeld("Queued"))
+                        .setConnecting("Kapcsolódás...")
+                        .setStalled("Elakadt")
+                        .setProcessing("Fájl feldolgozás alatt...")
+                        .setHeld("Sorban"))
                 .setRemainingTime(new Uploading.RemainingTime()
-                        .setPrefix("remaining time: ")
-                        .setUnknown("unknown remaining time"))
+                        .setPrefix("hátralévő idő: ")
+                        .setUnknown("a hátralévő idő ismeretlen"))
                 .setError(new Uploading.Error()
-                        .setServerUnavailable("Upload failed, please try again later")
-                        .setUnexpectedServerError("Upload failed due to server error")
-                        .setForbidden("Upload forbidden")));
+                        .setServerUnavailable("Sikertelen feltöltés, kérlek próbáld meg később")
+                        .setUnexpectedServerError("A feltöltés szerverhiba miatt nem sikerült")
+                        .setForbidden("Feltölteni tilos")));
         setUnits(new Units()
                 .setSize(Arrays.asList("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")));
     }

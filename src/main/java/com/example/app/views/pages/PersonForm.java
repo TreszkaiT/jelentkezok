@@ -95,9 +95,9 @@ public class PersonForm extends FormLayout {
     ComboBox<City>          city            = new ComboBox<>("Város");
     //MultiselectComboBox<City>          city            = new MultiselectComboBox<>("Város");
 
-    Button save     = new Button("Save");
-    Button delete   = new Button("Delete");
-    Button cancel   = new Button("Cancel");
+    Button save     = new Button("Mentés");
+    Button delete   = new Button("Törlés");
+    Button cancel   = new Button("Mégsem");
 
     private Person person;
     //private PersonNyelv nyelvism;
@@ -158,7 +158,7 @@ public class PersonForm extends FormLayout {
         UploadPictureI18N i18n = new UploadPictureI18N();
         i18n.getError()
                 .setTooManyFiles(
-                        "You may only upload a maximum of three files at once.");
+                        "Egyszerre legfeljebb egy fájlt tölthetsz fel.");
         upload.setI18n(i18n);
 
         upload.addFileRejectedListener(event -> {
