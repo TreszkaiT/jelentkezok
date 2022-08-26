@@ -10,13 +10,13 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
+import com.vaadin.flow.component.richtexteditor.RichTextEditorVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
@@ -62,6 +62,8 @@ public class PersonForm extends FormLayout {
     TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
     TextField egyebKeszsegek    = new TextField("Egyéb készségek");
     //TextField motivaciosLevel   = new TextField("Motivációs levél");
+
+    H5 h5 = new H5("Motivációs levél");
     RichTextEditor motivaciosLevel = new RichTextEditor();
 
    // FileBuffer fileBuffer = new FileBuffer();
@@ -95,6 +97,7 @@ public class PersonForm extends FormLayout {
         nyelvIsmeret.setItems(nyelvIsmeretek);
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
 
+        h5.setClassName("h5-style");
 
        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();
@@ -114,7 +117,7 @@ public class PersonForm extends FormLayout {
           tanulmanyok,
           szakmaiTap,
           egyebKeszsegek,
-          motivaciosLevel,
+          h5,motivaciosLevel,
           picture,
           upload,
           scroller,
