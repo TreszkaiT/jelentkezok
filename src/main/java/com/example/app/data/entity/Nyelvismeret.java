@@ -13,8 +13,9 @@ public class Nyelvismeret extends AbstractEntity {
 	private String name;
 	private String code;
 
-	//@ManyToMany(fetch = FetchType.EAGER)
-	//private Set<Person> nyelvIsmeret = new HashSet<>();
+	// azért, hogy az így létrehozott kapcsolótáblába ezen oldal felől is tujunk keresni
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Person> person = new HashSet<>();
 
 	public Nyelvismeret() {
 
@@ -40,5 +41,11 @@ public class Nyelvismeret extends AbstractEntity {
 		this.name = name;
 	}
 
+	public Set<Person> getPerson() {
+		return person;
+	}
 
+	public void setPerson(Set<Person> person) {
+		this.person = person;
+	}
 }

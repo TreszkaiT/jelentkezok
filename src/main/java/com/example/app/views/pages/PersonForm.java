@@ -16,6 +16,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
@@ -60,8 +61,8 @@ public class PersonForm extends FormLayout {
     TextField tanulmanyok       = new TextField("Tanulmányok");
     TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
     TextField egyebKeszsegek    = new TextField("Egyéb készségek");
-    TextField motivaciosLevel   = new TextField("Motivációs levél");
-    //RichTextEditor motivaciosLevel1 = new RichTextEditor();
+    //TextField motivaciosLevel   = new TextField("Motivációs levél");
+    RichTextEditor motivaciosLevel = new RichTextEditor();
 
    // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
@@ -81,8 +82,6 @@ public class PersonForm extends FormLayout {
     Button cancel   = new Button("Mégsem");
 
     private Person person;
-    //private PersonNyelv nyelvism;
-    //private AppService service;
 
     public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
 
@@ -115,8 +114,7 @@ public class PersonForm extends FormLayout {
           tanulmanyok,
           szakmaiTap,
           egyebKeszsegek,
-                motivaciosLevel,
-          //motivaciosLevel1,
+          motivaciosLevel,
           picture,
           upload,
           scroller,

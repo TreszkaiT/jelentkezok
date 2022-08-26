@@ -9,6 +9,7 @@ import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,9 +50,24 @@ public class AppService {
                 for(Person p: pers3){
                     pers2.add(p);
                 }
-            }*/
+            }*/ // person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName
             List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
-            System.out.println(nyel.size());
+           /* List<Person> pers2 = new ArrayList<>();
+            for(Nyelvismeret ny: nyel){
+                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+                for(Person p: pers3){
+                    pers2.add(p);
+                }
+            }*/
+            List<Person> pers2 = new ArrayList<>();
+            /*for(Nyelvismeret ny: nyel){
+                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+                for(Person p: pers3){
+                    pers2.add(p);
+                }
+            }*/
+            //pers2 = nyelvismeret -> nyelvismeret.getPerson().steam().map(nyel);
+            //System.out.println(nyel.size());
             return personRepository.findAll();
             //return pers2;
         }else if(why.equals("DATE")){

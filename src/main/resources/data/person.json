@@ -14,7 +14,7 @@
 	"tanulmanyok": "egyetem, főiskola",
 	"szakmaiTap": "nincs",
 	"egyebKeszsegek": "jogsi, beszédkészség",
-	"motivaciosLevel": "bla bla bla...",
+	"motivaciosLevel": "\t[{\"insert\":\"fdsfs\\n\"}]",
 	"nyelvIsmeret": "1"
   },
   {
@@ -32,7 +32,7 @@
 	"tanulmanyok": "egyetem, főiskola",
 	"szakmaiTap": "nincs",
 	"egyebKeszsegek": "jogsi, beszédkészség",
-	"motivaciosLevel": "bla bla bla...",
+	"motivaciosLevel": "\t[{\"insert\":\"fdsfs\\n\"}]",
 	"nyelvIsmeret": "1"
   }  
 ]

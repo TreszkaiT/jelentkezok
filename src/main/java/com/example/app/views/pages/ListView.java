@@ -114,8 +114,6 @@ public class ListView extends VerticalLayout {
 
         getFilterDateDate.setPlaceholder("Keresés dátumra...");
         getFilterDateDate.setClearButtonVisible(true);
-        //getFilterDateDate.setPrefixComponent(VaadinIcon.SEARCH.create());
-        //getFilterDateDate.setValueChangeMode(ValueChangeMode.LAZY);
         getFilterDateDate.addValueChangeListener(event -> updateList("DATE"));
 
         Button addPersonButton = new Button("Új önéletrajz");

@@ -5,6 +5,7 @@ import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,16 +29,26 @@ import javax.annotation.PostConstruct;
 @ConfigurationProperties
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
 
+    //@Autowired
+    //private Product product;
+
     public static void main(String[] args) {
         ConfigurableApplicationContext ct = SpringApplication.run(Application.class, args);
         //Product pr = ct.getBean("product", Product.class);
         //System.out.println(pr);
     }
 
+    //@Override
+    //public void run(String... args) throws Exception{
+    //    System.out.println(product.getTitle());
+    //    System.out.println(product.getVersion());
+    //}
+
     // bármelyik Service rétegbe csinálok egy ilyet és behúzom a repository-kat. Javaban meg összeállítom az Entitásokat, amiket szeretnék. azokat perzisztálom
     /*@PostConstruct
     public void init(){
 
     }*/
+
 
 }
