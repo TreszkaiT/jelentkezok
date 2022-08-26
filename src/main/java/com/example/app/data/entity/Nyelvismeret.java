@@ -2,12 +2,19 @@ package com.example.app.data.entity;
 
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Nyelvismeret extends AbstractEntity {
 
 	private String name;
 	private String code;
+
+	//@ManyToMany(fetch = FetchType.EAGER)
+	//private Set<Person> nyelvIsmeret = new HashSet<>();
 
 	public Nyelvismeret() {
 

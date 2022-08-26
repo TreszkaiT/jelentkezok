@@ -1,6 +1,7 @@
 package com.example.app.views;
 
 
+import com.example.app.data.component.Product;
 import com.example.app.views.appnav.AppNav;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
@@ -15,6 +16,8 @@ import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
 
@@ -49,7 +52,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("adatok");
+        H2 appName = new H2("Önéletrajz adatok bevitele");
         appName.addClassNames("app-name");
 
         RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
