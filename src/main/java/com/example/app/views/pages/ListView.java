@@ -8,6 +8,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -99,22 +100,25 @@ public class ListView extends VerticalLayout {
     }
 
     private Component getToolbar() {
-        filterTextName.setPlaceholder("Filter by Name...");
+        filterTextName.setPlaceholder("Keresés névre...");
         filterTextName.setClearButtonVisible(true);
+        filterTextName.setPrefixComponent(VaadinIcon.SEARCH.create());
         filterTextName.setValueChangeMode(ValueChangeMode.LAZY);
         filterTextName.addValueChangeListener(e -> updateList(""));       // ha beírok valami, akkor tegye azt be az adatbázsiba, ezért kell előtte a LAZY lassú figyelés, hogy legyen idő a lassú gépelésnél beírni az adatokat
 
-        filterTextNyelv.setPlaceholder("Filter by Language...");
+        filterTextNyelv.setPlaceholder("Keresés nyelvre...");
         filterTextNyelv.setClearButtonVisible(true);
+        filterTextNyelv.setPrefixComponent(VaadinIcon.SEARCH.create());
         filterTextNyelv.setValueChangeMode(ValueChangeMode.LAZY);
         filterTextNyelv.addValueChangeListener(event -> updateList("LANG"));
 
-        getFilterDateDate.setPlaceholder("Filter by Date...");
+        getFilterDateDate.setPlaceholder("Keresés dátumra...");
         getFilterDateDate.setClearButtonVisible(true);
+        //getFilterDateDate.setPrefixComponent(VaadinIcon.SEARCH.create());
         //getFilterDateDate.setValueChangeMode(ValueChangeMode.LAZY);
         getFilterDateDate.addValueChangeListener(event -> updateList("DATE"));
 
-        Button addPersonButton = new Button("Add person");
+        Button addPersonButton = new Button("Új önéletrajz");
         addPersonButton.addClickListener(e -> addPerson());
 
         HorizontalLayout toolbar = new HorizontalLayout(filterTextName, filterTextNyelv, getFilterDateDate, addPersonButton);
@@ -130,7 +134,12 @@ public class ListView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("person-grid");  // CSS osztálynév hozzáadása
         grid.setSizeFull();
-        grid.setColumns("firstName", "lastName", "email", "phone");
+        //grid.setColumns("firstName", "lastName", "email", "phone");
+        grid.setColumns();
+        grid.addColumn(person -> person.getfirstName()).setHeader("Vezetéknév");
+        grid.addColumn(person -> person.getlastName()).setHeader("Keresztnév");
+        grid.addColumn(person -> person.getemail()).setHeader("Email");
+        grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Születési idő");
         grid.addColumn(person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents

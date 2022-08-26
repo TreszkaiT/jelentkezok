@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Nyelvismeret;
 import com.example.app.data.entity.Person;
+//import com.example.app.data.entity.PersonNyelv;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -16,7 +17,9 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -61,6 +64,7 @@ public class PersonForm extends FormLayout {
     TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
     TextField egyebKeszsegek    = new TextField("Egyéb készségek");
     TextField motivaciosLevel   = new TextField("Motivációs levél");
+    //RichTextEditor motivaciosLevel1 = new RichTextEditor();
 
    // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
@@ -96,6 +100,7 @@ public class PersonForm extends FormLayout {
     Button cancel   = new Button("Cancel");
 
     private Person person;
+    //private PersonNyelv nyelvism;
     //private AppService service;
 
     public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
@@ -106,8 +111,16 @@ public class PersonForm extends FormLayout {
         city.setItems(cities);//service.findAllCities());//cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
 
+        //nyelvIsmeret.setItems(nyelvIsmeretek);
+        //nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
         nyelvIsmeret.setItems(nyelvIsmeretek);
         nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+
+
+       // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
+       // textArea.setWidthFull();
+       // motivaciosLevel1.setValue(textArea.getValue());//Person::getmotivaciosLevel);
+       //motivaciosLevel1.setLabel("Motivációs levél");
 
         add(
           firstName,
@@ -122,7 +135,8 @@ public class PersonForm extends FormLayout {
           tanulmanyok,
           szakmaiTap,
           egyebKeszsegek,
-          motivaciosLevel,
+                motivaciosLevel,
+          //motivaciosLevel1,
           picture,
           upload,
               // output,
