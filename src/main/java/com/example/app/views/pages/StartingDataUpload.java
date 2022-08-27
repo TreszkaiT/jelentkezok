@@ -17,6 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
+import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import static com.example.app.data.properties.SetProperties.SetButtonAppProperty
 
 @Route(value = "startingdataupload", layout = MainLayout.class)
 @PageTitle("Adatszótárak feltöltése")
+@PermitAll          // login security miatt
 public class StartingDataUpload extends VerticalLayout {
 
     private AppService service;

@@ -2,17 +2,22 @@ package com.example.app.views;
 
 
 import com.example.app.data.component.Product;
+import com.example.app.security.SecurityService;
 import com.example.app.views.appnav.AppNav;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
@@ -29,27 +34,65 @@ import static com.example.app.data.properties.SetProperties.SetButtonAppProperty
 public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
+    private SecurityService securityService;
 
-    public MainLayout() {
-        setPrimarySection(Section.DRAWER);
-        addToNavbar(true, createHeaderContent());
-        addToDrawer(createDrawerContent());
+    public MainLayout(SecurityService securityService) {
+        this.securityService = securityService;
+        createHeader();
+        createDrawer();
+        //setPrimarySection(Section.DRAWER);
+        //addToNavbar(true, createHeaderContent());
+        //addToDrawer(createDrawerContent());
         //SetButtonAppPropertyValue(1,1);
     }
 
-    private Component createHeaderContent() {
-        DrawerToggle toggle = new DrawerToggle();
-        toggle.addClassNames("view-toggle");
-        toggle.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        toggle.getElement().setAttribute("aria-label", "Menu toggle");
 
-        viewTitle = new H1();
-        viewTitle.addClassNames("view-title");
+    private void createHeader() {
+        H1 logo = new H1("Önéletrajz készítő alkalmazás");
+        logo.addClassNames("text-l", "m-m");
 
-        Header header = new Header(toggle, viewTitle);
-        header.addClassNames("view-header");
-        return header;
+        Button logout = new Button("Kilépés", e -> securityService.logout());
+
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
+
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.expand(logo);
+        header.setWidth("100%");
+        header.addClassNames("py-0", "px-m");
+
+        addToNavbar(header);
+
     }
+
+private void createDrawer() {
+        RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
+        listLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        addToDrawer(new VerticalLayout(
+        listLink,
+        new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class)
+        ));
+        }
+
+
+
+    /* private Component createHeaderContent() {
+         DrawerToggle toggle = new DrawerToggle();
+         toggle.addClassNames("view-toggle");
+         toggle.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+         toggle.getElement().setAttribute("aria-label", "Menu toggle");
+
+         viewTitle = new H1();
+         viewTitle.addClassNames("view-title");
+
+         Button logOut = new Button("Kilépés", e -> securityService.logout());
+
+         Header header = new Header(toggle, viewTitle, logOut);
+         header.addClassNames("view-header");
+         header
+         header.setWidth("100%");
+         return header;
+     }
 
     private Component createDrawerContent() {
         H2 appName = new H2("Önéletrajz adatok bevitele");
@@ -95,5 +138,5 @@ public class MainLayout extends AppLayout {
     private String getCurrentPageTitle() {
         PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
         return title == null ? "" : title.value();
-    }
+    }*/
 }

@@ -17,11 +17,13 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import javax.annotation.security.PermitAll;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @Route(value="", layout = MainLayout.class)
 @PageTitle("Személyek listája")
+@PermitAll          // login security miatt
 public class ListView extends VerticalLayout {
 
     Grid<Person> grid = new Grid<>(Person.class);
