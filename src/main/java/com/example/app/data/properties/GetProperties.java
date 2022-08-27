@@ -29,7 +29,7 @@ public class GetProperties {
             }
 
             // get the property value and print it out
-            StartingDataUpload.ConfigLanguageButton = Integer.parseInt(prop.getProperty("feltoltes_nyelv_button").trim());
+            StartingDataUpload.ConfigLanguageButton = Integer.parseInt(prop.getProperty("feltoltes_lang_button").trim());
             StartingDataUpload.ConfigCityButton  = Integer.parseInt(prop.getProperty("feltoltes_city_button").trim());
             StartingDataUpload.ConfigPersonButton = Integer.parseInt(prop.getProperty("feltoltes_person_button").trim());
 

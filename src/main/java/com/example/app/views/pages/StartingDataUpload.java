@@ -61,17 +61,17 @@ public class StartingDataUpload extends VerticalLayout {
         PropertiesNull();
 
         // Nyelv adatok beírása az adatbázisba
-        NyelvGombrakattintas(languages);
+        LangButtonClick(languages);
 
         // City adatok beírása az adatbázisba
-        VarosGombraKattintas();
+        CityButtonClick();
 
         // Person adatok beírása az adatbázisba
-        PersonGombraKattintas(persons);
+        PersonButtonClick(persons);
 
     }
 
-    private void NyelvGombrakattintas(List<Language> languages) {
+    private void LangButtonClick(List<Language> languages) {
         if(ConfigLanguageButton ==2) button1.setEnabled(false);
         button1.addClickListener(event -> {
             progressBar1.setIndeterminate(true);
@@ -94,7 +94,7 @@ public class StartingDataUpload extends VerticalLayout {
         });
     }
 
-    private void VarosGombraKattintas() {
+    private void CityButtonClick() {
         if(ConfigCityButton==2) button2.setEnabled(false);
         button2.addClickListener(event -> {
             progressBar2.setIndeterminate(true);
@@ -119,7 +119,7 @@ public class StartingDataUpload extends VerticalLayout {
         });
     }
 
-    private void PersonGombraKattintas(List<Person> persons) {
+    private void PersonButtonClick(List<Person> persons) {
         if(ConfigCityButton==1 || ConfigLanguageButton ==1) button3.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
             if(ConfigPersonButton==2) button3.setEnabled(false);
         button3.addClickListener(event -> {
@@ -128,13 +128,13 @@ public class StartingDataUpload extends VerticalLayout {
             new Thread(()->{
                 for(Person pers : persons){
                     long rndCity = new RandomDataGenerator().nextLong(0, service.countCities());
-                    long rndNyelv= new RandomDataGenerator().nextLong(0, service.countLanguage());
-                    long rndNyelv2= new RandomDataGenerator().nextLong(0, service.countLanguage());
+                    long rndlang= new RandomDataGenerator().nextLong(0, service.countLanguage());
+                    long rndlang2= new RandomDataGenerator().nextLong(0, service.countLanguage());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
-                    //if(pers.getlanguage()==null) System.out.println("null nyelv");
+                    //if(pers.getlanguage()==null) System.out.println("null lang");
                     pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
-                    pers.getlanguage().add(service.findAllLanguage().get((int)rndNyelv));
-                    pers.getlanguage().add(service.findAllLanguage().get((int)rndNyelv2));
+                    pers.getlanguage().add(service.findAllLanguage().get((int)rndlang));
+                    pers.getlanguage().add(service.findAllLanguage().get((int)rndlang2));
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setlanguage(service.findLanguageByName("English"));
                     personsok.add(pers);

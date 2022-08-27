@@ -1,30 +1,19 @@
 package com.example.app.views;
 
 
-import com.example.app.data.component.Product;
 import com.example.app.security.SecurityService;
-import com.example.app.views.appnav.AppNav;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import static com.example.app.data.properties.SetProperties.SetButtonAppPropertyValue;
 
 /**
  * The main view is a top-level placeholder for other views.

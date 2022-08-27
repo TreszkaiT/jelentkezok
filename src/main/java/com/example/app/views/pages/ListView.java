@@ -28,7 +28,7 @@ public class ListView extends VerticalLayout {
 
     Grid<Person> grid = new Grid<>(Person.class);
     TextField filterTextName = new TextField();
-    TextField filterTextNyelv = new TextField();
+    TextField filterTextLang = new TextField();
     DatePicker getFilterDateDate = new DatePicker();
     PersonForm form;
     private AppService service;
@@ -66,7 +66,7 @@ public class ListView extends VerticalLayout {
         LocalDate date = LocalDate.of(2022, 8, 23);
 
         if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
-        else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextNyelv.getValue(), date, why));
+        else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextLang.getValue(), date, why));
         else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));
     }
 
@@ -108,11 +108,11 @@ public class ListView extends VerticalLayout {
         filterTextName.setValueChangeMode(ValueChangeMode.LAZY);
         filterTextName.addValueChangeListener(e -> updateList(""));       // ha beírok valami, akkor tegye azt be az adatbázsiba, ezért kell előtte a LAZY lassú figyelés, hogy legyen idő a lassú gépelésnél beírni az adatokat
 
-        filterTextNyelv.setPlaceholder("Keresés nyelvre...");
-        filterTextNyelv.setClearButtonVisible(true);
-        filterTextNyelv.setPrefixComponent(VaadinIcon.SEARCH.create());
-        filterTextNyelv.setValueChangeMode(ValueChangeMode.LAZY);
-        filterTextNyelv.addValueChangeListener(event -> updateList("LANG"));
+        filterTextLang.setPlaceholder("Keresés nyelvre...");
+        filterTextLang.setClearButtonVisible(true);
+        filterTextLang.setPrefixComponent(VaadinIcon.SEARCH.create());
+        filterTextLang.setValueChangeMode(ValueChangeMode.LAZY);
+        filterTextLang.addValueChangeListener(event -> updateList("LANG"));
 
         getFilterDateDate.setPlaceholder("Keresés dátumra...");
         getFilterDateDate.setClearButtonVisible(true);
@@ -121,7 +121,7 @@ public class ListView extends VerticalLayout {
         Button addPersonButton = new Button("Új önéletrajz");
         addPersonButton.addClickListener(e -> addPerson());
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterTextName, filterTextNyelv, getFilterDateDate, addPersonButton);
+        HorizontalLayout toolbar = new HorizontalLayout(filterTextName, filterTextLang, getFilterDateDate, addPersonButton);
         toolbar.addClassName("toolbar");    // CSS stílus miatt CSS osztálynév hozzáadása
         return toolbar;
     }

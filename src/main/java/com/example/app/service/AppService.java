@@ -90,9 +90,9 @@ public class AppService {
     }
 
     public Language findLanguageByName(String name){
-        List<Language> nyelvFindAll = findAllLanguage();
-        for(Language nyelv: nyelvFindAll){
-            if(nyelv.getName().equals(name)) return nyelv;
+        List<Language> langFindAll = findAllLanguage();
+        for(Language lang: langFindAll){
+            if(lang.getName().equals(name)) return lang;
         }
         return null;
     }
@@ -178,16 +178,16 @@ public class AppService {
         cityRepository.save(city1);
         cityRepository.save(city2);
 
-        Language nyelv1 = new Language();
-        nyelv1.setName("Angol");
-        Language nyelv2 = new Language();
-        nyelv2.setName("Német");
-        Language nyelv3 = new Language();
-        nyelv3.setName("Francia");
+        Language lang1 = new Language();
+        lang1.setName("Angol");
+        Language lang2 = new Language();
+        lang2.setName("Német");
+        Language lang3 = new Language();
+        lang3.setName("Francia");
 
-        languageRepository.save(nyelv1);
-        languageRepository.save(nyelv2);
-        languageRepository.save(nyelv3);
+        languageRepository.save(lang1);
+        languageRepository.save(lang2);
+        languageRepository.save(lang3);
 
         Person person1 = new Person();
         person1.setfirstName("Kiss");
@@ -215,7 +215,7 @@ public class AppService {
         person1.setprofExperience("programozó, semmi");
         person1.setotherSkill("vezetés, olvasás");
         person1.setcoverLetter("Egyszer volt hol nem volt");
-        person1.setlanguage(nyelv1);
+        person1.setlanguage(lang1);
 
         Person person2 = new Person();
         person2.setfirstName("Nagy");
@@ -242,7 +242,7 @@ public class AppService {
         person2.setprofExperience("programozó, semmi");
         person2.setotherSkill("vezetés, olvasás");
         person2.setcoverLetter("Egyszer volt hol nem volt");
-        person2.setlanguage(nyelv2);
+        person2.setlanguage(lang2);
 
         personRepository.save(person1);
         personRepository.save(person2);
