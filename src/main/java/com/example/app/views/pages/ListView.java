@@ -52,6 +52,7 @@ public class ListView extends VerticalLayout {
         updateList("");
         closeEditor();      // először bezárja a jobb oldali formot, mert nem kattintottunk semmilyen elemre a listában
 
+        //this.getElement().getThemeList().add("dark");
     }
 
     private void closeEditor() {

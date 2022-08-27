@@ -130,6 +130,8 @@ public class PersonForm extends FormLayout {
 
         UploadUtanKepBetoltese();
 
+        //this.getElement().getThemeList().add("dark");
+
     }
 
     /**
@@ -154,6 +156,7 @@ public class PersonForm extends FormLayout {
             );
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
+        //upload.getElement().getThemeList().add("dark");
     }
 
     private void UploadUtanKepBetoltese() {

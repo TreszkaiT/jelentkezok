@@ -57,6 +57,7 @@ public class MainLayout extends AppLayout {
         header.expand(logo);
         header.setWidth("100%");
         header.addClassNames("py-0", "px-m");
+        header.getElement().getThemeList().add("dark");
 
         addToNavbar(header);
 
@@ -70,7 +71,7 @@ private void createDrawer() {
         listLink,
         new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class)
         ));
-        }
+    }
 
 
 
