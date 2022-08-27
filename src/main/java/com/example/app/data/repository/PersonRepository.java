@@ -1,6 +1,6 @@
 package com.example.app.data.repository;
 
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,8 +21,8 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     @Query("select c from Person c where c.nyelvIsmeret=?1")
     List<Person> searchByNyelvismeretId(UUID filterText); // ez egy JPQL Query
 
-    @Query("select c from Nyelvismeret c where c.person=?1")
-    List<Person> searchByNyelvismeret(Nyelvismeret filterText); // ez egy JPQL Query
+    @Query("select c from Language c where c.person=?1")
+    List<Person> searchByNyelvismeret(Language filterText); // ez egy JPQL Query
 
     @Query("select c from Person c where c.szulDatum=?1")
     List<Person> searchByDate(LocalDate filterText);

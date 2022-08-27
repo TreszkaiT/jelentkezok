@@ -1,6 +1,6 @@
 package com.example.app.service;
 
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -40,13 +40,13 @@ public class DataService {
         return null;
     }
 
-    public static List<Nyelvismeret> getNyelvismeret() {
-        return Arrays.asList(getItems(Nyelvismeret[].class, "languages.json"));
+    public static List<Language> getNyelvismeret() {
+        return Arrays.asList(getItems(Language[].class, "languages.json"));
         //List<Nyelvismeret> nyelvismerets = Arrays.asList(getItems(Nyelvismeret[].class, "languages.json"));
         //return nyelvismerets;
     }
 
-    public static List<Nyelvismeret> getNyelvismeret(int count) {
+    public static List<Language> getNyelvismeret(int count) {
         return getNyelvismeret().subList(0, count);
     }
 

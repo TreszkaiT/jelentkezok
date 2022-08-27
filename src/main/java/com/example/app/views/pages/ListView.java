@@ -1,6 +1,6 @@
 package com.example.app.views.pages;
 
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.service.AppService;
 import com.example.app.views.MainLayout;
@@ -141,7 +141,7 @@ public class ListView extends VerticalLayout {
         grid.addColumn(person -> person.getemail()).setHeader("Email");
         grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Születési idő");
-        grid.addColumn(person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
+        grid.addColumn(person -> person.getnyelvIsmeret().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
         grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor

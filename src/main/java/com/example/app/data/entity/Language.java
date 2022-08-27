@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Nyelvismeret extends AbstractEntity {
+public class Language extends AbstractEntity {
 
 	private String name;
 	private String code;
@@ -17,11 +17,11 @@ public class Nyelvismeret extends AbstractEntity {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Person> person = new HashSet<>();
 
-	public Nyelvismeret() {
+	public Language() {
 
 	}
 
-	public Nyelvismeret(String name) {
+	public Language(String name) {
 		this.name = name;
 	}
 

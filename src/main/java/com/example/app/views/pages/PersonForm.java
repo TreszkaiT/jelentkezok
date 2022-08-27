@@ -1,7 +1,7 @@
 package com.example.app.views.pages;
 
 import com.example.app.data.entity.City;
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
@@ -16,7 +16,6 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
-import com.vaadin.flow.component.richtexteditor.RichTextEditorVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
@@ -76,7 +75,7 @@ public class PersonForm extends FormLayout {
 
     TextField picture           = new TextField("Fénykép");
 
-    MultiselectComboBox<Nyelvismeret> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
+    MultiselectComboBox<Language> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
 
     Button save     = new Button("Mentés");
@@ -85,7 +84,7 @@ public class PersonForm extends FormLayout {
 
     private Person person;
 
-    public PersonForm(List<City> cities, List<Nyelvismeret> nyelvIsmeretek){//}, AppService services) {
+    public PersonForm(List<City> cities, List<Language> nyelvIsmeretek){//}, AppService services) {
 
         addClassName("contact-form");
 
@@ -95,7 +94,7 @@ public class PersonForm extends FormLayout {
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
 
         nyelvIsmeret.setItems(nyelvIsmeretek);
-        nyelvIsmeret.setItemLabelGenerator(Nyelvismeret::getName);
+        nyelvIsmeret.setItemLabelGenerator(Language::getName);
 
         h5.setClassName("h5-style");
 

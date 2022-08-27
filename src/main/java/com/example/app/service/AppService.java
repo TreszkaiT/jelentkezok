@@ -1,7 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.data.entity.City;
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.repository.CityRepository;
 import com.example.app.data.repository.NyelvismeretRepository;
@@ -51,7 +51,7 @@ public class AppService {
                     pers2.add(p);
                 }
             }*/ // person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName
-            List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            List<Language> nyel = nyelvismeretRepository.searchByName(filterText);
            /* List<Person> pers2 = new ArrayList<>();
             for(Nyelvismeret ny: nyel){
                 List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
@@ -89,9 +89,9 @@ public class AppService {
         return null;
     }
 
-    public Nyelvismeret findNyelvismeretByName(String name){
-        List<Nyelvismeret> nyelvFindAll = findAllNyelvismeret();
-        for(Nyelvismeret nyelv: nyelvFindAll){
+    public Language findNyelvismeretByName(String name){
+        List<Language> nyelvFindAll = findAllNyelvismeret();
+        for(Language nyelv: nyelvFindAll){
             if(nyelv.getName().equals(name)) return nyelv;
         }
         return null;
@@ -132,7 +132,7 @@ public class AppService {
     }*/
 
     // Nyelvismeret Repository-s dolgok-
-    public List<Nyelvismeret> findAllNyelvismeret(){
+    public List<Language> findAllNyelvismeret(){
         return nyelvismeretRepository.findAll();
     }
 
@@ -148,13 +148,13 @@ public class AppService {
         }
     }
 
-    public void saveNyelvismeret(List<Nyelvismeret> nyelvismerets){
+    public void saveNyelvismeret(List<Language> nyelvismerets){
         if(nyelvismerets == null){
             System.out.println("Nincsenek nyelvek");
         }
 
         //nyelvismerets.stream()
-        for (Nyelvismeret ny: nyelvismerets) {
+        for (Language ny: nyelvismerets) {
             nyelvismeretRepository.save(ny);
             //System.out.println("1");
         }

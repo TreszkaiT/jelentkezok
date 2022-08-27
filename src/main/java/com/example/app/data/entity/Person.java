@@ -64,7 +64,7 @@ public class Person extends AbstractEntity {
     //private Set<String> nyelvIsmeret = new HashSet<>();
     //@NotNull
     @ManyToMany(fetch = FetchType.EAGER)        // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy getNyelvismeretre, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
-    private Set<Nyelvismeret> nyelvIsmeret = new HashSet<>();
+    private Set<Language> nyelvIsmeret = new HashSet<>();
 
     //@ElementCollection
     //private Set<String> szakmaiTap;
@@ -182,11 +182,11 @@ public class Person extends AbstractEntity {
         this.szakmaiTap = szakmaiTap;
     }
 
-    public Set<Nyelvismeret> getnyelvIsmeret() {
+    public Set<Language> getnyelvIsmeret() {
         return nyelvIsmeret;
     }
 
-    public void setnyelvIsmeret(Set<Nyelvismeret> nyelvIsmeret) {
+    public void setnyelvIsmeret(Set<Language> nyelvIsmeret) {
         this.nyelvIsmeret = nyelvIsmeret;
     }
 

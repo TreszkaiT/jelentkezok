@@ -1,7 +1,7 @@
 package com.example.app.views.pages;
 
 import com.example.app.data.entity.City;
-import com.example.app.data.entity.Nyelvismeret;
+import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
@@ -46,7 +46,7 @@ public class StartingDataUpload extends VerticalLayout {
         this.service = service;
         this.serviceData = serviceData;
 
-        List<Nyelvismeret> nyelvismerets = serviceData.getNyelvismeret();
+        List<Language> nyelvismerets = serviceData.getNyelvismeret();
         List<Person> persons = serviceData.getPersonSerializer();
 
         addClassName("starting-data-upload");
@@ -71,7 +71,7 @@ public class StartingDataUpload extends VerticalLayout {
 
     }
 
-    private void NyelvGombrakattintas(List<Nyelvismeret> nyelvismerets) {
+    private void NyelvGombrakattintas(List<Language> nyelvismerets) {
         if(ConfigNyelvButton==2) button1.setEnabled(false);
         button1.addClickListener(event -> {
             progressBar1.setIndeterminate(true);
