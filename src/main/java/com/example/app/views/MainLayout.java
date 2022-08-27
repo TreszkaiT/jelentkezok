@@ -2,6 +2,7 @@ package com.example.app.views;
 
 
 import com.example.app.security.SecurityService;
+import com.example.app.service.component.Product;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -25,8 +26,16 @@ public class MainLayout extends AppLayout {
     private H1 viewTitle;
     private SecurityService securityService;
 
-    public MainLayout(SecurityService securityService) {
+    private Product product;
+
+    /*@Autowired                                    // Beant vagy így használok a Product Component Bean-ból;  de így valamiért null lesz  (átpasszolom a labdát ide)
+    public void setProduct(Product product){
+        this.product = product;
+    }*/
+
+    public MainLayout(SecurityService securityService, Product product) {           // v. így használok a Product Component Bean-ból; így nem lesz null
         this.securityService = securityService;
+        this.product = product;                                                     // és persze ez is kell hozzá
         createHeader();
         createDrawer();
         //setPrimarySection(Section.DRAWER);

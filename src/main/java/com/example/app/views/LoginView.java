@@ -23,6 +23,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
         login.setAction("login");
 
+        login.getElement().getThemeList().add("dark");
+        login.getElement().setAttribute("no-autofocus", "");
+
         add(
                 new H1("Önéletrajz adatok bevitele"),
                 login

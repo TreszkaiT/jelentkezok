@@ -1,19 +1,14 @@
 package com.example.app;
 
-import com.example.app.data.component.Product;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import javax.annotation.PostConstruct;
 
 /**
  * The entry point of the Spring Boot application.
@@ -23,6 +18,11 @@ import javax.annotation.PostConstruct;
  *
  */
 //@Theme(value = Lumo.class, variant = Lumo.DARK)
+/*
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+*/
 @SpringBootApplication
 @Theme(value = "adatok")
 //@Theme(value = "custom-theme")

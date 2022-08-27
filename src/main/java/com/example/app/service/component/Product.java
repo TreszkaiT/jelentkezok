@@ -1,10 +1,10 @@
-package com.example.app.data.component;
+package com.example.app.service.component;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component          // = @Service is lehetne == ez egy Bean, amit már jegyez az ApplicationContextContainer, azza Mr. Container az Application.class-ban, így már Dependency Injection-nal behúzhatom pl. MainLayout.class-nak a Setter-ébe vagy a Constructorába
 @ConfigurationProperties(prefix = "application.properties")
 public class Product {
 
