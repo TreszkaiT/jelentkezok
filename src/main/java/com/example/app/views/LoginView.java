@@ -2,6 +2,7 @@ package com.example.app.views;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -21,15 +22,24 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
+        LoginOverlay loginOverlay = new LoginOverlay();
+        loginOverlay.setTitle("Önéletrajz adatok bevitele");
+        loginOverlay.setDescription("Készítette: T.Tamás");
+
         login.setAction("login");
 
         login.getElement().getThemeList().add("dark");
         login.getElement().setAttribute("no-autofocus", "");
 
+
         add(
-                new H1("Önéletrajz adatok bevitele"),
+                //new H1("Önéletrajz adatok bevitele"),
+                loginOverlay,
                 login
         );
+        loginOverlay.setOpened(true);
+        loginOverlay.getElement().setAttribute("no-autofocus", "");
+        loginOverlay.getElement().getThemeList().add("dark");
     }
 
     /**
