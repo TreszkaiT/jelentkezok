@@ -67,10 +67,12 @@ private void createDrawer() {
         RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(
-        listLink,
-        new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class)
-        ));
+        VerticalLayout menuBar = new VerticalLayout();
+        menuBar.add(listLink,
+                new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class));
+        menuBar.setHeightFull();
+        menuBar.getElement().getThemeList().add("dark");
+        addToDrawer(menuBar);
     }
 
 
