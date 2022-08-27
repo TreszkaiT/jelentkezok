@@ -4,7 +4,7 @@ import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.repository.CityRepository;
-import com.example.app.data.repository.NyelvismeretRepository;
+import com.example.app.data.repository.LanguageRepository;
 import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +22,15 @@ public class AppService {
 
     private final PersonRepository personRepository;
     private final CityRepository cityRepository;
-    private final NyelvismeretRepository nyelvismeretRepository;
+    private final LanguageRepository languageRepository;
 
     public AppService(PersonRepository personRepository,
                       CityRepository cityRepository,
-                      NyelvismeretRepository nyelvismeretRepository) {
+                      LanguageRepository languageRepository) {
 
         this.personRepository = personRepository;
         this.cityRepository = cityRepository;
-        this.nyelvismeretRepository = nyelvismeretRepository;
+        this.languageRepository = languageRepository;
 
         //PeldaadatokHozzaadasa();
     }
@@ -51,7 +51,7 @@ public class AppService {
                     pers2.add(p);
                 }
             }*/ // person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName
-            List<Language> nyel = nyelvismeretRepository.searchByName(filterText);
+            List<Language> nyel = languageRepository.searchByName(filterText);
            /* List<Person> pers2 = new ArrayList<>();
             for(Nyelvismeret ny: nyel){
                 List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
@@ -106,7 +106,7 @@ public class AppService {
     }
 
     public long countNyelvismeret(){
-        return nyelvismeretRepository.count();
+        return languageRepository.count();
     }
 
     public void deletePerson(Person person){
@@ -133,7 +133,7 @@ public class AppService {
 
     // Nyelvismeret Repository-s dolgok-
     public List<Language> findAllNyelvismeret(){
-        return nyelvismeretRepository.findAll();
+        return languageRepository.findAll();
     }
 
     public List<Person> findAllPersons(){return personRepository.findAll();};
@@ -155,7 +155,7 @@ public class AppService {
 
         //nyelvismerets.stream()
         for (Language ny: nyelvismerets) {
-            nyelvismeretRepository.save(ny);
+            languageRepository.save(ny);
             //System.out.println("1");
         }
     }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.UUID;
 
-public interface NyelvismeretRepository extends JpaRepository<Language, UUID> {
+public interface LanguageRepository extends JpaRepository<Language, UUID> {
 
     @Query("select c from Language c " +
             "where lower(c.name) like lower(concat('%', :searchTerm, '%')) ")
