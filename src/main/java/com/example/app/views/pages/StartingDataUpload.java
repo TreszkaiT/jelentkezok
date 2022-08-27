@@ -38,7 +38,7 @@ public class StartingDataUpload extends VerticalLayout {
     ProgressBar progressBar2 = new ProgressBar();
     ProgressBar progressBar3 = new ProgressBar();
 
-    public static int ConfigNyelvButton;
+    public static int ConfigLanguageButton;
     public static int ConfigCityButton;
     public static int ConfigPersonButton;
 
@@ -72,7 +72,7 @@ public class StartingDataUpload extends VerticalLayout {
     }
 
     private void NyelvGombrakattintas(List<Language> nyelvismerets) {
-        if(ConfigNyelvButton==2) button1.setEnabled(false);
+        if(ConfigLanguageButton ==2) button1.setEnabled(false);
         button1.addClickListener(event -> {
             progressBar1.setIndeterminate(true);
 
@@ -120,7 +120,7 @@ public class StartingDataUpload extends VerticalLayout {
     }
 
     private void PersonGombraKattintas(List<Person> persons) {
-        if(ConfigCityButton==1 || ConfigNyelvButton==1) button3.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
+        if(ConfigCityButton==1 || ConfigLanguageButton ==1) button3.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
             if(ConfigPersonButton==2) button3.setEnabled(false);
         button3.addClickListener(event -> {
             progressBar3.setIndeterminate(true);
@@ -150,10 +150,10 @@ public class StartingDataUpload extends VerticalLayout {
      * kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
      */
     private void PropertiesNull(){
-        if(service.findAllNyelvismeret().size()<10) ConfigNyelvButton=1; else ConfigNyelvButton=2;
+        if(service.findAllNyelvismeret().size()<10) ConfigLanguageButton =1; else ConfigLanguageButton =2;
         if(service.findAllCities().size()<10) ConfigCityButton=1; else ConfigCityButton=2;
         if(service.findAllPersons().size()<2) ConfigPersonButton=1; else ConfigPersonButton=2;
-        SetButtonAppPropertyValue(ConfigNyelvButton,ConfigCityButton,ConfigPersonButton);
+        SetButtonAppPropertyValue(ConfigLanguageButton,ConfigCityButton,ConfigPersonButton);
 
     }
 
