@@ -92,7 +92,7 @@ public class ExcelXlsAndXlsxRead {
                         //System.out.print(cell.toString()+"\t");
                     }
                 }
-                System.out.println();
+                //System.out.println();
                 j++;
             }
 

@@ -109,7 +109,8 @@ public class StartingDataUpload extends VerticalLayout {
                     }
                 }
 
-                if(cities==null) System.out.println("null"); else service.saveCities(cities);
+                //if(cities==null) System.out.println("null"); else service.saveCities(cities);
+                if(cities!=null) service.saveCities(cities);
 
             }).start();
             progressBar2.setIndeterminate(false);
