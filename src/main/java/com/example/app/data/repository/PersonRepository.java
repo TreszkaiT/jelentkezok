@@ -24,7 +24,7 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     @Query("select c from Language c where c.person=?1")
     List<Person> searchByLanguage(Language filterText); // ez egy JPQL Query
 
-    @Query("select c from Person c where c.szulDatum=?1")
+    @Query("select c from Person c where c.bornDate=?1")
     List<Person> searchByDate(LocalDate filterText);
 
    /* @Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")

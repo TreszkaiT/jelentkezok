@@ -26,7 +26,7 @@ public class Person extends AbstractEntity {
     @NotEmpty
     private String email = "";
     //@NotEmpty
-    private LocalDate szulDatum;
+    private LocalDate bornDate;
     @NotEmpty
     private String phone = "";
 
@@ -37,7 +37,7 @@ public class Person extends AbstractEntity {
     private City city;
 
     //@NotEmpty
-    private String kozMedia = "";
+    private String socialMedia = "";
     //@NotEmpty
     private String messageApps = "";
     //@NotEmpty
@@ -47,16 +47,16 @@ public class Person extends AbstractEntity {
     private String picture = "";
 
     @NotEmpty
-    private String tanulmanyok = "";
+    private String studies = "";
 
     @NotEmpty
-    private String szakmaiTap = "";
+    private String profExperience = "";
 
     //@NotEmpty
-    private String egyebKeszsegek = "";
+    private String otherSkill = "";
 
     @NotEmpty
-    private String motivaciosLevel = "";
+    private String coverLetter = "";
 
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
     // így ezt az Annotációt rá kell tenni. Azaz csinál hozzá egy külön kis táblát, és abból lesznek hozzácsatolva az egyes műfajok a Movies tábla adott filmjéhez
@@ -67,7 +67,7 @@ public class Person extends AbstractEntity {
     private Set<Language> language = new HashSet<>();
 
     //@ElementCollection
-    //private Set<String> szakmaiTap;
+    //private Set<String> profExperience;
 
 
 
@@ -102,12 +102,12 @@ public class Person extends AbstractEntity {
         this.email = email;
     }
 
-    public LocalDate getszulDatum() {
-        return szulDatum;
+    public LocalDate getbornDate() {
+        return bornDate;
     }
 
-    public void setszulDatum(LocalDate szulDatum) {
-        this.szulDatum = szulDatum;
+    public void setbornDate(LocalDate bornDate) {
+        this.bornDate = bornDate;
     }
 
     public String getphone() {
@@ -134,12 +134,12 @@ public class Person extends AbstractEntity {
         this.city = city;
     }
 
-    public String getkozMedia() {
-        return kozMedia;
+    public String getsocialMedia() {
+        return socialMedia;
     }
 
-    public void setkozMedia(String kozMedia) {
-        this.kozMedia = kozMedia;
+    public void setsocialMedia(String socialMedia) {
+        this.socialMedia = socialMedia;
     }
 
     public String getmessageApps() {
@@ -166,20 +166,20 @@ public class Person extends AbstractEntity {
         this.picture = picture;
     }
 
-    public String gettanulmanyok() {
-        return tanulmanyok;
+    public String getstudies() {
+        return studies;
     }
 
-    public void settanulmanyok(String tanulmanyok) {
-        this.tanulmanyok = tanulmanyok;
+    public void setstudies(String studies) {
+        this.studies = studies;
     }
 
-    public String getszakmaiTap() {
-        return szakmaiTap;
+    public String getprofExperience() {
+        return profExperience;
     }
 
-    public void setszakmaiTap(String szakmaiTap) {
-        this.szakmaiTap = szakmaiTap;
+    public void setprofExperience(String profExperience) {
+        this.profExperience = profExperience;
     }
 
     public Set<Language> getlanguage() {
@@ -190,20 +190,20 @@ public class Person extends AbstractEntity {
         this.language = language;
     }
 
-    public String getegyebKeszsegek() {
-        return egyebKeszsegek;
+    public String getotherSkill() {
+        return otherSkill;
     }
 
-    public void setegyebKeszsegek(String egyebKeszsegek) {
-        this.egyebKeszsegek = egyebKeszsegek;
+    public void setotherSkill(String otherSkill) {
+        this.otherSkill = otherSkill;
     }
 
-    public String getmotivaciosLevel() {
-        return motivaciosLevel;
+    public String getcoverLetter() {
+        return coverLetter;
     }
 
-    public void setmotivaciosLevel(String motivaciosLevel) {
-        this.motivaciosLevel = motivaciosLevel;
+    public void setcoverLetter(String coverLetter) {
+        this.coverLetter = coverLetter;
     }
 
 

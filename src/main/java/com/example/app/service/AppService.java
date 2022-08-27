@@ -198,7 +198,7 @@ public class AppService {
         SimpleDateFormat formatter1=new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date date1=formatter1.parse(sDate1);
-            person1.setszulDatum(date1);
+            person1.setbornDate(date1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -207,14 +207,14 @@ public class AppService {
         person1.setphone("0630-3564-874");
         person1.setaddress("Vasgyár utca 7/a");
         person1.setcity(city1);
-        person1.setkozMedia("facebook");
+        person1.setsocialMedia("facebook");
         person1.setmessageApps("messenger");
         person1.setwebSite("google.com");
         person1.setpicture("1.jpg");
-        person1.settanulmanyok("magyar, matek");
-        person1.setszakmaiTap("programozó, semmi");
-        person1.setegyebKeszsegek("vezetés, olvasás");
-        person1.setmotivaciosLevel("Egyszer volt hol nem volt");
+        person1.setstudies("magyar, matek");
+        person1.setprofExperience("programozó, semmi");
+        person1.setotherSkill("vezetés, olvasás");
+        person1.setcoverLetter("Egyszer volt hol nem volt");
         person1.setlanguage(nyelv1);
 
         Person person2 = new Person();
@@ -226,7 +226,7 @@ public class AppService {
         SimpleDateFormat formatter2=new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date date2=formatter2.parse(sDate2);
-            person2.setszulDatum(date2);
+            person2.setbornDate(date2);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -234,14 +234,14 @@ public class AppService {
         person2.setphone("0630-3564-874");
         person2.setaddress("Vasgyár utca 7/a");
         person2.setcity(city2);
-        person2.setkozMedia("facebook");
+        person2.setsocialMedia("facebook");
         person2.setmessageApps("messenger");
         person2.setwebSite("google.com");
         person2.setpicture("2.jpg");
-        person2.settanulmanyok("magyar, matek");
-        person2.setszakmaiTap("programozó, semmi");
-        person2.setegyebKeszsegek("vezetés, olvasás");
-        person2.setmotivaciosLevel("Egyszer volt hol nem volt");
+        person2.setstudies("magyar, matek");
+        person2.setprofExperience("programozó, semmi");
+        person2.setotherSkill("vezetés, olvasás");
+        person2.setcoverLetter("Egyszer volt hol nem volt");
         person2.setlanguage(nyelv2);
 
         personRepository.save(person1);

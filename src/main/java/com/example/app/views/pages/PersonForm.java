@@ -51,19 +51,19 @@ public class PersonForm extends FormLayout {
     TextField firstName         = new TextField("Vezetéknév");              // automatikus Bind-elés miatt a nevük itt egyezzen meg a Person osztályban lévő nevekkel!!!
     TextField lastName          = new TextField("Keresztnév");
     EmailField email            = new EmailField("Email");
-    DatePicker szulDatum        = new DatePicker ("Születési dátum");
+    DatePicker bornDate         = new DatePicker ("Születési dátum");
     TextField phone             = new TextField("Telefonszám");
     TextField address           = new TextField("Lakcím");
-    TextField kozMedia          = new TextField("Közösségi média");
+    TextField socialMedia       = new TextField("Közösségi média");
     TextField messageApps       = new TextField("Üzenetküldő appok");
     TextField webSite           = new TextField("Website");
-    TextField tanulmanyok       = new TextField("Tanulmányok");
-    TextField szakmaiTap        = new TextField("Szakmai Tapasztalat");
-    TextField egyebKeszsegek    = new TextField("Egyéb készségek");
-    //TextField motivaciosLevel   = new TextField("Motivációs levél");
+    TextField studies           = new TextField("Tanulmányok");
+    TextField profExperience    = new TextField("Szakmai Tapasztalat");
+    TextField otherSkill        = new TextField("Egyéb készségek");
+    //TextField coverLetter   = new TextField("Motivációs levél");
 
-    H5 h5 = new H5("Motivációs levél");
-    RichTextEditor motivaciosLevel = new RichTextEditor();
+    H5 h5                       = new H5("Motivációs levél");
+    RichTextEditor coverLetter  = new RichTextEditor();
 
    // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
@@ -100,23 +100,23 @@ public class PersonForm extends FormLayout {
 
        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();
-       // motivaciosLevel1.setValue(textArea.getValue());//Person::getmotivaciosLevel);
-       //motivaciosLevel1.setLabel("Motivációs levél");
+       // coverLetter1.setValue(textArea.getValue());//Person::getcoverLetter);
+       //coverLetter1.setLabel("Motivációs levél");
 
         add(
           firstName,
           lastName,
           email,
-          szulDatum,
+          bornDate,
           phone,
           address,
-          kozMedia,
+          socialMedia,
           messageApps,
           webSite,
-          tanulmanyok,
-          szakmaiTap,
-          egyebKeszsegek,
-          h5,motivaciosLevel,
+          studies,
+          profExperience,
+          otherSkill,
+          h5,coverLetter,
           picture,
           upload,
           scroller,

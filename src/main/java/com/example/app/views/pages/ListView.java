@@ -140,7 +140,7 @@ public class ListView extends VerticalLayout {
         grid.addColumn(person -> person.getlastName()).setHeader("Keresztnév");
         grid.addColumn(person -> person.getemail()).setHeader("Email");
         grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
-        grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Születési idő");
+        grid.addColumn(new LocalDateRenderer<>(Person::getbornDate, "YYYY. MM .dd.")).setHeader("Születési idő");
         grid.addColumn(person -> person.getlanguage().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
