@@ -46,7 +46,7 @@ public class StartingDataUpload extends VerticalLayout {
         this.service = service;
         this.serviceData = serviceData;
 
-        List<Language> nyelvismerets = serviceData.getNyelvismeret();
+        List<Language> languages = serviceData.getLanguage();
         List<Person> persons = serviceData.getPersonSerializer();
 
         addClassName("starting-data-upload");
@@ -61,7 +61,7 @@ public class StartingDataUpload extends VerticalLayout {
         PropertiesNull();
 
         // Nyelv adatok beírása az adatbázisba
-        NyelvGombrakattintas(nyelvismerets);
+        NyelvGombrakattintas(languages);
 
         // City adatok beírása az adatbázisba
         VarosGombraKattintas();
@@ -71,7 +71,7 @@ public class StartingDataUpload extends VerticalLayout {
 
     }
 
-    private void NyelvGombrakattintas(List<Language> nyelvismerets) {
+    private void NyelvGombrakattintas(List<Language> languages) {
         if(ConfigLanguageButton ==2) button1.setEnabled(false);
         button1.addClickListener(event -> {
             progressBar1.setIndeterminate(true);
@@ -80,7 +80,7 @@ public class StartingDataUpload extends VerticalLayout {
 
                 // ide jön a feltöltés
 
-                service.saveNyelvismeret(nyelvismerets);
+                service.saveLanguage(languages);
 
                 //this.getUI()..access(() -> {
                 //progressBar1.se
@@ -128,15 +128,15 @@ public class StartingDataUpload extends VerticalLayout {
             new Thread(()->{
                 for(Person pers : persons){
                     long rndCity = new RandomDataGenerator().nextLong(0, service.countCities());
-                    long rndNyelv= new RandomDataGenerator().nextLong(0, service.countNyelvismeret());
-                    long rndNyelv2= new RandomDataGenerator().nextLong(0, service.countNyelvismeret());
+                    long rndNyelv= new RandomDataGenerator().nextLong(0, service.countLanguage());
+                    long rndNyelv2= new RandomDataGenerator().nextLong(0, service.countLanguage());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
-                    //if(pers.getnyelvIsmeret()==null) System.out.println("null nyelv");
+                    //if(pers.getlanguage()==null) System.out.println("null nyelv");
                     pers.setcity(service.findAllCities().get((int)rndCity));//findByCity("1"));
-                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv));
-                    pers.getnyelvIsmeret().add(service.findAllNyelvismeret().get((int)rndNyelv2));
+                    pers.getlanguage().add(service.findAllLanguage().get((int)rndNyelv));
+                    pers.getlanguage().add(service.findAllLanguage().get((int)rndNyelv2));
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
-                    //pers.setnyelvIsmeret(service.findNyelvismeretByName("English"));
+                    //pers.setlanguage(service.findLanguageByName("English"));
                     personsok.add(pers);
                 }
                 service.savePerson(personsok);
@@ -150,7 +150,7 @@ public class StartingDataUpload extends VerticalLayout {
      * kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
      */
     private void PropertiesNull(){
-        if(service.findAllNyelvismeret().size()<10) ConfigLanguageButton =1; else ConfigLanguageButton =2;
+        if(service.findAllLanguage().size()<10) ConfigLanguageButton =1; else ConfigLanguageButton =2;
         if(service.findAllCities().size()<10) ConfigCityButton=1; else ConfigCityButton=2;
         if(service.findAllPersons().size()<2) ConfigPersonButton=1; else ConfigPersonButton=2;
         SetButtonAppPropertyValue(ConfigLanguageButton,ConfigCityButton,ConfigPersonButton);

@@ -81,7 +81,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new PersonForm(service.findAllCities(), service.findAllNyelvismeret());//, service);    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
+        form = new PersonForm(service.findAllCities(), service.findAllLanguage());//, service);    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
         form.setWidth("25em");
 
         form.addListener(PersonForm.SaveEvent.class, this::savePerson);
@@ -141,7 +141,7 @@ public class ListView extends VerticalLayout {
         grid.addColumn(person -> person.getemail()).setHeader("Email");
         grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
         grid.addColumn(new LocalDateRenderer<>(Person::getszulDatum, "YYYY. MM .dd.")).setHeader("Születési idő");
-        grid.addColumn(person -> person.getnyelvIsmeret().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
+        grid.addColumn(person -> person.getlanguage().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
         grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor

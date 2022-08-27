@@ -40,14 +40,14 @@ public class DataService {
         return null;
     }
 
-    public static List<Language> getNyelvismeret() {
+    public static List<Language> getLanguage() {
         return Arrays.asList(getItems(Language[].class, "languages.json"));
-        //List<Nyelvismeret> nyelvismerets = Arrays.asList(getItems(Nyelvismeret[].class, "languages.json"));
-        //return nyelvismerets;
+        //List<Language> languages = Arrays.asList(getItems(Language[].class, "languages.json"));
+        //return languages;
     }
 
-    public static List<Language> getNyelvismeret(int count) {
-        return getNyelvismeret().subList(0, count);
+    public static List<Language> getLanguage(int count) {
+        return getLanguage().subList(0, count);
     }
 
     public static List<Person> getPerson(){
@@ -130,7 +130,7 @@ public class DataService {
             JsonNode szakmaiTapNode = node.get("szakmaiTap");     String szakmaiTap = szakmaiTapNode.asText();      pers.setszakmaiTap(szakmaiTap);
             JsonNode egyebKeszsegekNode = node.get("egyebKeszsegek");     String egyebKeszsegek = egyebKeszsegekNode.asText();      pers.setegyebKeszsegek(egyebKeszsegek);
             JsonNode motivaciosLevelNode = node.get("motivaciosLevel");     String motivaciosLevel = motivaciosLevelNode.asText();      pers.setmotivaciosLevel(motivaciosLevel);
-            //JsonNode nyelvIsmeretNode = node.get("nyelvIsmeret");     String nyelvIsmeret = nyelvIsmeretNode.asText();      pers.setnyelvIsmeret(nyelvIsmeret);
+            //JsonNode languageNode = node.get("language");     String language = languageNode.asText();      pers.setlanguage(language);
 
 
             return pers;

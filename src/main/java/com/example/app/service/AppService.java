@@ -43,30 +43,30 @@ public class AppService {
         if(filterText == null || filterText.isEmpty() || dt == null){
             return personRepository.findAll();
         }else if(why.equals("LANG")){
-            /*List<Nyelvismeret> nyel = nyelvismeretRepository.searchByName(filterText);
+            /*List<Language> nyel = languageRepository.searchByName(filterText);
             List<Person> pers2 = new ArrayList<>();
-            for(Nyelvismeret ny: nyel){
-                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+            for(Language ny: nyel){
+                List<Person> pers3 =personRepository.searchByLanguage(ny);
                 for(Person p: pers3){
                     pers2.add(p);
                 }
-            }*/ // person -> person.getnyelvIsmeret().stream().map(Nyelvismeret::getName
+            }*/ // person -> person.getlanguage().stream().map(Language::getName
             List<Language> nyel = languageRepository.searchByName(filterText);
            /* List<Person> pers2 = new ArrayList<>();
-            for(Nyelvismeret ny: nyel){
-                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+            for(Language ny: nyel){
+                List<Person> pers3 =personRepository.searchByLanguage(ny);
                 for(Person p: pers3){
                     pers2.add(p);
                 }
             }*/
             List<Person> pers2 = new ArrayList<>();
-            /*for(Nyelvismeret ny: nyel){
-                List<Person> pers3 =personRepository.searchByNyelvismeret(ny);
+            /*for(Language ny: nyel){
+                List<Person> pers3 =personRepository.searchByLanguage(ny);
                 for(Person p: pers3){
                     pers2.add(p);
                 }
             }*/
-            //pers2 = nyelvismeret -> nyelvismeret.getPerson().steam().map(nyel);
+            //pers2 = language -> language.getPerson().steam().map(nyel);
             //System.out.println(nyel.size());
             return personRepository.findAll();
             //return pers2;
@@ -89,8 +89,8 @@ public class AppService {
         return null;
     }
 
-    public Language findNyelvismeretByName(String name){
-        List<Language> nyelvFindAll = findAllNyelvismeret();
+    public Language findLanguageByName(String name){
+        List<Language> nyelvFindAll = findAllLanguage();
         for(Language nyelv: nyelvFindAll){
             if(nyelv.getName().equals(name)) return nyelv;
         }
@@ -105,7 +105,7 @@ public class AppService {
         return cityRepository.count();
     }
 
-    public long countNyelvismeret(){
+    public long countLanguage(){
         return languageRepository.count();
     }
 
@@ -131,8 +131,8 @@ public class AppService {
         return Arrays.asList(getItems(Country[].class, "countries.json"));
     }*/
 
-    // Nyelvismeret Repository-s dolgok-
-    public List<Language> findAllNyelvismeret(){
+    // Language Repository-s dolgok-
+    public List<Language> findAllLanguage(){
         return languageRepository.findAll();
     }
 
@@ -148,13 +148,13 @@ public class AppService {
         }
     }
 
-    public void saveNyelvismeret(List<Language> nyelvismerets){
-        if(nyelvismerets == null){
+    public void saveLanguage(List<Language> languages){
+        if(languages == null){
             System.out.println("Nincsenek nyelvek");
         }
 
-        //nyelvismerets.stream()
-        for (Language ny: nyelvismerets) {
+        //languages.stream()
+        for (Language ny: languages) {
             languageRepository.save(ny);
             //System.out.println("1");
         }
@@ -178,16 +178,16 @@ public class AppService {
         cityRepository.save(city1);
         cityRepository.save(city2);
 
-        Nyelvismeret nyelv1 = new Nyelvismeret();
+        Language nyelv1 = new Language();
         nyelv1.setName("Angol");
-        Nyelvismeret nyelv2 = new Nyelvismeret();
+        Language nyelv2 = new Language();
         nyelv2.setName("Német");
-        Nyelvismeret nyelv3 = new Nyelvismeret();
+        Language nyelv3 = new Language();
         nyelv3.setName("Francia");
 
-        nyelvismeretRepository.save(nyelv1);
-        nyelvismeretRepository.save(nyelv2);
-        nyelvismeretRepository.save(nyelv3);
+        languageRepository.save(nyelv1);
+        languageRepository.save(nyelv2);
+        languageRepository.save(nyelv3);
 
         Person person1 = new Person();
         person1.setfirstName("Kiss");
@@ -215,7 +215,7 @@ public class AppService {
         person1.setszakmaiTap("programozó, semmi");
         person1.setegyebKeszsegek("vezetés, olvasás");
         person1.setmotivaciosLevel("Egyszer volt hol nem volt");
-        person1.setnyelvIsmeret(nyelv1);
+        person1.setlanguage(nyelv1);
 
         Person person2 = new Person();
         person2.setfirstName("Nagy");
@@ -242,7 +242,7 @@ public class AppService {
         person2.setszakmaiTap("programozó, semmi");
         person2.setegyebKeszsegek("vezetés, olvasás");
         person2.setmotivaciosLevel("Egyszer volt hol nem volt");
-        person2.setnyelvIsmeret(nyelv2);
+        person2.setlanguage(nyelv2);
 
         personRepository.save(person1);
         personRepository.save(person2);

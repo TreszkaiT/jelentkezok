@@ -61,10 +61,10 @@ public class Person extends AbstractEntity {
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
     // így ezt az Annotációt rá kell tenni. Azaz csinál hozzá egy külön kis táblát, és abból lesznek hozzácsatolva az egyes műfajok a Movies tábla adott filmjéhez
     //@ElementCollection
-    //private Set<String> nyelvIsmeret = new HashSet<>();
+    //private Set<String> language = new HashSet<>();
     //@NotNull
-    @ManyToMany(fetch = FetchType.EAGER)        // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy getNyelvismeretre, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
-    private Set<Language> nyelvIsmeret = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)        // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy language-re, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
+    private Set<Language> language = new HashSet<>();
 
     //@ElementCollection
     //private Set<String> szakmaiTap;
@@ -182,12 +182,12 @@ public class Person extends AbstractEntity {
         this.szakmaiTap = szakmaiTap;
     }
 
-    public Set<Language> getnyelvIsmeret() {
-        return nyelvIsmeret;
+    public Set<Language> getlanguage() {
+        return language;
     }
 
-    public void setnyelvIsmeret(Set<Language> nyelvIsmeret) {
-        this.nyelvIsmeret = nyelvIsmeret;
+    public void setlanguage(Set<Language> language) {
+        this.language = language;
     }
 
     public String getegyebKeszsegek() {

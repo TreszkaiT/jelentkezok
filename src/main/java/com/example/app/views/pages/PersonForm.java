@@ -75,7 +75,7 @@ public class PersonForm extends FormLayout {
 
     TextField picture           = new TextField("Fénykép");
 
-    MultiselectComboBox<Language> nyelvIsmeret    = new MultiselectComboBox<>("Nyelvismeret");
+    MultiselectComboBox<Language> language    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
 
     Button save     = new Button("Mentés");
@@ -84,7 +84,7 @@ public class PersonForm extends FormLayout {
 
     private Person person;
 
-    public PersonForm(List<City> cities, List<Language> nyelvIsmeretek){//}, AppService services) {
+    public PersonForm(List<City> cities, List<Language> languages){//}, AppService services) {
 
         addClassName("contact-form");
 
@@ -93,8 +93,8 @@ public class PersonForm extends FormLayout {
         city.setItems(cities);
         city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
 
-        nyelvIsmeret.setItems(nyelvIsmeretek);
-        nyelvIsmeret.setItemLabelGenerator(Language::getName);
+        language.setItems(languages);
+        language.setItemLabelGenerator(Language::getName);
 
         h5.setClassName("h5-style");
 
@@ -121,7 +121,7 @@ public class PersonForm extends FormLayout {
           upload,
           scroller,
           city,
-          nyelvIsmeret,
+          language,
           createButtonLayout()
         );
 

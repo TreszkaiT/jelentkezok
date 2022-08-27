@@ -18,11 +18,11 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
             "or lower(c.lastName) like lower(concat('%', :searchTerm, '%'))")
     List<Person> searchByName(@Param("searchTerm")String filterText); // ez egy JPQL Query
 
-    @Query("select c from Person c where c.nyelvIsmeret=?1")
-    List<Person> searchByNyelvismeretId(UUID filterText); // ez egy JPQL Query
+    @Query("select c from Person c where c.language=?1")
+    List<Person> searchByLanguageId(UUID filterText); // ez egy JPQL Query
 
     @Query("select c from Language c where c.person=?1")
-    List<Person> searchByNyelvismeret(Language filterText); // ez egy JPQL Query
+    List<Person> searchByLanguage(Language filterText); // ez egy JPQL Query
 
     @Query("select c from Person c where c.szulDatum=?1")
     List<Person> searchByDate(LocalDate filterText);

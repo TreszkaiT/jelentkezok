@@ -15,7 +15,7 @@
 	"szakmaiTap": "nincs",
 	"egyebKeszsegek": "jogsi, beszédkészség",
 	"motivaciosLevel": "\t[{\"insert\":\"fdsfs\\n\"}]",
-	"nyelvIsmeret": "1"
+	"language": "1"
   },
   {
     "firstName": "Nagy",
@@ -33,6 +33,6 @@
 	"szakmaiTap": "nincs",
 	"egyebKeszsegek": "jogsi, beszédkészség",
 	"motivaciosLevel": "\t[{\"insert\":\"fdsfs\\n\"}]",
-	"nyelvIsmeret": "1"
+	"language": "1"
   }  
 ]
