@@ -62,10 +62,3 @@
 .h5-style {
   color: #7f7f7f;
 }
-.login-view {
-  background-image: url("images/art_back.jpg"); /* ("../../../src/main/resources/images/art_back.jpg"); */
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  height: 500px;
-}
