@@ -20,51 +20,32 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
     public LoginView(){
         addClassName("login-view");
-        setSizeFull();
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
+        //setSizeFull();
+        //setAlignItems(Alignment.CENTER);
+        //setJustifyContentMode(JustifyContentMode.CENTER);
 
-        loginOverlay.setOpened(true);
-        loginOverlay.getElement().setAttribute("no-autofocus", "");
-        loginOverlay.getElement().getThemeList().add("dark");
-
-        loginOverlay.setI18n(createLoginI18n());
-
-
+        //LoginOverlay loginOverlay = new LoginOverlay();
         loginOverlay.setTitle("Önéletrajz adatok bevitele");
         loginOverlay.setDescription("Készítette: T.Tamás");
         loginOverlay.setOpened(true);
         loginOverlay.setError(true);
-
-        loginOverlay.setI18n(createLoginI18n());
-
-        //loginOverlay.setI18n(i18n);
         loginOverlay.setAction("login");
-        loginOverlay.getElement().setAttribute("no-autofocus", "");
-        loginOverlay.getElement().getThemeList().add("dark");
-
-
-
+        loginOverlay.setI18n(createLoginI18n());
 
         add(
                 //new H1("Önéletrajz adatok bevitele"),
                 loginOverlay
                 //login
         );
-
+        //loginOverlay.setOpened(true);
+        loginOverlay.getElement().setAttribute("no-autofocus", "");
+        loginOverlay.getElement().getThemeList().add("dark");
         this.getElement().getStyle().set("background-image", "images/art_back.jpg");
 
     }
 
     private LoginI18n createLoginI18n(){
         LoginI18n i18n = LoginI18n.createDefault();
-
-	/*  not sure if needed
-	i18n.setHeader(new LoginI18n.Header());
-	i18n.setForm(new LoginI18n.Form());
-	i18n.setErrorMessage(new LoginI18n.ErrorMessage());
-	*/
-        //LoginI18n i18n = LoginI18n.createDefault();
 
         //LoginI18n.Header i18nHeader = i18n.getHeader();
         //i18nHeader.setTitle("Önéletrajz adatok bevitele");

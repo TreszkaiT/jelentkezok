@@ -9,7 +9,7 @@
 .login-view vaadin-login-form {
     align-items: center;
     display: flex;
-    max-width: 300px;
+    max-width: 400px;
 }
 .login-view vaadin-login-form-wrapper {
     background-image: none;
