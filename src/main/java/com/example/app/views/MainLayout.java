@@ -58,6 +58,7 @@ public class MainLayout extends AppLayout {
         header.setWidth("100%");
         header.addClassNames("py-0", "px-m");
         header.getElement().getThemeList().add("dark");
+        header.addClassNames("header-border");
 
         addToNavbar(header);
 

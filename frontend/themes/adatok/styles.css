@@ -19,3 +19,8 @@ a[highlight] {
     height: 100%; /*500px;*/
     width: 100%;
 }
+.header-border {
+    border-bottom: ridge;
+    border-color: dodgerblue;
+    border-width: 7px;
+}
