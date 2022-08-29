@@ -9,14 +9,18 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -57,13 +61,33 @@ public class PersonForm extends FormLayout {
     TextField socialMedia       = new TextField("Közösségi média");
     TextField messageApps       = new TextField("Üzenetküldő appok");
     TextField webSite           = new TextField("Website");
-    TextField studies           = new TextField("Tanulmányok");
-    TextField profExperience    = new TextField("Szakmai Tapasztalat");
-    TextField otherSkill        = new TextField("Egyéb készségek");
-    //TextField coverLetter   = new TextField("Motivációs levél");
 
-    H5 h5                       = new H5("Motivációs levél");
+    //TextField studies           = new TextField("Tanulmányok");
+    Button  divstudiesButton     = new Button("Hozzáad");
+    H5 h5studies = new H5("Tanulmányok");
+    Div divstudies = new Div();
+
+
+
+    TextField profExperience    = new TextField("Szakmai Tapasztalat");
+    Button  divProfExperienceButton     = new Button("Hozzáad");
+    H5 h5ProfExperience = new H5("Szakmai Tapasztalat");
+    Div divProfExperience = new Div();
+
+
+
+    TextField otherSkill        = new TextField("Egyéb készségek");
+
+
+
+    //TextField coverLetter   = new TextField("Motivációs levél");
+    Button divCoverLetter = new Button("Szerkesztés");
+    H5 h5coverLetter = new H5("Motivációs levél");
+    //Scroller scroller2 = new Scroller();
     RichTextEditor coverLetter  = new RichTextEditor();
+
+
+
 
    // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
@@ -74,6 +98,8 @@ public class PersonForm extends FormLayout {
     Scroller scroller = new Scroller();
 
     TextField picture           = new TextField("Fénykép");
+
+
 
     MultiselectComboBox<Language> language    = new MultiselectComboBox<>("Nyelvismeret");
     ComboBox<City>          city            = new ComboBox<>("Város");
@@ -96,7 +122,8 @@ public class PersonForm extends FormLayout {
         language.setItems(languages);
         language.setItemLabelGenerator(Language::getName);
 
-        h5.setClassName("h5-style");
+        h5coverLetter.setClassName("h5-style");
+        h5ProfExperience.setClassName("h5-style");
 
        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
        // textArea.setWidthFull();
@@ -113,10 +140,16 @@ public class PersonForm extends FormLayout {
           socialMedia,
           messageApps,
           webSite,
-          studies,
-          profExperience,
+          //studies,
+                h5studies, divstudiesButton, divstudies,
+          //profExperience,
+                h5ProfExperience, divProfExperienceButton, divProfExperience,
           otherSkill,
-          h5,coverLetter,
+                h5coverLetter, divCoverLetter,//coverLetterButt,
+               // coverLetter,
+                //scroller2
+        //coverLetter,
+
           picture,
           upload,
           scroller,
@@ -125,14 +158,20 @@ public class PersonForm extends FormLayout {
           createButtonLayout()
         );
 
+        divProfExperience.setWidthFull();
 
         UploadBeallitasa();
 
         UploadUtanKepBetoltese();
 
+        DialgProfExperience();
+        DialgStudies();
+        DialgCoverLetter(coverLetter);
+
         //this.getElement().getThemeList().add("dark");
 
     }
+
 
     /**
      * Image gomb figyelése, hibakezelés
@@ -351,4 +390,220 @@ public class PersonForm extends FormLayout {
                                                                   ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
+
+
+    /**
+     * Create Dialog window Szakmai Tapasztalat
+     */
+    private void DialgProfExperience() {
+        divProfExperienceButton.addClickListener(event -> {
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Add note");
+
+            dialog.getHeader().add(createHeaderLayout());
+
+
+            VerticalLayout dialogLayout = createDialogLayout();
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonClose = new Button("Töröl");
+            add(dialog);
+            /*scroller2.setContent(button);
+            scroller2.setWidthFull();//("200px");
+            scroller2.setHeight("200px");*/
+            //H5 h5 = new H5(" ");
+
+            Scroller sc1 = new Scroller();
+            HorizontalLayout hl2 = new HorizontalLayout();
+            hl2.add(buttonShow, buttonClose);
+
+
+            //div1.add(hl2);
+            sc1.setContent(hl2);
+
+            divProfExperience.add(sc1);//buttonShow, buttonClose, h5);
+
+            buttonClose.addClickListener(e -> sc1.setContent(null));
+
+            createFooter(dialog);
+        });
+    }
+    private static H2 createHeaderLayout() {
+        H2 headline = new H2("Szakmai Tapasztalat");
+        headline.addClassName("draggable");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
+                .set("font-weight", "bold")
+                .set("cursor", "move")
+                .set("padding", "var(--lumo-space-m) 0")
+                .set("flex", "1");
+
+        return headline;
+    }
+    private static VerticalLayout createDialogLayout() {
+
+        TextField titleField = new TextField("Munkahely");
+        DatePicker dtFrom   = new DatePicker("Tól");
+        DatePicker dtTo     = new DatePicker("ig");
+        HorizontalLayout hzLay1 = new HorizontalLayout();
+        hzLay1.add(dtFrom, dtTo);
+        TextArea descriptionArea = new TextArea("Megjegyzés");
+
+        VerticalLayout fieldLayout = new VerticalLayout(titleField,
+                hzLay1,
+                descriptionArea);
+        fieldLayout.setSpacing(false);
+        fieldLayout.setPadding(false);
+        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
+
+        return fieldLayout;
+    }
+
+    private static void createFooter(Dialog dialog) {
+        Button cancelButton = new Button("Mégsem", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> dialog.close());
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
+    }
+
+    /**
+     * Create Dialog window Tanulmányok
+     */
+    private void DialgStudies() {
+        divstudiesButton.addClickListener(event -> {
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Add note");
+
+            dialog.getHeader().add(createHeaderLayoutStudies());
+
+
+            VerticalLayout dialogLayout = createDialogLayoutStudies();
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonClose = new Button("Töröl");
+            add(dialog);
+            /*scroller2.setContent(button);
+            scroller2.setWidthFull();//("200px");
+            scroller2.setHeight("200px");*/
+            //H5 h5 = new H5(" ");
+
+            Scroller sc1 = new Scroller();
+            HorizontalLayout hl2 = new HorizontalLayout();
+            hl2.add(buttonShow, buttonClose);
+
+
+            //div1.add(hl2);
+            sc1.setContent(hl2);
+
+            divstudies.add(sc1);//buttonShow, buttonClose, h5);
+
+            buttonClose.addClickListener(e -> sc1.setContent(null));
+
+            createFooterStudies(dialog);
+        });
+    }
+    private static H2 createHeaderLayoutStudies() {
+        H2 headline = new H2("Tanulmányok");
+        headline.addClassName("draggable");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
+                .set("font-weight", "bold")
+                .set("cursor", "move")
+                .set("padding", "var(--lumo-space-m) 0")
+                .set("flex", "1");
+
+        return headline;
+    }
+    private static VerticalLayout createDialogLayoutStudies() {
+
+        TextField titleField = new TextField("Iskola neve");
+        DatePicker dtFrom   = new DatePicker("Tól");
+        DatePicker dtTo     = new DatePicker("ig");
+        HorizontalLayout hzLay1 = new HorizontalLayout();
+        hzLay1.add(dtFrom, dtTo);
+        TextArea descriptionArea = new TextArea("Megjegyzés");
+
+        VerticalLayout fieldLayout = new VerticalLayout(titleField,
+                hzLay1,
+                descriptionArea);
+        fieldLayout.setSpacing(false);
+        fieldLayout.setPadding(false);
+        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
+
+        return fieldLayout;
+    }
+
+    private static void createFooterStudies(Dialog dialog) {
+        Button cancelButton = new Button("Mégsem", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> dialog.close());
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
+    }
+
+
+    /**
+     * Create Dialog window Motivációs levél
+     */
+    private void DialgCoverLetter(RichTextEditor coverLetter) {
+
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Motivációs levél");
+
+            dialog.getHeader().add(createHeaderLayoutCoverLetter());
+
+
+            VerticalLayout dialogLayout = createDialogLayoutCoverLetter(coverLetter);
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            createFooterCoverLetter(dialog);
+
+            add(dialog);
+
+            divCoverLetter.addClickListener(event -> dialog.open());
+    }
+    private static H2 createHeaderLayoutCoverLetter() {
+        H2 headline = new H2("Tanulmányok");
+        headline.addClassName("draggable");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
+                .set("font-weight", "bold")
+                .set("cursor", "move")
+                .set("padding", "var(--lumo-space-m) 0")
+                .set("flex", "1");
+
+        return headline;
+    }
+    private static VerticalLayout createDialogLayoutCoverLetter(RichTextEditor coverLetter) {
+
+        //RichTextEditor coverLetter  = new RichTextEditor();
+
+        VerticalLayout fieldLayout = new VerticalLayout(coverLetter);
+        fieldLayout.setSpacing(false);
+        fieldLayout.setPadding(false);
+        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
+
+        return fieldLayout;
+    }
+
+    private static void createFooterCoverLetter(Dialog dialog) {
+        Button cancelButton = new Button("Mégsem", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> dialog.close());
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
+    }
+
 }
