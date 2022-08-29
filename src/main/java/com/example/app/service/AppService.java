@@ -9,10 +9,7 @@ import com.example.app.data.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -40,8 +37,12 @@ public class AppService {
     // Person Repository-s dolgok-
 
     public List<Person> findAllPersons(String filterText, LocalDate dt, String why){
-        if(filterText == null || filterText.isEmpty() || dt == null){
+        if(filterText == null || filterText.isEmpty() || dt == null) {
             return personRepository.findAll();
+        /*} else {
+            //return personRepository.searchByName(filterText, dt, why);//searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
+            return personRepository.searchByName(filterText, dt, why);//searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
+        }*/
         }else if(why.equals("LANG")){
             /*List<Language> nyel = languageRepository.searchByName(filterText);
             List<Person> pers2 = new ArrayList<>();
@@ -50,25 +51,38 @@ public class AppService {
                 for(Person p: pers3){
                     pers2.add(p);
                 }
-            }*/ // person -> person.getlanguage().stream().map(Language::getName
+            } // person -> person.getlanguage().stream().map(Language::getName
+            */
+            //List<Language> nyel = languageRepository.searchByNameLike(filterText);
             List<Language> nyel = languageRepository.searchByName(filterText);
-           /* List<Person> pers2 = new ArrayList<>();
+
+            Set<Language> set1 = new HashSet<>();
+            for (Language t : nyel)
+                set1.add(t);
+
+            //Set<Person> pers2 =personRepository.searchByLanguage(set1);
+            /*List<Person> pers2 = new ArrayList<>();
+            for(Language ny: nyel){
+                Set<Person> pers3 =personRepository.searchByLanguage(ny);
+                for(Person p: pers3){
+                    pers2.add(p);
+                }
+            }*//*
+            List<Person> pers2 = new ArrayList<>();
             for(Language ny: nyel){
                 List<Person> pers3 =personRepository.searchByLanguage(ny);
                 for(Person p: pers3){
                     pers2.add(p);
                 }
-            }*/
-            List<Person> pers2 = new ArrayList<>();
-            /*for(Language ny: nyel){
-                List<Person> pers3 =personRepository.searchByLanguage(ny);
-                for(Person p: pers3){
-                    pers2.add(p);
-                }
-            }*/
+            }
             //pers2 = language -> language.getPerson().steam().map(nyel);
-            //System.out.println(nyel.size());
+            */
+
+            //System.out.println(nyel.size()+" "+pers2.size());//+" "+pers2.size());
+
+
             return personRepository.findAll();
+
             //return pers2;
         }else if(why.equals("DATE")){
             return personRepository.searchByDate(dt);

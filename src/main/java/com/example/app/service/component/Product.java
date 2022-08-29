@@ -19,9 +19,7 @@ public class Product {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) { this.title = title; }           // a Setter miatt fér hozzá a Spring, és tuja beleinjektálni az értékeket
 
     public Double getVersion() {
         return version;

@@ -66,6 +66,8 @@ public class ListView extends VerticalLayout {
     private void updateList(String why) {
         LocalDate date = LocalDate.of(2022, 8, 23);
 
+        //grid.setItems(service.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
+
         if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
         else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextLang.getValue(), date, why));
         else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));

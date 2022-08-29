@@ -32,11 +32,12 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
     }
 
     /**
-     * ignore Image folder
+     * no ignore Image folder
      * Allows access to static resources, bypassing Spring security.
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/h2-console/**");       // minden kép mappában lévő fájlt letiltunk
         web.ignoring().antMatchers("/images/**");       // minden kép mappában lévő fájlt letiltunk
         super.configure(web);
     }
