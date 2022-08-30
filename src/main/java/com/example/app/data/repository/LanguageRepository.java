@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+// JpaRepository<User, Long>
 public interface LanguageRepository extends JpaRepository<Language, UUID> {
 
     @Query("select c from Language c " +
