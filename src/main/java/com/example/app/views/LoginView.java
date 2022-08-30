@@ -1,5 +1,6 @@
 package com.example.app.views;
 
+import com.example.app.service.component.Product;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -16,14 +17,17 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
     private LoginForm login = new LoginForm();
    private  LoginOverlay loginOverlay = new LoginOverlay();
 
-    public LoginView(){
+   private Product product;
+
+    public LoginView(Product product){
+        this.product = product;
         addClassName("login-view");
         //setSizeFull();
         //setAlignItems(Alignment.CENTER);
         //setJustifyContentMode(JustifyContentMode.CENTER);
 
         //LoginOverlay loginOverlay = new LoginOverlay();
-        loginOverlay.setTitle("Önéletrajz adatok bevitele");
+        loginOverlay.setTitle("Önéletrajz adatokat tároló alkalmazás v."+product.getVersion());
         loginOverlay.setDescription("Készítette: T.Tamás");
         loginOverlay.setOpened(true);
         loginOverlay.setError(true);

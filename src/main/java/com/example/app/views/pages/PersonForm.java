@@ -574,7 +574,7 @@ public class PersonForm extends FormLayout {
             divCoverLetter.addClickListener(event -> dialog.open());
     }
     private static H2 createHeaderLayoutCoverLetter() {
-        H2 headline = new H2("Tanulmányok");
+        H2 headline = new H2("Motivációs levél");
         headline.addClassName("draggable");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em")
                 .set("font-weight", "bold")
