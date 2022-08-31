@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
+import com.example.app.data.entity.Study;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -165,6 +166,7 @@ public class PersonForm extends FormLayout {
         UploadUtanKepBetoltese();
 
         DialgProfExperience();
+        showStudiesList();
         DialgStudies();
         DialgCoverLetter(coverLetter);
 
@@ -340,6 +342,7 @@ public class PersonForm extends FormLayout {
     public void setPerson(Person person){
         this.person = person;
         binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
+        showStudiesList();
     }
 
     private void validateAndSave() {
@@ -509,6 +512,47 @@ public class PersonForm extends FormLayout {
 
             createFooterStudies(dialog);
         });
+    }
+
+    private void showStudiesList(){
+        divstudies.removeAll();
+        if (null == person){
+            return;
+        }
+        for (Study study : person.getstudies()) {
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Add note");
+
+            dialog.getHeader().add(createHeaderLayoutStudies());
+
+
+            VerticalLayout dialogLayout = createDialogLayoutStudies();
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonClose = new Button("Töröl");
+            add(dialog);
+            /*scroller2.setContent(button);
+            scroller2.setWidthFull();//("200px");
+            scroller2.setHeight("200px");*/
+            //H5 h5 = new H5(" ");
+
+            Scroller sc1 = new Scroller();
+            HorizontalLayout hl2 = new HorizontalLayout();
+            hl2.add(buttonShow, buttonClose);
+
+
+            //div1.add(hl2);
+            sc1.setContent(hl2);
+
+            divstudies.add(sc1);//buttonShow, buttonClose, h5);
+
+            buttonClose.addClickListener(e -> sc1.setContent(null));
+
+            createFooterStudies(dialog);
+        }
     }
     private static H2 createHeaderLayoutStudies() {
         H2 headline = new H2("Tanulmányok");

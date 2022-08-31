@@ -1,14 +1,13 @@
 package com.example.app.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -46,8 +45,8 @@ public class Person extends AbstractEntity {
     @NotEmpty
     private String picture = "";
 
-    @NotEmpty
-    private String studies = "";
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Study> studies = new ArrayList<>();
 
     @NotEmpty
     private String profExperience = "";
@@ -63,15 +62,15 @@ public class Person extends AbstractEntity {
     //@ElementCollection
     //private Set<String> language = new HashSet<>();
     //@NotNull
-    @ManyToMany(fetch = FetchType.EAGER)        // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy language-re, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
+    @ManyToMany(fetch = FetchType.EAGER)
+    // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy language-re, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
     private Set<Language> language = new HashSet<>();
 
     //@ElementCollection
     //private Set<String> profExperience;
 
-
-
-    public Person() {}
+    public Person() {
+    }
 
     @Override
     public String toString() {
@@ -166,11 +165,11 @@ public class Person extends AbstractEntity {
         this.picture = picture;
     }
 
-    public String getstudies() {
+    public List<Study> getstudies() {
         return studies;
     }
 
-    public void setstudies(String studies) {
+    public void setstudies(List<Study> studies) {
         this.studies = studies;
     }
 
@@ -205,11 +204,6 @@ public class Person extends AbstractEntity {
     public void setcoverLetter(String coverLetter) {
         this.coverLetter = coverLetter;
     }
-
-
-
-
-
 
 
 }
