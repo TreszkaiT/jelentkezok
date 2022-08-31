@@ -34,20 +34,20 @@ public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecif
     List<Person> searchByName(@Param("searchTerm")String filterText, LocalDate dt, String lang); // ez egy JPQL Query*/
 
     default List<Person> complexSearch(String person, LocalDate date, String lang) {
-        if ((null == person || person.isEmpty()) && null == date && (null == lang || person.isEmpty())) {
+        if ((null == person || person.isEmpty()) && null == date && (null == lang || lang.isEmpty())) {
             return findAll();
         }
         Specification<Person> condition = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (null != person && !person.isEmpty()) {
-                predicates.add(builder.like(root.get("firstName"), "%" + person + "%"));
-                predicates.add(builder.like(root.get("lastName"), "%" + person + "%"));
+                predicates.add(builder.like(builder.upper(root.get("firstName")), "%" + person.toUpperCase() + "%"));
+                predicates.add(builder.like(builder.upper(root.get("lastName")), "%" + person.toUpperCase() + "%"));
             }
             if (null != date) {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("bornDate"), date));
             }
             if (null != lang && !lang.isEmpty()) {
-                predicates.add(builder.like(root.join("language").get("name"), "%" + lang + "%"));
+                predicates.add(builder.like(builder.upper(root.join("language").get("name")), "%" + lang.toUpperCase() + "%"));
             }
 
             return builder.or(predicates.toArray(new Predicate[predicates.size()]));
