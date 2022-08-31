@@ -167,7 +167,7 @@ public class PersonForm extends FormLayout {
 
         DialgProfExperience();
         showStudiesList();
-        DialgStudies();
+//        DialgStudies();
         DialgCoverLetter(coverLetter);
 
         //this.getElement().getThemeList().add("dark");
@@ -477,42 +477,42 @@ public class PersonForm extends FormLayout {
     /**
      * Create Dialog window Tanulmányok
      */
-    private void DialgStudies() {
-        divstudiesButton.addClickListener(event -> {
-            Dialog dialog = new Dialog();
-            dialog.getElement().setAttribute("aria-label", "Add note");
-
-            dialog.getHeader().add(createHeaderLayoutStudies());
-
-
-            VerticalLayout dialogLayout = createDialogLayoutStudies();
-            dialog.add(dialogLayout);
-            dialog.setModal(false);
-            dialog.setDraggable(true);
-
-            Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl");
-            add(dialog);
-            /*scroller2.setContent(button);
-            scroller2.setWidthFull();//("200px");
-            scroller2.setHeight("200px");*/
-            //H5 h5 = new H5(" ");
-
-            Scroller sc1 = new Scroller();
-            HorizontalLayout hl2 = new HorizontalLayout();
-            hl2.add(buttonShow, buttonClose);
-
-
-            //div1.add(hl2);
-            sc1.setContent(hl2);
-
-            divstudies.add(sc1);//buttonShow, buttonClose, h5);
-
-            buttonClose.addClickListener(e -> sc1.setContent(null));
-
-            createFooterStudies(dialog);
-        });
-    }
+//    private void DialgStudies() {
+//        divstudiesButton.addClickListener(event -> {
+//            Dialog dialog = new Dialog();
+//            dialog.getElement().setAttribute("aria-label", "Add note");
+//
+//            dialog.getHeader().add(createHeaderLayoutStudies());
+//
+//
+//            VerticalLayout dialogLayout = createDialogLayoutStudies();
+//            dialog.add(dialogLayout);
+//            dialog.setModal(false);
+//            dialog.setDraggable(true);
+//
+//            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+//            Button buttonClose = new Button("Töröl");
+//            add(dialog);
+//            /*scroller2.setContent(button);
+//            scroller2.setWidthFull();//("200px");
+//            scroller2.setHeight("200px");*/
+//            //H5 h5 = new H5(" ");
+//
+//            Scroller sc1 = new Scroller();
+//            HorizontalLayout hl2 = new HorizontalLayout();
+//            hl2.add(buttonShow, buttonClose);
+//
+//
+//            //div1.add(hl2);
+//            sc1.setContent(hl2);
+//
+//            divstudies.add(sc1);//buttonShow, buttonClose, h5);
+//
+//            buttonClose.addClickListener(e -> sc1.setContent(null));
+//
+//            createFooterStudies(dialog);
+//        });
+//    }
 
     private void showStudiesList(){
         divstudies.removeAll();
@@ -525,9 +525,8 @@ public class PersonForm extends FormLayout {
 
             dialog.getHeader().add(createHeaderLayoutStudies());
 
-
-            VerticalLayout dialogLayout = createDialogLayoutStudies();
-            dialog.add(dialogLayout);
+            StudyForm studyForm;
+            dialog.add(studyForm = createDialogLayoutStudies(study));
             dialog.setModal(false);
             dialog.setDraggable(true);
 
@@ -551,7 +550,7 @@ public class PersonForm extends FormLayout {
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
-            createFooterStudies(dialog);
+            createFooterStudies(dialog, studyForm);
         }
     }
     private static H2 createHeaderLayoutStudies() {
@@ -565,29 +564,21 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-    private static VerticalLayout createDialogLayoutStudies() {
-
-        TextField titleField = new TextField("Iskola neve");
-        DatePicker dtFrom   = new DatePicker("Tól");
-        DatePicker dtTo     = new DatePicker("ig");
-        HorizontalLayout hzLay1 = new HorizontalLayout();
-        hzLay1.add(dtFrom, dtTo);
-        TextArea descriptionArea = new TextArea("Megjegyzés");
-
-        VerticalLayout fieldLayout = new VerticalLayout(titleField,
-                hzLay1,
-                descriptionArea);
-        fieldLayout.setSpacing(false);
-        fieldLayout.setPadding(false);
-        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+    private static StudyForm createDialogLayoutStudies(Study study) {
+        StudyForm fieldLayout = new StudyForm(study);
+//        fieldLayout.setSpacing(false);
+//        fieldLayout.setPadding(false);
+//        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
-
         return fieldLayout;
     }
 
-    private static void createFooterStudies(Dialog dialog) {
+    private static void createFooterStudies(Dialog dialog, StudyForm studyForm) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
-        Button saveButton = new Button("Mentés", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> {
+            studyForm.save();
+            dialog.close();
+        });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         dialog.getFooter().add(cancelButton);

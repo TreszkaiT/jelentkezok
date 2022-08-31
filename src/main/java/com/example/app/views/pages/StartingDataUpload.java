@@ -141,16 +141,17 @@ public class StartingDataUpload extends VerticalLayout {
                     {
                         Study study = new Study();
                         study.setNameSchool("Test1 Iskola");
-                        study.setFrom(LocalDate.of(1977,11,12));
-                        study.setFrom(LocalDate.of(1978,11,12));
+                        study.setFormDate(LocalDate.of(1977,11,12));
+                        study.setToDate(LocalDate.of(1978,11,12));
                         pers.getstudies().add(study);
                         study.setPerson(pers);
                     }
                     {
                         Study study = new Study();
                         study.setNameSchool("Maosidik Iskola");
-                        study.setFrom(LocalDate.of(1979,9,12));
-                        study.setFrom(LocalDate.of(1981,11,12));
+                        study.setFormDate(LocalDate.of(1979,9,12));
+                        study.setToDate(LocalDate.of(1981,11,12));
+                        study.setComment("ez egy megjegyzes");
                         pers.getstudies().add(study);
                         study.setPerson(pers);
                     }
