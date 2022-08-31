@@ -1,6 +1,10 @@
 package com.example.app.views.pages;
 
-import com.example.app.data.entity.*;
+import com.example.app.data.entity.City;
+import com.example.app.data.entity.Language;
+import com.example.app.data.entity.Person;
+import com.example.app.data.entity.Study;
+import com.example.app.data.entity.ProfExperience;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -9,10 +13,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -53,39 +54,44 @@ public class PersonForm extends FormLayout {
 
     Binder<Person> binder = new BeanValidationBinder<>(Person.class);             // összekapcsol egy modul objektumor egy Components-el    BeanValidationBinder:a Person osztály validation Annotációit használja a formelemkre is, így már nekünk ezt nem kell megtenni a nézetnél külön
 
-    TextField firstName = new TextField("Vezetéknév");              // automatikus Bind-elés miatt a nevük itt egyezzen meg a Person osztályban lévő nevekkel!!!
-    TextField lastName = new TextField("Keresztnév");
-    EmailField email = new EmailField("Email");
-    DatePicker bornDate = new DatePicker("Születési dátum");
-    TextField phone = new TextField("Telefonszám");
-    TextField address = new TextField("Lakcím");
-    TextField socialMedia = new TextField("Közösségi média");
-    TextField messageApps = new TextField("Üzenetküldő appok");
-    TextField webSite = new TextField("Website");
+    TextField firstName         = new TextField("Vezetéknév");              // automatikus Bind-elés miatt a nevük itt egyezzen meg a Person osztályban lévő nevekkel!!!
+    TextField lastName          = new TextField("Keresztnév");
+    EmailField email            = new EmailField("Email");
+    DatePicker bornDate         = new DatePicker ("Születési dátum");
+    TextField phone             = new TextField("Telefonszám");
+    TextField address           = new TextField("Lakcím");
+    TextField socialMedia       = new TextField("Közösségi média");
+    TextField messageApps       = new TextField("Üzenetküldő appok");
+    TextField webSite           = new TextField("Website");
 
     //TextField studies           = new TextField("Tanulmányok");
-    Button divstudiesButton = new Button("Hozzáad");
+    Button  divstudiesButton     = new Button("Hozzáad");
     H5 h5studies = new H5("Tanulmányok");
     Div divstudies = new Div();
 
 
-    TextField profExperience = new TextField("Szakmai Tapasztalat");
-    Button divProfExperienceButton = new Button("Hozzáad");
+
+    TextField profExperience    = new TextField("Szakmai Tapasztalat");
+    Button  divProfExperienceButton     = new Button("Hozzáad");
     H5 h5ProfExperience = new H5("Szakmai Tapasztalat");
     Div divProfExperience = new Div();
 
 
-    TextField otherSkill = new TextField("Egyéb készségek");
+
+    TextField otherSkill        = new TextField("Egyéb készségek");
+
 
 
     //TextField coverLetter   = new TextField("Motivációs levél");
     Button divCoverLetter = new Button("Szerkesztés");
     H5 h5coverLetter = new H5("Motivációs levél");
     //Scroller scroller2 = new Scroller();
-    RichTextEditor coverLetter = new RichTextEditor();
+    RichTextEditor coverLetter  = new RichTextEditor();
 
 
-    // FileBuffer fileBuffer = new FileBuffer();
+
+
+   // FileBuffer fileBuffer = new FileBuffer();
     //Upload singleFileUpload = new Upload(fileBuffer);
 
     MemoryBuffer buffer = new MemoryBuffer();
@@ -93,19 +99,20 @@ public class PersonForm extends FormLayout {
 
     Scroller scroller = new Scroller();
 
-    TextField picture = new TextField("Fénykép");
+    TextField picture           = new TextField("Fénykép");
 
 
-    MultiselectComboBox<Language> language = new MultiselectComboBox<>("Nyelvismeret");
-    ComboBox<City> city = new ComboBox<>("Város");
 
-    Button save = new Button("Mentés");
-    Button delete = new Button("Törlés");
-    Button cancel = new Button("Mégsem");
+    MultiselectComboBox<Language> language    = new MultiselectComboBox<>("Nyelvismeret");
+    ComboBox<City>          city            = new ComboBox<>("Város");
+
+    Button save     = new Button("Mentés");
+    Button delete   = new Button("Törlés");
+    Button cancel   = new Button("Mégsem");
 
     private Person person;
 
-    public PersonForm(List<City> cities, List<Language> languages) {//}, AppService services) {
+    public PersonForm(List<City> cities, List<Language> languages){//}, AppService services) {
 
         addClassName("contact-form");
 
@@ -120,37 +127,37 @@ public class PersonForm extends FormLayout {
         h5coverLetter.setClassName("h5-style");
         h5ProfExperience.setClassName("h5-style");
 
-        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
-        // textArea.setWidthFull();
-        // coverLetter1.setValue(textArea.getValue());//Person::getcoverLetter);
-        //coverLetter1.setLabel("Motivációs levél");
+       // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
+       // textArea.setWidthFull();
+       // coverLetter1.setValue(textArea.getValue());//Person::getcoverLetter);
+       //coverLetter1.setLabel("Motivációs levél");
 
         add(
-                firstName,
-                lastName,
-                email,
-                bornDate,
-                phone,
-                address,
-                socialMedia,
-                messageApps,
-                webSite,
-                //studies,
+          firstName,
+          lastName,
+          email,
+          bornDate,
+          phone,
+          address,
+          socialMedia,
+          messageApps,
+          webSite,
+          //studies,
                 h5studies, divstudiesButton, divstudies,
-                //profExperience,
+          //profExperience,
                 h5ProfExperience, divProfExperienceButton, divProfExperience,
-                otherSkill,
+          otherSkill,
                 h5coverLetter, divCoverLetter,//coverLetterButt,
-                // coverLetter,
+               // coverLetter,
                 //scroller2
-                //coverLetter,
+        //coverLetter,
 
-                picture,
-                upload,
-                scroller,
-                city,
-                language,
-                createButtonLayout()
+          picture,
+          upload,
+          scroller,
+          city,
+          language,
+          createButtonLayout()
         );
 
         divProfExperience.setWidthFull();
@@ -159,9 +166,10 @@ public class PersonForm extends FormLayout {
 
         UploadUtanKepBetoltese();
 
-        DialgProfExperience();
+        //DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
+        DialgStudies();
 //        DialgStudies();
         DialgCoverLetter(coverLetter);
 
@@ -215,10 +223,10 @@ public class PersonForm extends FormLayout {
             showOutput(event.getFileName(), component, scroller);
 
             String resourcesPath = "src/main/resources/images/";
-            File targetFile = new File(resourcesPath + fileName);
+            File targetFile = new File(resourcesPath+fileName);
 
             Path currentRelativePath = Paths.get("");
-            s[0] = (currentRelativePath.toAbsolutePath().toString() + resourcesPath);
+            s[0] = (currentRelativePath.toAbsolutePath().toString()+resourcesPath);
 
             // fájl feltöltése
             try {
@@ -230,7 +238,7 @@ public class PersonForm extends FormLayout {
             //  File uploadnál a clear gombra kattintva X gombra
             //component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
             if (component instanceof Image) {
-                upload.getElement().addEventListener("file-remove", event1 -> {
+                upload.getElement().addEventListener("file-remove",event1 -> {
                     //System.out.println("File remove");
                     scroller.setContent(null);
                     targetFile.delete();
@@ -243,7 +251,6 @@ public class PersonForm extends FormLayout {
 
     /**
      * Image feltöltése, és eseménykezelése
-     *
      * @param mimeType
      * @param fileName
      * @param stream
@@ -313,7 +320,6 @@ public class PersonForm extends FormLayout {
 
     /**
      * Buttons Layer összeállítása
-     *
      * @return
      */
     private Component createButtonLayout() {
@@ -334,10 +340,9 @@ public class PersonForm extends FormLayout {
 
     /**
      * Person adatok beállítása és mentése
-     *
      * @param person
      */
-    public void setPerson(Person person) {
+    public void setPerson(Person person){
         this.person = person;
         binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
         showStudiesList();
@@ -399,19 +404,23 @@ public class PersonForm extends FormLayout {
 
     private void showProfExperienceList() {
         divProfExperience.removeAll();
-        if (null == person) {
+        if (null == person){
             return;
         }
-        for (ProfExperience proof : person.getProfExperiences()) {
+        for (ProfExperience profExperience : person.getProfExperiences()) {
             Dialog dialog = new Dialog();
             dialog.getElement().setAttribute("aria-label", "Add note");
 
-            dialog.getHeader().add(createHeaderLayout());
+            dialog.getHeader().add(createHeaderLayoutProfExperience());
 
-            VerticalLayout dialogLayout = createDialogLayout();
-            dialog.add(dialogLayout);
+            ProfExperienceForm profExperienceForm;
+            dialog.add(profExperienceForm = createDialogLayoutProfExperience(profExperience));
             dialog.setModal(false);
             dialog.setDraggable(true);
+
+            //VerticalLayout dialogLayout = createDialogLayout();
+            //dialog.add(dialogLayout);
+
 
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl");
@@ -433,11 +442,11 @@ public class PersonForm extends FormLayout {
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
-            createFooter(dialog);
+            createFooterProfExperience(dialog, profExperienceForm);
         }
     }
 
-    private void DialgProfExperience() {
+   private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             Dialog dialog = new Dialog();
             dialog.getElement().setAttribute("aria-label", "Add note");
@@ -475,7 +484,7 @@ public class PersonForm extends FormLayout {
         });
     }
 
-    private static H2 createHeaderLayout() {
+    private static H2 createHeaderLayoutProfExperience() {
         H2 headline = new H2("Szakmai Tapasztalat");
         headline.addClassName("draggable");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em")
@@ -487,29 +496,34 @@ public class PersonForm extends FormLayout {
         return headline;
     }
 
-    private static VerticalLayout createDialogLayout() {
+    private static H2 createHeaderLayout() {
+        H2 headline = new H2("Szakmai Tapasztalat");
+        headline.addClassName("draggable");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
+                .set("font-weight", "bold")
+                .set("cursor", "move")
+                .set("padding", "var(--lumo-space-m) 0")
+                .set("flex", "1");
 
-        TextField titleField = new TextField("Munkahely");
-        DatePicker dtFrom = new DatePicker("Tól");
-        DatePicker dtTo = new DatePicker("ig");
-        HorizontalLayout hzLay1 = new HorizontalLayout();
-        hzLay1.add(dtFrom, dtTo);
-        TextArea descriptionArea = new TextArea("Megjegyzés");
+        return headline;
+    }
+    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
+        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
 
-        VerticalLayout fieldLayout = new VerticalLayout(titleField,
-                hzLay1,
-                descriptionArea);
-        fieldLayout.setSpacing(false);
-        fieldLayout.setPadding(false);
-        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
+        //fieldLayout.setSpacing(false);
+        //fieldLayout.setPadding(false);
+        //fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
-        return fieldLayout;
+        return profExperienceLayout;
     }
 
-    private static void createFooter(Dialog dialog) {
+    private static void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
-        Button saveButton = new Button("Mentés", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> {
+            profExperienceForm.save();
+            dialog.close();
+        });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         dialog.getFooter().add(cancelButton);
@@ -571,7 +585,7 @@ public class PersonForm extends FormLayout {
             dialog.setModal(false);
             dialog.setDraggable(true);
 
-            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonShow = new Button(study.getNameSchool(), e -> dialog.open());
             Button buttonClose = new Button("Töröl");
             add(dialog);
             /*scroller2.setContent(button);
@@ -596,6 +610,7 @@ public class PersonForm extends FormLayout {
     }
 
 
+
     private static H2 createHeaderLayoutStudies() {
         H2 headline = new H2("Tanulmányok");
         headline.addClassName("draggable");
@@ -607,7 +622,6 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-
     private static StudyForm createDialogLayoutStudies(Study study) {
         StudyForm fieldLayout = new StudyForm(study);
 //        fieldLayout.setSpacing(false);
@@ -636,24 +650,23 @@ public class PersonForm extends FormLayout {
      */
     private void DialgCoverLetter(RichTextEditor coverLetter) {
 
-        Dialog dialog = new Dialog();
-        dialog.getElement().setAttribute("aria-label", "Motivációs levél");
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Motivációs levél");
 
-        dialog.getHeader().add(createHeaderLayoutCoverLetter());
+            dialog.getHeader().add(createHeaderLayoutCoverLetter());
 
 
-        VerticalLayout dialogLayout = createDialogLayoutCoverLetter(coverLetter);
-        dialog.add(dialogLayout);
-        dialog.setModal(false);
-        dialog.setDraggable(true);
+            VerticalLayout dialogLayout = createDialogLayoutCoverLetter(coverLetter);
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
 
-        createFooterCoverLetter(dialog);
+            createFooterCoverLetter(dialog);
 
-        add(dialog);
+            add(dialog);
 
-        divCoverLetter.addClickListener(event -> dialog.open());
+            divCoverLetter.addClickListener(event -> dialog.open());
     }
-
     private static H2 createHeaderLayoutCoverLetter() {
         H2 headline = new H2("Motivációs levél");
         headline.addClassName("draggable");
@@ -665,7 +678,6 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-
     private static VerticalLayout createDialogLayoutCoverLetter(RichTextEditor coverLetter) {
 
         //RichTextEditor coverLetter  = new RichTextEditor();
