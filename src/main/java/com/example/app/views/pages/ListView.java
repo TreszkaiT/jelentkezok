@@ -49,7 +49,7 @@ public class ListView extends VerticalLayout {
                 getContent()
         );
 
-        updateList("");
+        updateList();
         closeEditor();      // először bezárja a jobb oldali formot, mert nem kattintottunk semmilyen elemre a listában
 
         //this.getElement().getThemeList().add("dark");
@@ -63,7 +63,7 @@ public class ListView extends VerticalLayout {
 
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
         // ezt a Toolbar-ba kell beírni
-    private void updateList(String why) {
+    private void updateList() {
         //LocalDate date = LocalDate.of(2022, 8, 23);
 
         grid.setItems(service.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
@@ -94,13 +94,13 @@ public class ListView extends VerticalLayout {
 
     private void savePerson(PersonForm.SaveEvent event){
         service.savePerson(event.getPerson());
-        updateList("");
+        updateList();
         closeEditor();
     }
 
     private void deletePerson(PersonForm.DeleteEvent event){
         service.deletePerson(event.getPerson());
-        updateList("");
+        updateList();
         closeEditor();
     }
 
@@ -109,17 +109,17 @@ public class ListView extends VerticalLayout {
         filterTextName.setClearButtonVisible(true);
         filterTextName.setPrefixComponent(VaadinIcon.SEARCH.create());
         filterTextName.setValueChangeMode(ValueChangeMode.LAZY);
-        filterTextName.addValueChangeListener(e -> updateList(""));       // ha beírok valami, akkor tegye azt be az adatbázsiba, ezért kell előtte a LAZY lassú figyelés, hogy legyen idő a lassú gépelésnél beírni az adatokat
+        filterTextName.addValueChangeListener(e -> updateList());       // ha beírok valami, akkor tegye azt be az adatbázsiba, ezért kell előtte a LAZY lassú figyelés, hogy legyen idő a lassú gépelésnél beírni az adatokat
 
         filterTextLang.setPlaceholder("Keresés nyelvre...");
         filterTextLang.setClearButtonVisible(true);
         filterTextLang.setPrefixComponent(VaadinIcon.SEARCH.create());
         filterTextLang.setValueChangeMode(ValueChangeMode.LAZY);
-        filterTextLang.addValueChangeListener(event -> updateList("LANG"));
+        filterTextLang.addValueChangeListener(event -> updateList());
 
         getFilterDateDate.setPlaceholder("Keresés dátumra...");
         getFilterDateDate.setClearButtonVisible(true);
-        getFilterDateDate.addValueChangeListener(event -> updateList("DATE"));
+        getFilterDateDate.addValueChangeListener(event -> updateList());
 
         Button addPersonButton = new Button("Új önéletrajz");
         addPersonButton.addClickListener(e -> addPerson());

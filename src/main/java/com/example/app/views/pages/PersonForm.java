@@ -169,7 +169,6 @@ public class PersonForm extends FormLayout {
         DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
-        DialgStudies();
 //        DialgStudies();
         DialgCoverLetter(coverLetter);
 
