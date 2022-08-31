@@ -1,10 +1,11 @@
 package com.example.app.data.entity;
 
-import java.util.UUID;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import org.hibernate.annotations.Type;
+import java.util.UUID;
 
 @MappedSuperclass
 public class AbstractEntity {

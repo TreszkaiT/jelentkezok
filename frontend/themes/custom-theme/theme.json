@@ -1,5 +1,7 @@
 {
-  "importCss": ["@fortawesome/fontawesome-free/css/all.min.css"],
+  "importCss": [
+    "@fortawesome/fontawesome-free/css/all.min.css"
+  ],
   "assets": {
     "@fortawesome/fontawesome-free": {
       "svgs/brands/**": "fontawesome/svgs/brands"

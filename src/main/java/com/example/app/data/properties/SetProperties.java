@@ -8,11 +8,11 @@ import java.util.Properties;
 
 public class SetProperties {
 
-    public static void SetButtonAppPropertyValue(int ConfigLangButton, int ConfigCityButton, int ConfigPersonButton){
+    public static void SetButtonAppPropertyValue(int ConfigLangButton, int ConfigCityButton, int ConfigPersonButton) {
         String path = "src/main/resources/data/conf.properties";
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
-        try (OutputStream output = new FileOutputStream(absolutePath)){     //"D:\\java_intelliJ\\adatok\\src\\main\\resources\\conf.properties")){//;this.getClass().getResourceAsStream("/conf.properties"))){
+        try (OutputStream output = new FileOutputStream(absolutePath)) {     //"D:\\java_intelliJ\\adatok\\src\\main\\resources\\conf.properties")){//;this.getClass().getResourceAsStream("/conf.properties"))){
 
             Properties prop = new Properties();
 

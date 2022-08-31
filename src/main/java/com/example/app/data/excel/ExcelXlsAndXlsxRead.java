@@ -21,7 +21,7 @@ public class ExcelXlsAndXlsxRead {
 
         String[][] dataTable = null;
 
-        String path = "src/main/resources/data/"+filename;
+        String path = "src/main/resources/data/" + filename;
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
 
@@ -43,23 +43,23 @@ public class ExcelXlsAndXlsxRead {
             // We will return this data table
             dataTable = new String[numRows][numCols];
 
-            int j=0;
+            int j = 0;
 
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
 
-                for(int i=0; i<nextRow.getLastCellNum(); i++) {
+                for (int i = 0; i < nextRow.getLastCellNum(); i++) {
                     cell = nextRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-                    if((cell.toString()=="")||(cell.toString()==" "))dataTable[j][i]=cell.toString()+"--";
-                    else
-                    {
+                    if ((cell.toString() == "") || (cell.toString() == " ")) dataTable[j][i] = cell.toString() + "--";
+                    else {
                         switch (cell.getCellType()) {
                             case STRING:
-                                dataTable[j][i]=cell.getStringCellValue();
+                                dataTable[j][i] = cell.getStringCellValue();
                                 break;
                             case BOOLEAN:
-                                if(cell.getBooleanCellValue())dataTable[j][i]="True"; else dataTable[j][i]="False";
+                                if (cell.getBooleanCellValue()) dataTable[j][i] = "True";
+                                else dataTable[j][i] = "False";
                                 break;
                             case NUMERIC:
                                 if (DateUtil.isCellDateFormatted(cell)) {
@@ -70,24 +70,25 @@ public class ExcelXlsAndXlsxRead {
                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
                                     SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
                                     SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");  // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    if(Integer.parseInt(sdf.format(date))<1990) dataTable[j][i]=sdf1.format(date); else dataTable[j][i]=sdf2.format(date);
-                                }else
-                                    dataTable[j][i]=String.valueOf(cell.getNumericCellValue());
+                                    if (Integer.parseInt(sdf.format(date)) < 1990) dataTable[j][i] = sdf1.format(date);
+                                    else dataTable[j][i] = sdf2.format(date);
+                                } else
+                                    dataTable[j][i] = String.valueOf(cell.getNumericCellValue());
                                 break;
                             case BLANK:
-                                dataTable[j][i]="BLANK";
+                                dataTable[j][i] = "BLANK";
                                 break;
                             case ERROR:
-                                dataTable[j][i]="ERROR";
+                                dataTable[j][i] = "ERROR";
                                 break;
                             case FORMULA:
-                                dataTable[j][i]="FORMULA";
+                                dataTable[j][i] = "FORMULA";
                                 break;
                             case _NONE:
-                                dataTable[j][i]="_NONE";
+                                dataTable[j][i] = "_NONE";
                                 break;
-                            default :
-                                dataTable[j][i]="DEFAULT";
+                            default:
+                                dataTable[j][i] = "DEFAULT";
                         }
                         //System.out.print(cell.toString()+"\t");
                     }
@@ -107,8 +108,7 @@ public class ExcelXlsAndXlsxRead {
     }
 
 
-
-    private static Workbook getWorkbook(FileInputStream inputStream, String excelFilePath)	// switch between xls and xlsx
+    private static Workbook getWorkbook(FileInputStream inputStream, String excelFilePath)    // switch between xls and xlsx
             throws IOException {
         Workbook workbook = null;
 
@@ -134,15 +134,22 @@ public class ExcelXlsAndXlsxRead {
 	    System.out.println(foo[1].length); //4
 	  */
 
-    public static String getETable(String filename, int sheet) {		// write table in consol
+    public static String getETable(String filename, int sheet) {        // write table in consol
 
-        String[][] dataTable = getEXlsXlsx(filename, sheet);		// read from cells
-        String str="";
-        int j=1, i=dataTable[0].length;
+        String[][] dataTable = getEXlsXlsx(filename, sheet);        // read from cells
+        String str = "";
+        int j = 1, i = dataTable[0].length;
 
-        for(String[] data : dataTable ){
-            for(String str1 : data) {
-                if(j==i) {str+=str1+"\n"; j=1;} else {str+=str1+"\t"; j++;};		// write table in consol
+        for (String[] data : dataTable) {
+            for (String str1 : data) {
+                if (j == i) {
+                    str += str1 + "\n";
+                    j = 1;
+                } else {
+                    str += str1 + "\t";
+                    j++;
+                }
+                ;        // write table in consol
             }
         }
 
@@ -152,11 +159,12 @@ public class ExcelXlsAndXlsxRead {
 
     public static String getERow(String filename, int sheet, int row) {
 
-        String[][] dataTable = getEXlsXlsx(filename, sheet);		// read from cells -- .xls
+        String[][] dataTable = getEXlsXlsx(filename, sheet);        // read from cells -- .xls
 
-        String str="";
-        for(int i=0;i<dataTable[row].length;i++) {		// write row in consol
-            str+= dataTable[row][i]+"\n";;
+        String str = "";
+        for (int i = 0; i < dataTable[row].length; i++) {        // write row in consol
+            str += dataTable[row][i] + "\n";
+            ;
         }
 
         return str;
@@ -164,11 +172,11 @@ public class ExcelXlsAndXlsxRead {
 
     public static String getEColumn(String filename, int sheet, int col) {
 
-        String[][] dataTable = getEXlsXlsx(filename, sheet);		// read from cells -- .xls
+        String[][] dataTable = getEXlsXlsx(filename, sheet);        // read from cells -- .xls
 
-        String str="";
-        for(int i=0;i<dataTable.length;i++) {		// write column in consol
-            str+= dataTable[i][col]+"\n";
+        String str = "";
+        for (int i = 0; i < dataTable.length; i++) {        // write column in consol
+            str += dataTable[i][col] + "\n";
         }
 
         return str;
@@ -181,73 +189,74 @@ public class ExcelXlsAndXlsxRead {
 
     public static String getEColumnCalcualte(String filename, int sheet, int col1, int col2, double lot, double sl_alap, double veszteseg, double tp_alap, double nyereseg, double spread, int slMettol, int slMeddig, int slLepeskoz, int tpMettol, int tpMeddig, int tpLepeskoz, int mennyiSoron) {
 
-        String[][] dataTable = getEXlsXlsx(filename, sheet);		// read from cells -- .xls
-        String str="";
+        String[][] dataTable = getEXlsXlsx(filename, sheet);        // read from cells -- .xls
+        String str = "";
 
-        double egyPontVeszteseg = veszteseg/sl_alap;
-        double egyPontNyereseg = nyereseg/tp_alap;
+        double egyPontVeszteseg = veszteseg / sl_alap;
+        double egyPontNyereseg = nyereseg / tp_alap;
 
         //megnézzük, mennyi darabszámot kell elmenteni, mekkora legyen a tömbök mérete
         int lepes = 0;
-        for(int j=slMettol; j<=slMeddig; j+=slLepeskoz) {			// SL tartományon végigmegyek
-            for(int k=tpMettol; k<= tpMeddig; k+=tpLepeskoz) {		// TP tartományon végigmegyek
+        for (int j = slMettol; j <= slMeddig; j += slLepeskoz) {            // SL tartományon végigmegyek
+            for (int k = tpMettol; k <= tpMeddig; k += tpLepeskoz) {        // TP tartományon végigmegyek
                 lepes++;
             }
         }
         // hátulról mennyi sort vegyen csak az Excel táblából
         int excelSorokSzama = dataTable.length;
-        if(mennyiSoron==0) mennyiSoron=excelSorokSzama;
-        int honnanMentseEl = excelSorokSzama-mennyiSoron;
+        if (mennyiSoron == 0) mennyiSoron = excelSorokSzama;
+        int honnanMentseEl = excelSorokSzama - mennyiSoron;
         //if(lepes>mennyiSoron) honnanMentseEl = lepes-mennyiSoron;
 
-        double[] doubleSorrend 	= new double[lepes];
-        String[] strSorrend		= new String[lepes];
-        int[] 	 intSorrend		= new int[lepes];
+        double[] doubleSorrend = new double[lepes];
+        String[] strSorrend = new String[lepes];
+        int[] intSorrend = new int[lepes];
         int lepes2 = 0;
         // végigmenyünk, és elmentjük a darabszámokat a tömbökbe
-        for(int j=slMettol; j<=slMeddig; j+=slLepeskoz) {			// SL tartományon végigmegyek
-            for(int k=tpMettol; k<= tpMeddig; k+=tpLepeskoz) {		// TP tartományon végigmegyek
+        for (int j = slMettol; j <= slMeddig; j += slLepeskoz) {            // SL tartományon végigmegyek
+            for (int k = tpMettol; k <= tpMeddig; k += tpLepeskoz) {        // TP tartományon végigmegyek
 
-                int dbNullanalKisebb = 0, dbNullanalNagyobb=0;
-                double sl = 0, tp=0, ideiglenesAr=0, osszar=0;
+                int dbNullanalKisebb = 0, dbNullanalNagyobb = 0;
+                double sl = 0, tp = 0, ideiglenesAr = 0, osszar = 0;
 
-                for(int i=0;i<dataTable.length;i++) {		// read column in consol
-                    if(i>=honnanMentseEl) {
-                        if(isNumeric(dataTable[i][col1])) sl= Double.valueOf(dataTable[i][col1]);
-                        if(isNumeric(dataTable[i][col2])) tp= Double.valueOf(dataTable[i][col2]);
+                for (int i = 0; i < dataTable.length; i++) {        // read column in consol
+                    if (i >= honnanMentseEl) {
+                        if (isNumeric(dataTable[i][col1])) sl = Double.valueOf(dataTable[i][col1]);
+                        if (isNumeric(dataTable[i][col2])) tp = Double.valueOf(dataTable[i][col2]);
 
-                        if(((sl+spread)<j) && (tp>(k+spread))) ideiglenesAr=k*egyPontNyereseg; else ideiglenesAr=j*egyPontVeszteseg; //ideiglenesAr=nyereseg; else ideiglenesAr=veszteseg;
+                        if (((sl + spread) < j) && (tp > (k + spread))) ideiglenesAr = k * egyPontNyereseg;
+                        else ideiglenesAr = j * egyPontVeszteseg; //ideiglenesAr=nyereseg; else ideiglenesAr=veszteseg;
 
                         osszar += ideiglenesAr;
 
-                        if(ideiglenesAr>0) dbNullanalNagyobb++; else dbNullanalKisebb++;
+                        if (ideiglenesAr > 0) dbNullanalNagyobb++;
+                        else dbNullanalKisebb++;
                     }
                 }
 
                 doubleSorrend[lepes2] = osszar;
-                strSorrend[lepes2] = "Összár: "+df.format(osszar)+" LOT: "+lot+" SL: "+j+" Veszteség: "+df.format(j*egyPontVeszteseg)+" TP: "+k+" Nyereség: "+df.format(k*egyPontNyereseg)+" Spread: "+spread+" <0: "+dbNullanalKisebb+" >0: "+dbNullanalNagyobb+"\n";
+                strSorrend[lepes2] = "Összár: " + df.format(osszar) + " LOT: " + lot + " SL: " + j + " Veszteség: " + df.format(j * egyPontVeszteseg) + " TP: " + k + " Nyereség: " + df.format(k * egyPontNyereseg) + " Spread: " + spread + " <0: " + dbNullanalKisebb + " >0: " + dbNullanalNagyobb + "\n";
                 lepes2++;
             }
         }
 
         // sorrendbe tesszük az adott elemnek megfelelően
 
-        for(int i= lepes-2; i>0; i--)
-            for(int j=0; j<=i; j++)
-                if(doubleSorrend[j] > doubleSorrend[j+1])
-                {
+        for (int i = lepes - 2; i > 0; i--)
+            for (int j = 0; j <= i; j++)
+                if (doubleSorrend[j] > doubleSorrend[j + 1]) {
                     //első tömb
                     double tmp = doubleSorrend[j];
-                    doubleSorrend[j] = doubleSorrend[j+1];
-                    doubleSorrend[j+1] = tmp;
+                    doubleSorrend[j] = doubleSorrend[j + 1];
+                    doubleSorrend[j + 1] = tmp;
                     // második tömb
                     String tmp1 = strSorrend[j];
-                    strSorrend[j] = strSorrend[j+1];
-                    strSorrend[j+1] = tmp1;
+                    strSorrend[j] = strSorrend[j + 1];
+                    strSorrend[j + 1] = tmp1;
                 }
 
         // tömbök kiírása
-        for(int i=0; i<lepes; i++) {
+        for (int i = 0; i < lepes; i++) {
             str += strSorrend[i];
         }
 
@@ -275,14 +284,15 @@ public class ExcelXlsAndXlsxRead {
 
     public static int getEColumnSzum(String filename, int sheet, int col) {
 
-        String[][] dataTable = getEXlsXlsx(filename, sheet);		// read from cells -- .xls
+        String[][] dataTable = getEXlsXlsx(filename, sheet);        // read from cells -- .xls
 
-        double numb=0;
-        for(int i=0;i<dataTable.length;i++) {		// write column in consol
-            if(isNumeric(dataTable[i][col])) numb+= Double.valueOf(dataTable[i][col]);   // 1.0 is Double, so convert it from String to Double with Double.valueOf() method
+        double numb = 0;
+        for (int i = 0; i < dataTable.length; i++) {        // write column in consol
+            if (isNumeric(dataTable[i][col]))
+                numb += Double.valueOf(dataTable[i][col]);   // 1.0 is Double, so convert it from String to Double with Double.valueOf() method
         }
 
-        return (int)numb;					// convert Double numb to Integer
+        return (int) numb;                    // convert Double numb to Integer
     }
 
     public static boolean isNumeric(String str) {

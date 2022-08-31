@@ -21,6 +21,7 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
 
     /**
      * a belépő képernyőt a saját megjelenésünkre állítjuk
+     *
      * @param http
      * @throws Exception
      */

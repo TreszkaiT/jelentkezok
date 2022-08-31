@@ -12,10 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * The entry point of the Spring Boot application.
- *
+ * <p>
  * Use the @PWA annotation make the application installable on phones, tablets
  * and some desktop browsers.
- *
  */
 //@Theme(value = Lumo.class, variant = Lumo.DARK)
 /*

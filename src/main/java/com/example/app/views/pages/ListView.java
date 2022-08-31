@@ -18,10 +18,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import javax.annotation.security.PermitAll;
-import java.time.LocalDate;
 import java.util.stream.Collectors;
 
-@Route(value="", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 @PageTitle("Személyek listája")
 @PermitAll          // login security miatt
 public class ListView extends VerticalLayout {
@@ -62,7 +61,7 @@ public class ListView extends VerticalLayout {
     }
 
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
-        // ezt a Toolbar-ba kell beírni
+    // ezt a Toolbar-ba kell beírni
     private void updateList() {
         //LocalDate date = LocalDate.of(2022, 8, 23);
 
@@ -92,13 +91,13 @@ public class ListView extends VerticalLayout {
         form.addListener(PersonForm.CloseEvent.class, e -> closeEditor());
     }
 
-    private void savePerson(PersonForm.SaveEvent event){
+    private void savePerson(PersonForm.SaveEvent event) {
         service.savePerson(event.getPerson());
         updateList();
         closeEditor();
     }
 
-    private void deletePerson(PersonForm.DeleteEvent event){
+    private void deletePerson(PersonForm.DeleteEvent event) {
         service.deletePerson(event.getPerson());
         updateList();
         closeEditor();
@@ -151,9 +150,9 @@ public class ListView extends VerticalLayout {
     }
 
     private void editPerson(Person person) {
-        if(person == null){
+        if (person == null) {
             closeEditor();
-        }else {
+        } else {
             form.setPerson(person);
             form.setVisible(true);
             addClassName("editing");

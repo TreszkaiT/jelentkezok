@@ -15,11 +15,11 @@ import com.vaadin.flow.router.Route;
 public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
     private LoginForm login = new LoginForm();
-   private  LoginOverlay loginOverlay = new LoginOverlay();
+    private LoginOverlay loginOverlay = new LoginOverlay();
 
-   private Product product;
+    private Product product;
 
-    public LoginView(Product product){
+    public LoginView(Product product) {
         this.product = product;
         addClassName("login-view");
         //setSizeFull();
@@ -27,7 +27,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
         //setJustifyContentMode(JustifyContentMode.CENTER);
 
         //LoginOverlay loginOverlay = new LoginOverlay();
-        loginOverlay.setTitle("Önéletrajz adatokat tároló alkalmazás v."+product.getVersion());
+        loginOverlay.setTitle("Önéletrajz adatokat tároló alkalmazás v." + product.getVersion());
         loginOverlay.setDescription("Készítette: T.Tamás");
         loginOverlay.setOpened(true);
         loginOverlay.setError(true);
@@ -46,7 +46,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
     }
 
-    private LoginI18n createLoginI18n(){
+    private LoginI18n createLoginI18n() {
         LoginI18n i18n = LoginI18n.createDefault();
 
         //LoginI18n.Header i18nHeader = i18n.getHeader();
@@ -90,13 +90,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
     /**
      * belépési query kiolvasása, és hiba mutatása, ha valami gond van
-     * @param beforeEnterEvent
-     *            before navigation event with event details
+     *
+     * @param beforeEnterEvent before navigation event with event details
      */
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // inform the user about an authentication error
-        if(beforeEnterEvent.getLocation()
+        if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {

@@ -7,10 +7,12 @@
         display: none;
     }
 }
+
 a[highlight] {
     font-weight: bold;
     text-decoration: underline;
 }
+
 .login-view {
     background-image: url("images/art_back.jpg"); /* ("../../../src/main/resources/images/art_back.jpg"); */
     background-position: center;
@@ -19,6 +21,7 @@ a[highlight] {
     height: 100%; /*500px;*/
     width: 100%;
 }
+
 .header-border {
     border-bottom: ridge;
     border-color: dodgerblue;

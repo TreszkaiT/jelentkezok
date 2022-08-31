@@ -46,7 +46,7 @@ public class MainLayout extends AppLayout {
 
 
     private void createHeader() {
-        H1 logo = new H1("Önéletrajz adatokat tároló alkalmazás v."+product.getVersion());
+        H1 logo = new H1("Önéletrajz adatokat tároló alkalmazás v." + product.getVersion());
         logo.addClassNames("text-l", "m-m");
 
         Button logout = new Button("Kilépés", e -> securityService.logout());
@@ -64,7 +64,7 @@ public class MainLayout extends AppLayout {
 
     }
 
-private void createDrawer() {
+    private void createDrawer() {
         RouterLink listLink = new RouterLink("Szamélyek listája", ListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 

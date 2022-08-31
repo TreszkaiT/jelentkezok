@@ -10,42 +10,42 @@ import java.util.Set;
 @Entity
 public class Language extends AbstractEntity {
 
-	private String name;
-	private String code;
+    private String name;
+    private String code;
 
-	// azért, hogy az így létrehozott kapcsolótáblába ezen oldal felől is tujunk keresni
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Person> person = new HashSet<>();
+    // azért, hogy az így létrehozott kapcsolótáblába ezen oldal felől is tujunk keresni
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Person> person = new HashSet<>();
 
-	public Language() {
+    public Language() {
 
-	}
+    }
 
-	public Language(String name) {
-		this.name = name;
-	}
+    public Language(String name) {
+        this.name = name;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Set<Person> getPerson() {
-		return person;
-	}
+    public Set<Person> getPerson() {
+        return person;
+    }
 
-	public void setPerson(Set<Person> person) {
-		this.person = person;
-	}
+    public void setPerson(Set<Person> person) {
+        this.person = person;
+    }
 }

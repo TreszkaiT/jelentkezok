@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="ADT_STUDY")
-public class Study extends AbstractEntity{
+@Table(name = "ADT_STUDY")
+public class Study extends AbstractEntity {
 
     @Column(name = "STD_NAME_SCHOOL")
     private String nameSchool;
