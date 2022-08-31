@@ -43,37 +43,40 @@ public class AppService {
 
     // Person Repository-s dolgok-
 
-    public List<Person> findAllPersons(String filterText, LocalDate dt, String why){
-        if(filterText == null || filterText.isEmpty() || dt == null) {
+    public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
+        if (filterName == null) System.out.println("filtername null");
+        if (filterName.isEmpty()) System.out.println("filtename empty");
+        if (filterLang == null) System.out.println("filterLang null");
+        if (filterLang.isEmpty()) System.out.println("filterLang empty");
+        if (dt == null) System.out.println("dt null");
+
+        if ((filterName == null || filterName.isEmpty()) && dt == null && (filterLang == null || filterLang.isEmpty())) {
             return personRepository.findAll();
-        /*} else {
-            //return personRepository.searchByName(filterText, dt, why);//searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
-            return personRepository.searchByName(filterText, dt, why);//searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
-        }*/
-        }else if(why.equals("LANG")){
-
-            List<Language> nyel = languageRepository.searchByName(filterText);
-
+        } else {
+            List<Language> nyel = languageRepository.searchByName(filterName);
             Set<Language> set1 = new HashSet<>();
             for (Language t : nyel)
                 set1.add(t);
 
-            return personRepository.findAllByLanguageIn(set1);
+            if ((filterName != null && !filterName.isEmpty()) && dt != null && (filterLang != null && !filterLang.isEmpty()))
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            if ((filterName != null && !filterName.isEmpty()) && (filterLang != null && !filterLang.isEmpty()))
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            if ((filterName != null && !filterName.isEmpty()) && dt != null)
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            if (dt != null && (filterLang != null && !filterLang.isEmpty()))
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            if (filterName != null && !filterName.isEmpty())
+                return personRepository.searchByFirstNameLikeOrLastNameLike("%" + filterName + "%", "%" + filterName + "%");
+            if (dt != null)
+                return personRepository.searchByDate(dt);
+            if (!filterLang.isEmpty()) {
 
-            //System.out.println(nyel.size()+" "+pers2.size());//+" "+pers2.size());
+                return personRepository.findAllByLanguageIn(set1);
+            }
+            //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterName+"%", "%"+filterName+"%", dt);
 
-           // return  personRepository.searchByFirstNameLikeOrLastNameLikeAndBornDate("%"+filterText+"%", "%"+filterText+"%", dt);
-
-            //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterText+"%", "%"+filterText+"%", dt);
-
-            //return personRepository.findAll();
-
-            //return pers2;
-        }else if(why.equals("DATE")){
-            return personRepository.searchByDate(dt);
-        }else {
-            //return personRepository.searchByName(filterText);
-            return  personRepository.searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
+            else return personRepository.findAll();
         }
     }
 

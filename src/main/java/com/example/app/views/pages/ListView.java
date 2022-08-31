@@ -64,13 +64,13 @@ public class ListView extends VerticalLayout {
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
         // ezt a Toolbar-ba kell beírni
     private void updateList(String why) {
-        LocalDate date = LocalDate.of(2022, 8, 23);
+        //LocalDate date = LocalDate.of(2022, 8, 23);
 
-        //grid.setItems(service.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
+        grid.setItems(service.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
 
-        if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
+        /*if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
         else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextLang.getValue(), date, why));
-        else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));
+        else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));*/
     }
 
     private Component getContent() {
