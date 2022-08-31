@@ -4,6 +4,7 @@ import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.entity.Study;
+import com.example.app.data.entity.ProfExperience;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
 import com.example.app.service.AppService;
@@ -154,6 +155,23 @@ public class StartingDataUpload extends VerticalLayout {
                         study.setComment("ez egy megjegyzes");
                         pers.getstudies().add(study);
                         study.setPerson(pers);
+                    }
+
+                    {
+                        ProfExperience proof = new ProfExperience();
+                        proof.setNameWork("Első");
+                        proof.setFrom(LocalDate.of(1977,11,12));
+                        proof.setFrom(LocalDate.of(1978,11,12));
+                        pers.getProfExperiences().add(proof);
+                        proof.setPerson(pers);
+                    }
+                    {
+                        ProfExperience proof = new ProfExperience();
+                        proof.setNameWork("Második");
+                        proof.setFrom(LocalDate.of(1979,9,12));
+                        proof.setFrom(LocalDate.of(1981,11,12));
+                        pers.getProfExperiences().add(proof);
+                        proof.setPerson(pers);
                     }
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setlanguage(service.findLanguageByName("English"));

@@ -127,7 +127,7 @@ public class DataService {
             JsonNode webSiteNode = node.get("webSite");     String webSite = webSiteNode.asText();      pers.setwebSite(webSite);
             JsonNode pictureNode = node.get("picture");     String picture = pictureNode.asText();      pers.setpicture(picture);
             JsonNode studiesNode = node.get("studies");     /*String studies = studiesNode.asText();      pers.setstudies(studies);*/
-            JsonNode profExperienceNode = node.get("profExperience");     String profExperience = profExperienceNode.asText();      pers.setprofExperience(profExperience);
+            JsonNode profExperienceNode = node.get("profExperience");     /*String profExperience = profExperienceNode.asText();      pers.setprofExperience(profExperience);*/
             JsonNode otherSkillNode = node.get("otherSkill");     String otherSkill = otherSkillNode.asText();      pers.setotherSkill(otherSkill);
             JsonNode coverLetterNode = node.get("coverLetter");     String coverLetter = coverLetterNode.asText();      pers.setcoverLetter(coverLetter);
             //JsonNode languageNode = node.get("language");     String language = languageNode.asText();      pers.setlanguage(language);

@@ -1,15 +1,25 @@
 package com.example.app.data.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name="ADT_PROF_EXPERIENCE")
 public class ProfExperience extends AbstractEntity{
 
+    @Column(name = "STD_NAME_WORK")
     private String nameWork;
+    @Column(name = "STD_FROM")
     private LocalDate from;
+
+    @Column(name = "STD_TO")
     private LocalDate to;
+    @Column(name = "STD_COMMENT")
     private String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "STD_PERSON_ID")
+    private Person person;
 
     public ProfExperience() {
     }
@@ -45,5 +55,13 @@ public class ProfExperience extends AbstractEntity{
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
