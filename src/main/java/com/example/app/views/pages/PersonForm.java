@@ -404,7 +404,7 @@ public class PersonForm extends FormLayout {
 
     private void showProfExperienceList() {
         divProfExperience.removeAll();
-        if (null == person){
+        if (null == person) {
             return;
         }
         for (ProfExperience profExperience : person.getProfExperiences()) {
@@ -457,6 +457,7 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
+
     private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             Dialog dialog = new Dialog();
@@ -528,7 +529,7 @@ public class PersonForm extends FormLayout {
     }
 
     private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
-        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
+        ProfExperienceForm profExperienceLayout = new ProfExperienceForm(profExperience);
 
         //fieldLayout.setSpacing(false);
         //fieldLayout.setPadding(false);
@@ -602,6 +603,12 @@ public class PersonForm extends FormLayout {
         return dialog;
     }
 
+    private void removeStudent(Study study) {
+        Person person = study.getPerson();
+        person.getstudies().remove(study);
+        study.setPerson(null);
+    }
+
     private void showStudiesList() {
         divstudies.removeAll();
         if (null == person) {
@@ -611,7 +618,7 @@ public class PersonForm extends FormLayout {
             StudyForm studyForm = createDialogLayoutStudies(study);
             Dialog dialog = createStudyDialog(studyForm);
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl");
+            Button buttonClose = new Button("Töröl", e->removeStudent(study));
             add(dialog);
             /*scroller2.setContent(button);
             scroller2.setWidthFull();//("200px");
