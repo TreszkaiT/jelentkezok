@@ -42,13 +42,16 @@ public class AppService {
     // Person Repository-s dolgok-
 
     public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
+
+        return personRepository.complexSearch(filterName, dt, filterLang);
+
         /*if (filterName == null) System.out.println("filtername null");
         if (filterName.isEmpty()) System.out.println("filtename empty");
         if (filterLang == null) System.out.println("filterLang null");
         if (filterLang.isEmpty()) System.out.println("filterLang empty");
         if (dt == null) System.out.println("dt null");*/
 
-        if ((filterName == null || filterName.isEmpty()) && dt == null && (filterLang == null || filterLang.isEmpty())) {
+       /* if ((filterName == null || filterName.isEmpty()) && dt == null && (filterLang == null || filterLang.isEmpty())) {
             return personRepository.findAll();
         } else {
 
@@ -90,7 +93,7 @@ public class AppService {
                 if(containerName.size()>0) return containerName;
                 else if (containerPerson.size()>0) return containerPerson;
                 else return containerLanguage;
-            }
+            }*/
 
 
 
@@ -119,7 +122,7 @@ public class AppService {
             //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterName+"%", "%"+filterName+"%", dt);
 
             else return personRepository.findAll();*/
-        }
+       // }
     }
 
     public Optional<City> findByCity(String id) {
