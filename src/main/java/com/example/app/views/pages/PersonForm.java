@@ -456,6 +456,7 @@ public class PersonForm extends FormLayout {
         for (ProfExperience profExperience : person.getProfExperiences()) {
             ProfExperienceForm profExperienceForm = createDialogLayoutProfExperience(profExperience);
             Dialog dialog = createProfExperienceDialog(profExperienceForm);
+            H5 h5 = new H5(profExperience.getNameWork());
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e -> removeExperienceOne(profExperience));
             add(dialog);
@@ -465,12 +466,14 @@ public class PersonForm extends FormLayout {
             //H5 h5 = new H5(" ");
 
             Scroller sc1 = new Scroller();
+            VerticalLayout vl = new VerticalLayout();
             HorizontalLayout hl2 = new HorizontalLayout();
             hl2.add(buttonShow, buttonClose);
+            vl.add(h5,hl2);
 
 
             //div1.add(hl2);
-            sc1.setContent(hl2);
+            sc1.setContent(vl);
 
             divProfExperience.add(sc1);//buttonShow, buttonClose, h5);
 
@@ -614,6 +617,7 @@ public class PersonForm extends FormLayout {
         for (Study study : person.getstudies()) {
             StudyForm studyForm = createDialogLayoutStudies(study);
             Dialog dialog = createStudyDialog(studyForm);
+            H5 h5 = new H5(study.getNameSchool());
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e->removeStudent(study));
             add(dialog);
@@ -625,10 +629,12 @@ public class PersonForm extends FormLayout {
             Scroller sc1 = new Scroller();
             HorizontalLayout hl2 = new HorizontalLayout();
             hl2.add(buttonShow, buttonClose);
+            VerticalLayout vl = new VerticalLayout();
+            vl.add(h5,hl2);
 
 
             //div1.add(hl2);
-            sc1.setContent(hl2);
+            sc1.setContent(vl);
 
             divstudies.add(sc1);//buttonShow, buttonClose, h5);
 
