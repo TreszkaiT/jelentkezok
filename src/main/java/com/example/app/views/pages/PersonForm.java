@@ -163,7 +163,7 @@ public class PersonForm extends FormLayout {
 
         UploadUtanKepBetoltese();
 
-        DialgProfExperience();
+        //DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
         DialgStudies();
@@ -345,6 +345,7 @@ public class PersonForm extends FormLayout {
         this.person = person;
         binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
         showStudiesList();
+        showProfExperienceList();
     }
 
     private void validateAndSave() {
@@ -403,19 +404,23 @@ public class PersonForm extends FormLayout {
 
     private void showProfExperienceList() {
         divProfExperience.removeAll();
-        if (null == person) {
+        if (null == person){
             return;
         }
-        for (ProfExperience proof : person.getProfExperiences()) {
+        for (ProfExperience profExperience : person.getProfExperiences()) {
             Dialog dialog = new Dialog();
             dialog.getElement().setAttribute("aria-label", "Add note");
 
-            dialog.getHeader().add(createHeaderLayout());
+            dialog.getHeader().add(createHeaderLayoutProfExperience());
 
-            VerticalLayout dialogLayout = createDialogLayout();
-            dialog.add(dialogLayout);
+            ProfExperienceForm profExperienceForm;
+            dialog.add(profExperienceForm = createDialogLayoutProfExperience(profExperience));
             dialog.setModal(false);
             dialog.setDraggable(true);
+
+            //VerticalLayout dialogLayout = createDialogLayout();
+            //dialog.add(dialogLayout);
+
 
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl");
@@ -437,10 +442,21 @@ public class PersonForm extends FormLayout {
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
-            createFooter(dialog);
+            createFooterProfExperience(dialog, profExperienceForm);
         }
     }
 
+    private static H2 createHeaderLayoutProfExperience() {
+        H2 headline = new H2("Szakmai Tapasztalat");
+        headline.addClassName("draggable");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
+                .set("font-weight", "bold")
+                .set("cursor", "move")
+                .set("padding", "var(--lumo-space-m) 0")
+                .set("flex", "1");
+
+        return headline;
+    }
     private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             Dialog dialog = new Dialog();
@@ -509,6 +525,29 @@ public class PersonForm extends FormLayout {
         fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
         return fieldLayout;
+    }
+
+    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
+        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
+
+        //fieldLayout.setSpacing(false);
+        //fieldLayout.setPadding(false);
+        //fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
+
+        return profExperienceLayout;
+    }
+
+    private static void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm) {
+        Button cancelButton = new Button("Mégsem", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> {
+            profExperienceForm.save();
+            dialog.close();
+        });
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
     }
 
     private static void createFooter(Dialog dialog) {
