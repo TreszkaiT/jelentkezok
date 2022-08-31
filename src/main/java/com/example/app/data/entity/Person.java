@@ -48,8 +48,8 @@ public class Person extends AbstractEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Study> studies = new ArrayList<>();
 
-    @NotEmpty
-    private String profExperience = "";
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProfExperience> profExperiences = new ArrayList<>();
 
     //@NotEmpty
     private String otherSkill = "";
@@ -173,12 +173,12 @@ public class Person extends AbstractEntity {
         this.studies = studies;
     }
 
-    public String getprofExperience() {
-        return profExperience;
+    public List<ProfExperience> getProfExperiences() {
+        return profExperiences;
     }
 
-    public void setprofExperience(String profExperience) {
-        this.profExperience = profExperience;
+    public void setProfExperiences(List<ProfExperience> profExperience) {
+        this.profExperiences = profExperience;
     }
 
     public Set<Language> getlanguage() {

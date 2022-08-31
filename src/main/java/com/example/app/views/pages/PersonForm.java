@@ -4,6 +4,7 @@ import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.entity.Study;
+import com.example.app.data.entity.ProfExperience;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -167,12 +168,14 @@ public class PersonForm extends FormLayout {
 
         DialgProfExperience();
         showStudiesList();
+        showProfExperienceList();
         DialgStudies();
         DialgCoverLetter(coverLetter);
 
         //this.getElement().getThemeList().add("dark");
 
     }
+
 
 
     /**
@@ -343,6 +346,7 @@ public class PersonForm extends FormLayout {
         this.person = person;
         binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
         showStudiesList();
+        showProfExperienceList();
     }
 
     private void validateAndSave() {
@@ -398,6 +402,47 @@ public class PersonForm extends FormLayout {
     /**
      * Create Dialog window Szakmai Tapasztalat
      */
+
+    private void showProfExperienceList() {
+        divProfExperience.removeAll();
+        if (null == person){
+            return;
+        }
+        for (ProfExperience proof : person.getProfExperiences()) {
+            Dialog dialog = new Dialog();
+            dialog.getElement().setAttribute("aria-label", "Add note");
+
+            dialog.getHeader().add(createHeaderLayout());
+
+            VerticalLayout dialogLayout = createDialogLayout();
+            dialog.add(dialogLayout);
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonClose = new Button("Töröl");
+            add(dialog);
+            /*scroller2.setContent(button);
+            scroller2.setWidthFull();//("200px");
+            scroller2.setHeight("200px");*/
+            //H5 h5 = new H5(" ");
+
+            Scroller sc1 = new Scroller();
+            HorizontalLayout hl2 = new HorizontalLayout();
+            hl2.add(buttonShow, buttonClose);
+
+
+            //div1.add(hl2);
+            sc1.setContent(hl2);
+
+            divProfExperience.add(sc1);//buttonShow, buttonClose, h5);
+
+            buttonClose.addClickListener(e -> sc1.setContent(null));
+
+            createFooter(dialog);
+        }
+    }
+
     private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             Dialog dialog = new Dialog();
@@ -432,6 +477,7 @@ public class PersonForm extends FormLayout {
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
             createFooter(dialog);
+            //dialog.getElement().getThemeList().add("dark");
         });
     }
     private static H2 createHeaderLayout() {
@@ -554,6 +600,9 @@ public class PersonForm extends FormLayout {
             createFooterStudies(dialog);
         }
     }
+
+
+
     private static H2 createHeaderLayoutStudies() {
         H2 headline = new H2("Tanulmányok");
         headline.addClassName("draggable");
