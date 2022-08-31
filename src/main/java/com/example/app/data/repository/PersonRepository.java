@@ -38,9 +38,11 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
 
     List<Person> searchByFirstNameLikeOrLastNameLikeOrBornDateLike(String firstName, String lastName, LocalDate bornDate);
 
-    List<Person> searchByFirstNameLikeOrLastNameLikeAndBornDate(String firstName, String lastName, LocalDate bornDate);
+    List<Person> searchByFirstNameLikeOrLastNameLikeAndBornDateEquals(String firstName, String lastName, LocalDate bornDate);
 
     List<Person> findAllByLanguageIn(Set<Language> language);
+
+    List<Person> findAllByLanguageInOrFirstNameLikeOrLastNameLike(Set<Language> language, String firstName, String lastName);
 
    /* @Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")
     Person findByLastnameOrFirstname(@Param("lastname") String lastname,

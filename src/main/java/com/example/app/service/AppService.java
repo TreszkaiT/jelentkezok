@@ -44,39 +44,57 @@ public class AppService {
     // Person Repository-s dolgok-
 
     public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
-        if (filterName == null) System.out.println("filtername null");
+        /*if (filterName == null) System.out.println("filtername null");
         if (filterName.isEmpty()) System.out.println("filtename empty");
         if (filterLang == null) System.out.println("filterLang null");
         if (filterLang.isEmpty()) System.out.println("filterLang empty");
-        if (dt == null) System.out.println("dt null");
+        if (dt == null) System.out.println("dt null");*/
 
         if ((filterName == null || filterName.isEmpty()) && dt == null && (filterLang == null || filterLang.isEmpty())) {
             return personRepository.findAll();
         } else {
-            List<Language> nyel = languageRepository.searchByName(filterName);
-            Set<Language> set1 = new HashSet<>();
-            for (Language t : nyel)
-                set1.add(t);
 
-            if ((filterName != null && !filterName.isEmpty()) && dt != null && (filterLang != null && !filterLang.isEmpty()))
-                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
-            if ((filterName != null && !filterName.isEmpty()) && (filterLang != null && !filterLang.isEmpty()))
-                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
-            if ((filterName != null && !filterName.isEmpty()) && dt != null)
-                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
-            if (dt != null && (filterLang != null && !filterLang.isEmpty()))
-                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
-            if (filterName != null && !filterName.isEmpty())
-                return personRepository.searchByFirstNameLikeOrLastNameLike("%" + filterName + "%", "%" + filterName + "%");
-            if (dt != null)
-                return personRepository.searchByDate(dt);
-            if (!filterLang.isEmpty()) {
-
-                return personRepository.findAllByLanguageIn(set1);
+            List<Person> containerName = new ArrayList<>();
+            if ((filterName != null && !filterName.isEmpty())) {
+                containerName.addAll(personRepository.searchByFirstNameLikeOrLastNameLike("%" + filterName + "%", "%" + filterName + "%"));
             }
-            //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterName+"%", "%"+filterName+"%", dt);
 
-            else return personRepository.findAll();
+            List<Person> containerPerson = new ArrayList<>();
+            if (dt != null) {
+                containerPerson.addAll(personRepository.searchByDate(dt));
+            }
+
+            List<Person> containerLanguage = new ArrayList<>();
+            if ((filterLang != null && !filterLang.isEmpty())) {
+
+                List<Language> nyel = languageRepository.searchByName(filterLang);
+                Set<Language> set1 = new HashSet<>();
+                for (Language t : nyel)
+                    set1.add(t);
+
+                containerLanguage.addAll(personRepository.findAllByLanguageIn(set1));
+            }
+
+            if ((containerName.size() > 0) && (containerPerson.size() > 0) && (containerLanguage.size() > 0)) {
+                containerName.retainAll(containerPerson);
+                containerName.retainAll(containerLanguage);
+                return containerName;
+            } else if ((containerName.size() > 0) && (containerPerson.size() > 0)) {
+                containerName.retainAll(containerPerson);
+                return containerName;
+            } else if ((containerPerson.size() > 0) && (containerLanguage.size() > 0)) {
+                containerPerson.retainAll(containerLanguage);
+                return containerPerson;
+            } else if ((containerName.size() > 0) && (containerLanguage.size() > 0)) {
+                containerName.retainAll(containerLanguage);
+                return containerName;
+            } else {
+                if (containerName.size() > 0) return containerName;
+                else if (containerPerson.size() > 0) return containerPerson;
+                else return containerLanguage;
+            }
+
+
         }
     }
 
