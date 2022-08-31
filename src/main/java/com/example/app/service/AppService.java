@@ -3,9 +3,11 @@ package com.example.app.service;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
+import com.example.app.data.entity.Study;
 import com.example.app.data.repository.CityRepository;
 import com.example.app.data.repository.LanguageRepository;
 import com.example.app.data.repository.PersonRepository;
+import com.example.app.data.repository.StudyRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,16 +22,21 @@ public class AppService {
     private final PersonRepository personRepository;
     private final CityRepository cityRepository;
     private final LanguageRepository languageRepository;
+    private final StudyRepository studyRepository;
 
     public AppService(PersonRepository personRepository,
                       CityRepository cityRepository,
-                      LanguageRepository languageRepository) {
+                      LanguageRepository languageRepository,
+                      StudyRepository studyRepository) {
 
         this.personRepository = personRepository;
         this.cityRepository = cityRepository;
         this.languageRepository = languageRepository;
+        this.studyRepository = studyRepository;
 
         //PeldaadatokHozzaadasa();
+        Study study = new Study();
+        study.setNameSchool("fdfd");
     }
 
 
@@ -44,50 +51,29 @@ public class AppService {
             return personRepository.searchByName(filterText, dt, why);//searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
         }*/
         }else if(why.equals("LANG")){
-            /*List<Language> nyel = languageRepository.searchByName(filterText);
-            List<Person> pers2 = new ArrayList<>();
-            for(Language ny: nyel){
-                List<Person> pers3 =personRepository.searchByLanguage(ny);
-                for(Person p: pers3){
-                    pers2.add(p);
-                }
-            } // person -> person.getlanguage().stream().map(Language::getName
-            */
-            //List<Language> nyel = languageRepository.searchByNameLike(filterText);
+
             List<Language> nyel = languageRepository.searchByName(filterText);
 
             Set<Language> set1 = new HashSet<>();
             for (Language t : nyel)
                 set1.add(t);
 
-            //Set<Person> pers2 =personRepository.searchByLanguage(set1);
-            /*List<Person> pers2 = new ArrayList<>();
-            for(Language ny: nyel){
-                Set<Person> pers3 =personRepository.searchByLanguage(ny);
-                for(Person p: pers3){
-                    pers2.add(p);
-                }
-            }*//*
-            List<Person> pers2 = new ArrayList<>();
-            for(Language ny: nyel){
-                List<Person> pers3 =personRepository.searchByLanguage(ny);
-                for(Person p: pers3){
-                    pers2.add(p);
-                }
-            }
-            //pers2 = language -> language.getPerson().steam().map(nyel);
-            */
+            return personRepository.findAllByLanguageIn(set1);
 
             //System.out.println(nyel.size()+" "+pers2.size());//+" "+pers2.size());
 
+           // return  personRepository.searchByFirstNameLikeOrLastNameLikeAndBornDate("%"+filterText+"%", "%"+filterText+"%", dt);
 
-            return personRepository.findAll();
+            //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterText+"%", "%"+filterText+"%", dt);
+
+            //return personRepository.findAll();
 
             //return pers2;
         }else if(why.equals("DATE")){
             return personRepository.searchByDate(dt);
         }else {
-            return personRepository.searchByName(filterText);
+            //return personRepository.searchByName(filterText);
+            return  personRepository.searchByFirstNameLikeOrLastNameLike("%"+filterText+"%", "%"+filterText+"%");
         }
     }
 
