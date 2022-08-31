@@ -169,7 +169,7 @@ public class PersonForm extends FormLayout {
         DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
-        DialgStudies();
+        //DialgStudies();
 //        DialgStudies();
         DialgCoverLetter(coverLetter);
 
@@ -455,7 +455,9 @@ public class PersonForm extends FormLayout {
             dialog.setModal(false);
             dialog.setDraggable(true);
 
-            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            //System.out.println(proof.getNameWork());
+
+            Button buttonShow = new Button("proof.getNameWork()", e -> dialog.open());
             Button buttonClose = new Button("Töröl");
             add(dialog);
             /*scroller2.setContent(button);
@@ -575,7 +577,7 @@ public class PersonForm extends FormLayout {
             dialog.setModal(false);
             dialog.setDraggable(true);
 
-            Button buttonShow = new Button("Kitölt", e -> dialog.open());
+            Button buttonShow = new Button(study.getNameSchool(), e -> dialog.open());
             Button buttonClose = new Button("Töröl");
             add(dialog);
             /*scroller2.setContent(button);
