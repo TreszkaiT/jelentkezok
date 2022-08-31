@@ -11,9 +11,7 @@ import com.example.app.data.repository.StudyRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -37,55 +35,131 @@ public class AppService {
         this.studyRepository = studyRepository;
 
         //PeldaadatokHozzaadasa();
-        Study study = new Study();
-        study.setNameSchool("fdfd");
     }
+
 
 
     // Person Repository-s dolgok-
 
     public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
-        return personRepository.complexSearch(filterName, dt, filterLang);
+        /*if (filterName == null) System.out.println("filtername null");
+        if (filterName.isEmpty()) System.out.println("filtename empty");
+        if (filterLang == null) System.out.println("filterLang null");
+        if (filterLang.isEmpty()) System.out.println("filterLang empty");
+        if (dt == null) System.out.println("dt null");*/
+
+        if ((filterName == null || filterName.isEmpty()) && dt == null && (filterLang == null || filterLang.isEmpty())) {
+            return personRepository.findAll();
+        } else {
+
+            List<Person> containerName = new ArrayList<>();
+            if((filterName != null && !filterName.isEmpty())){
+                containerName.addAll(personRepository.searchByFirstNameLikeOrLastNameLike("%" + filterName + "%", "%" + filterName + "%"));
+            }
+
+            List<Person> containerPerson = new ArrayList<>();
+            if(dt != null){
+                containerPerson.addAll(personRepository.searchByDate(dt));
+            }
+
+            List<Person> containerLanguage = new ArrayList<>();
+            if((filterLang != null && !filterLang.isEmpty())){
+
+                List<Language> nyel = languageRepository.searchByName(filterLang);
+                Set<Language> set1 = new HashSet<>();
+                for (Language t : nyel)
+                    set1.add(t);
+
+                containerLanguage.addAll(personRepository.findAllByLanguageIn(set1));
+            }
+
+            if((containerName.size()>0) && (containerPerson.size()>0) && (containerLanguage.size()>0)){
+                containerName.retainAll(containerPerson);
+                containerName.retainAll(containerLanguage);
+                return containerName;
+            } else if((containerName.size()>0) && (containerPerson.size()>0)){
+                containerName.retainAll(containerPerson);
+                return containerName;
+            } else if ((containerPerson.size()>0) && (containerLanguage.size()>0)) {
+                containerPerson.retainAll(containerLanguage);
+                return containerPerson;
+            } else if ((containerName.size()>0) && (containerLanguage.size()>0)) {
+                containerName.retainAll(containerLanguage);
+                return containerName;
+            } else{
+                if(containerName.size()>0) return containerName;
+                else if (containerPerson.size()>0) return containerPerson;
+                else return containerLanguage;
+            }
+
+
+
+            /*List<Language> nyel = languageRepository.searchByName(filterLang);
+            Set<Language> set1 = new HashSet<>();
+            for (Language t : nyel)
+                set1.add(t);
+
+            if ((filterName != null && !filterName.isEmpty()) && dt != null && (filterLang != null && !filterLang.isEmpty()))
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            else if ((filterName != null && !filterName.isEmpty()) && (filterLang != null && !filterLang.isEmpty()))
+                //return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+                return personRepository.findAllByLanguageInOrFirstNameLikeOrLastNameLike(set1,"%" + filterName + "%", "%" + filterName + "%");
+            else if ((filterName != null && !filterName.isEmpty()) && dt != null) //ok
+                return personRepository.searchByFirstNameLikeOrLastNameLikeAndBornDateEquals("%" + filterName + "%", "%" + filterName + "%", dt);
+            else if (dt != null && (filterLang != null && !filterLang.isEmpty()))
+                return personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%" + filterName + "%", "%" + filterName + "%", dt);
+            else if (!filterName.isEmpty()) // ok
+                return personRepository.searchByFirstNameLikeOrLastNameLike("%" + filterName + "%", "%" + filterName + "%");
+            else if (dt != null)
+                return personRepository.searchByDate(dt);   //ok
+            else if (!filterLang.isEmpty()) {
+
+                return personRepository.findAllByLanguageIn(set1);
+            }
+            //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterName+"%", "%"+filterName+"%", dt);
+
+            else return personRepository.findAll();*/
+        }
     }
 
     public Optional<City> findByCity(String id) {
         return cityRepository.findById(UUID.fromString(id));
     }
 
-    public City findCityByName(String name) {
+    public City findCityByName(String name){
         List<City> cityFindAll = findAllCities();
-        for (City city : cityFindAll) {
-            if (city.getName().equals(name)) return city;
+        for(City city: cityFindAll){
+            if(city.getName().equals(name)) return city;
         }
         return null;
     }
 
-    public Language findLanguageByName(String name) {
+    public Language findLanguageByName(String name){
         List<Language> langFindAll = findAllLanguage();
-        for (Language lang : langFindAll) {
-            if (lang.getName().equals(name)) return lang;
+        for(Language lang: langFindAll){
+            if(lang.getName().equals(name)) return lang;
         }
         return null;
     }
 
-    public long countPersons() {
+    public long countPersons(){
         return personRepository.count();
     }
 
-    public long countCities() {
+    public long countCities(){
         return cityRepository.count();
     }
 
-    public long countLanguage() {
+    public long countLanguage(){
         return languageRepository.count();
     }
 
-    public void deletePerson(Person person) {
+    public void deletePerson(Person person){
         personRepository.delete(person);
     }
 
-    public void savePerson(Person person) {
-        if (person == null) {
+    public void savePerson(Person person){
+        if(person == null){
             System.out.println("Nincs Személy");
         }
 
@@ -93,7 +167,7 @@ public class AppService {
     }
 
     // City Repository-s dolgok-
-    public List<City> findAllCities() {
+    public List<City> findAllCities(){
         return cityRepository.findAll();
     }
 
@@ -103,42 +177,38 @@ public class AppService {
     }*/
 
     // Language Repository-s dolgok-
-    public List<Language> findAllLanguage() {
+    public List<Language> findAllLanguage(){
         return languageRepository.findAll();
     }
 
-    public List<Person> findAllPersons() {
-        return personRepository.findAll();
-    }
+    public List<Person> findAllPersons(){return personRepository.findAll();};
 
-    ;
-
-    public void saveCities(List<City> cities) {
-        if (cities == null) {
+    public  void saveCities(List<City> cities){
+        if(cities == null){
             System.out.println("Nincsenek városok!");
         }
 
-        for (City cit : cities) {
+        for(City cit: cities){
             cityRepository.save(cit);
         }
     }
 
-    public void saveLanguage(List<Language> languages) {
-        if (languages == null) {
+    public void saveLanguage(List<Language> languages){
+        if(languages == null){
             System.out.println("Nincsenek nyelvek");
         }
 
         //languages.stream()
-        for (Language ny : languages) {
+        for (Language ny: languages) {
             languageRepository.save(ny);
             //System.out.println("1");
         }
     }
 
-    public void savePerson(List<Person> persons) {
-        if (persons == null) System.out.println("Nincsennek személyek");
+    public void savePerson(List<Person> persons){
+        if(persons == null) System.out.println("Nincsennek személyek");
 
-        for (Person per : persons) personRepository.save(per);
+        for(Person per: persons) personRepository.save(per);
     }
 
    /* private void PeldaadatokHozzaadasa() {

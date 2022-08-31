@@ -163,7 +163,7 @@ public class PersonForm extends FormLayout {
 
         UploadUtanKepBetoltese();
 
-        //DialgProfExperience();
+        DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
         DialgStudies();
@@ -401,6 +401,52 @@ public class PersonForm extends FormLayout {
     /**
      * Create Dialog window Szakmai Tapasztalat
      */
+    private void DialgProfExperience() {
+        divProfExperienceButton.addClickListener(event -> {
+            ProfExperience profExperience = new ProfExperience();
+            createProfExperianceFormNew(profExperience, createDialogLayoutProfExperience(profExperience)).open();
+        });
+    }
+
+    private Dialog createProfExperianceFormNew(ProfExperience profExperience, ProfExperienceForm profExperienceForm){
+        Dialog dialog = new Dialog();
+        dialog.getElement().setAttribute("aria-label", "Add note");
+        dialog.getHeader().add(createHeaderLayoutProfExperience());
+
+        dialog.add(profExperienceForm);
+        dialog.setModal(false);
+        dialog.setDraggable(true);
+
+        Button cancelButton = new Button("Mégsem", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> {
+            profExperienceForm.save();
+            PersonForm.this.person.getProfExperiences().add(profExperience);    // itt beállítjuk mindkettőt az elmentéshez, és a nagy mentés gombbra kattintva menti csak majd el
+            profExperience.setPerson(PersonForm.this.person);
+            dialog.close();
+        });
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        dialog.getFooter().add(cancelButton);
+        dialog.getFooter().add(saveButton);
+        return dialog;
+    }
+
+    private Dialog createProfExperienceDialog(ProfExperienceForm profExperienceForm){
+        Dialog dialog = new Dialog();
+        dialog.getElement().setAttribute("aria-label", "Add note");
+
+        dialog.getHeader().add(createHeaderLayoutProfExperience());
+
+        dialog.add(profExperienceForm);
+        dialog.setModal(false);
+        dialog.setDraggable(true);
+        return dialog;
+    }
+
+    private void removeExperienceOne(ProfExperience profExperience) {
+        Person person =  profExperience.getPerson();
+        person.getProfExperiences().remove(profExperience);
+        profExperience.setPerson(null);
+    }
 
     private void showProfExperienceList() {
         divProfExperience.removeAll();
@@ -408,22 +454,10 @@ public class PersonForm extends FormLayout {
             return;
         }
         for (ProfExperience profExperience : person.getProfExperiences()) {
-            Dialog dialog = new Dialog();
-            dialog.getElement().setAttribute("aria-label", "Add note");
-
-            dialog.getHeader().add(createHeaderLayoutProfExperience());
-
-            ProfExperienceForm profExperienceForm;
-            dialog.add(profExperienceForm = createDialogLayoutProfExperience(profExperience));
-            dialog.setModal(false);
-            dialog.setDraggable(true);
-
-            //VerticalLayout dialogLayout = createDialogLayout();
-            //dialog.add(dialogLayout);
-
-
+            ProfExperienceForm profExperienceForm = createDialogLayoutProfExperience(profExperience);
+            Dialog dialog = createProfExperienceDialog(profExperienceForm);
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl");
+            Button buttonClose = new Button("Töröl", e -> removeExperienceOne(profExperience));
             add(dialog);
             /*scroller2.setContent(button);
             scroller2.setWidthFull();//("200px");
@@ -457,43 +491,7 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-    private void DialgProfExperience() {
-        divProfExperienceButton.addClickListener(event -> {
-            Dialog dialog = new Dialog();
-            dialog.getElement().setAttribute("aria-label", "Add note");
 
-            dialog.getHeader().add(createHeaderLayout());
-
-
-            VerticalLayout dialogLayout = createDialogLayout();
-            dialog.add(dialogLayout);
-            dialog.setModal(false);
-            dialog.setDraggable(true);
-
-            Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl");
-            add(dialog);
-            /*scroller2.setContent(button);
-            scroller2.setWidthFull();//("200px");
-            scroller2.setHeight("200px");*/
-            //H5 h5 = new H5(" ");
-
-            Scroller sc1 = new Scroller();
-            HorizontalLayout hl2 = new HorizontalLayout();
-            hl2.add(buttonShow, buttonClose);
-
-
-            //div1.add(hl2);
-            sc1.setContent(hl2);
-
-            divProfExperience.add(sc1);//buttonShow, buttonClose, h5);
-
-            buttonClose.addClickListener(e -> sc1.setContent(null));
-
-            createFooter(dialog);
-            //dialog.getElement().getThemeList().add("dark");
-        });
-    }
 
     private static H2 createHeaderLayout() {
         H2 headline = new H2("Szakmai Tapasztalat");
@@ -602,6 +600,12 @@ public class PersonForm extends FormLayout {
         return dialog;
     }
 
+    private void removeStudent(Study study) {
+        Person person = study.getPerson();
+        person.getstudies().remove(study);
+        study.setPerson(null);
+    }
+
     private void showStudiesList() {
         divstudies.removeAll();
         if (null == person) {
@@ -611,7 +615,7 @@ public class PersonForm extends FormLayout {
             StudyForm studyForm = createDialogLayoutStudies(study);
             Dialog dialog = createStudyDialog(studyForm);
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl");
+            Button buttonClose = new Button("Töröl", e->removeStudent(study));
             add(dialog);
             /*scroller2.setContent(button);
             scroller2.setWidthFull();//("200px");
