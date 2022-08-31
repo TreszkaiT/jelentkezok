@@ -10,10 +10,10 @@ public class ProfExperience extends AbstractEntity{
     @Column(name = "STD_NAME_WORK")
     private String nameWork;
     @Column(name = "STD_FROM")
-    private LocalDate from;
+    private LocalDate fromDate;
 
     @Column(name = "STD_TO")
-    private LocalDate to;
+    private LocalDate toDate;
     @Column(name = "STD_COMMENT")
     private String comment;
 
@@ -33,20 +33,20 @@ public class ProfExperience extends AbstractEntity{
         this.nameWork = nameWork;
     }
 
-    public LocalDate getFrom() {
-        return from;
+    public LocalDate getFromDate() {
+        return fromDate;
     }
 
-    public void setFrom(LocalDate from) {
-        this.from = from;
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public LocalDate getTo() {
-        return to;
+    public LocalDate getToDate() {
+        return toDate;
     }
 
-    public void setTo(LocalDate to) {
-        this.to = to;
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
     }
 
     public String getComment() {

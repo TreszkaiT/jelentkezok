@@ -160,16 +160,18 @@ public class StartingDataUpload extends VerticalLayout {
                     {
                         ProfExperience proof = new ProfExperience();
                         proof.setNameWork("Első");
-                        proof.setFrom(LocalDate.of(1977,11,12));
-                        proof.setFrom(LocalDate.of(1978,11,12));
+                        proof.setFromDate(LocalDate.of(1977,11,12));
+                        proof.setToDate(LocalDate.of(1978,11,12));
+                        proof.setComment("Valami");
                         pers.getProfExperiences().add(proof);
                         proof.setPerson(pers);
                     }
                     {
                         ProfExperience proof = new ProfExperience();
                         proof.setNameWork("Második");
-                        proof.setFrom(LocalDate.of(1979,9,12));
-                        proof.setFrom(LocalDate.of(1981,11,12));
+                        proof.setFromDate(LocalDate.of(1979,9,12));
+                        proof.setToDate(LocalDate.of(1981,11,12));
+                        proof.setComment("Valami2");
                         pers.getProfExperiences().add(proof);
                         proof.setPerson(pers);
                     }

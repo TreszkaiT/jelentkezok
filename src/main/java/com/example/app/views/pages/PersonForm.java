@@ -166,7 +166,7 @@ public class PersonForm extends FormLayout {
 
         UploadUtanKepBetoltese();
 
-        DialgProfExperience();
+        //DialgProfExperience();
         showStudiesList();
         showProfExperienceList();
         //DialgStudies();
@@ -407,14 +407,19 @@ public class PersonForm extends FormLayout {
         if (null == person){
             return;
         }
-        for (ProfExperience proof : person.getProfExperiences()) {
+        for (ProfExperience profExperience : person.getProfExperiences()) {
             Dialog dialog = new Dialog();
             dialog.getElement().setAttribute("aria-label", "Add note");
 
-            dialog.getHeader().add(createHeaderLayout());
+            dialog.getHeader().add(createHeaderLayoutProfExperience());
 
-            VerticalLayout dialogLayout = createDialogLayout();
-            dialog.add(dialogLayout);
+            ProfExperienceForm profExperienceForm;
+            dialog.add(profExperienceForm = createDialogLayoutProfExperience(profExperience));
+            dialog.setModal(false);
+            dialog.setDraggable(true);
+
+            //VerticalLayout dialogLayout = createDialogLayout();
+            //dialog.add(dialogLayout);
             dialog.setModal(false);
             dialog.setDraggable(true);
 
@@ -438,11 +443,11 @@ public class PersonForm extends FormLayout {
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
-            createFooter(dialog);
+            createFooterProfExperience(dialog, profExperienceForm);
         }
     }
 
-    private void DialgProfExperience() {
+   /* private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             Dialog dialog = new Dialog();
             dialog.getElement().setAttribute("aria-label", "Add note");
@@ -460,9 +465,9 @@ public class PersonForm extends FormLayout {
             Button buttonShow = new Button("proof.getNameWork()", e -> dialog.open());
             Button buttonClose = new Button("Töröl");
             add(dialog);
-            /*scroller2.setContent(button);
-            scroller2.setWidthFull();//("200px");
-            scroller2.setHeight("200px");*/
+            //scroller2.setContent(button);
+            //scroller2.setWidthFull();//("200px");
+            //scroller2.setHeight("200px");
             //H5 h5 = new H5(" ");
 
             Scroller sc1 = new Scroller();
@@ -480,8 +485,8 @@ public class PersonForm extends FormLayout {
             createFooter(dialog);
             //dialog.getElement().getThemeList().add("dark");
         });
-    }
-    private static H2 createHeaderLayout() {
+    }*/
+    private static H2 createHeaderLayoutProfExperience() {
         H2 headline = new H2("Szakmai Tapasztalat");
         headline.addClassName("draggable");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em")
@@ -492,29 +497,23 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-    private static VerticalLayout createDialogLayout() {
+    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
+        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
 
-        TextField titleField = new TextField("Munkahely");
-        DatePicker dtFrom   = new DatePicker("Tól");
-        DatePicker dtTo     = new DatePicker("ig");
-        HorizontalLayout hzLay1 = new HorizontalLayout();
-        hzLay1.add(dtFrom, dtTo);
-        TextArea descriptionArea = new TextArea("Megjegyzés");
+        //fieldLayout.setSpacing(false);
+        //fieldLayout.setPadding(false);
+        //fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
-        VerticalLayout fieldLayout = new VerticalLayout(titleField,
-                hzLay1,
-                descriptionArea);
-        fieldLayout.setSpacing(false);
-        fieldLayout.setPadding(false);
-        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
-
-        return fieldLayout;
+        return profExperienceLayout;
     }
 
-    private static void createFooter(Dialog dialog) {
+    private static void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
-        Button saveButton = new Button("Mentés", e -> dialog.close());
+        Button saveButton = new Button("Mentés", e -> {
+            profExperienceForm.save();
+            dialog.close();
+        });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         dialog.getFooter().add(cancelButton);
