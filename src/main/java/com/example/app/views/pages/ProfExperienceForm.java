@@ -22,9 +22,10 @@ public class ProfExperienceForm extends FormLayout {
     ProfExperience profExperience;
 
     public ProfExperienceForm(ProfExperience profExperience) {
+        this.profExperience = profExperience;
+
         add(nameWork, formDate, toDate, comment);
         binder.bindInstanceFields(this);
-        this.profExperience = profExperience;
         binder.readBean(profExperience);
     }
 

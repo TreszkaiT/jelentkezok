@@ -420,8 +420,7 @@ public class PersonForm extends FormLayout {
 
             //VerticalLayout dialogLayout = createDialogLayout();
             //dialog.add(dialogLayout);
-            dialog.setModal(false);
-            dialog.setDraggable(true);
+
 
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl");
