@@ -3,8 +3,8 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.*;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
-import com.example.app.service.AppService;
-import com.example.app.service.DataService;
+import com.example.app.viewcontroller.AppController;
+import com.example.app.viewcontroller.StartingDataController;
 import com.example.app.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -27,26 +27,27 @@ import static com.example.app.data.properties.SetProperties.SetButtonAppProperty
 @PermitAll          // login security miatt
 public class StartingDataUpload extends VerticalLayout {
 
-    private AppService service;
-    private DataService serviceData;
+    private StartingDataController startingDataController;
+    private AppController appController;
 
-    Button button1 = new Button("Nyelvek feltöltése");
-    Button button2 = new Button("Városok feltöltése");
-    Button button3 = new Button("Emberek feltöltése");
-    ProgressBar progressBar1 = new ProgressBar();
-    ProgressBar progressBar2 = new ProgressBar();
-    ProgressBar progressBar3 = new ProgressBar();
+    Button buttonLanguageUpload = new Button("Nyelvek feltöltése");
+    Button buttonCityUpload = new Button("Városok feltöltése");
+    Button buttonPersonUpload = new Button("Emberek feltöltése");
+    ProgressBar progressBarLanguage = new ProgressBar();
+    ProgressBar progressBarCity = new ProgressBar();
+    ProgressBar progressBarPerson = new ProgressBar();
 
     public static int ConfigLanguageButton;
     public static int ConfigCityButton;
     public static int ConfigPersonButton;
 
-    public StartingDataUpload(AppService service, DataService serviceData) {
-        this.service = service;
-        this.serviceData = serviceData;
+    public StartingDataUpload(AppController appController, StartingDataController startingDataController) {
+        this.appController = appController;
+        this.startingDataController = startingDataController;
 
-        List<Language> languages = serviceData.getLanguage();
-        List<Person> persons = serviceData.getPersonSerializer();
+
+        List<Language> languages = startingDataController.getLanguage();
+        List<Person> persons = startingDataController.getPersonSerializer();
 
         addClassName("starting-data-upload");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -56,40 +57,40 @@ public class StartingDataUpload extends VerticalLayout {
 
         GetProperties properties = new GetProperties();
         properties.getAppPropValues();
-        // kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
-        PropertiesNull();
 
-        // Nyelv adatok beírása az adatbázisba
-        LangButtonClick(languages);
+        PropertiesNull();                           // kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
 
-        // City adatok beírása az adatbázisba
-        CityButtonClick();
+        LangButtonClick(languages);                 // Nyelv adatok beírása az adatbázisba
 
-        // Person adatok beírása az adatbázisba
-        PersonButtonClick(persons);
+        CityButtonClick();                          // City adatok beírása az adatbázisba
+
+        PersonButtonClick(persons);                 // Person adatok beírása az adatbázisba
 
     }
 
     private void LangButtonClick(List<Language> languages) {
-        if (ConfigLanguageButton == 2) button1.setEnabled(false);
-        button1.addClickListener(event -> {
-            progressBar1.setIndeterminate(true);
+        if (ConfigLanguageButton == 2) buttonLanguageUpload.setEnabled(false);
+
+        buttonLanguageUpload.addClickListener(event -> {
+            progressBarLanguage.setIndeterminate(true);
 
             new Thread(() -> {
 
-                service.saveLanguage(languages);
+                appController.saveLanguage(languages);
 
             }).start();
-            progressBar1.setIndeterminate(false);
-            button1.setEnabled(false);
-            if (!button1.isEnabled() && !button2.isEnabled()) button3.setEnabled(true);
+            progressBarLanguage.setIndeterminate(false);
+            buttonLanguageUpload.setEnabled(false);
+
+            if (!buttonLanguageUpload.isEnabled() && !buttonCityUpload.isEnabled()) buttonPersonUpload.setEnabled(true);
         });
     }
 
     private void CityButtonClick() {
-        if (ConfigCityButton == 2) button2.setEnabled(false);
-        button2.addClickListener(event -> {
-            progressBar2.setIndeterminate(true);
+        if (ConfigCityButton == 2) buttonCityUpload.setEnabled(false);
+
+        buttonCityUpload.addClickListener(event -> {
+            progressBarCity.setIndeterminate(true);
             new Thread(() -> {
 
                 String[][] dataTable = ExcelXlsAndXlsxRead.getEXlsXlsx("telepulesek.xlsx", 0);        // read from cells -- .xls
@@ -102,32 +103,34 @@ public class StartingDataUpload extends VerticalLayout {
                 }
 
                 //if(cities==null) System.out.println("null"); else service.saveCities(cities);
-                if (cities != null) service.saveCities(cities);
+                if (cities != null) appController.saveCities(cities);
 
             }).start();
-            progressBar2.setIndeterminate(false);
-            button2.setEnabled(false);
-            if (!button1.isEnabled() && !button2.isEnabled()) button3.setEnabled(true);
+            progressBarCity.setIndeterminate(false);
+            buttonCityUpload.setEnabled(false);
+
+            if (!buttonLanguageUpload.isEnabled() && !buttonCityUpload.isEnabled()) buttonPersonUpload.setEnabled(true);
         });
     }
 
     private void PersonButtonClick(List<Person> persons) {
         if (ConfigCityButton == 1 || ConfigLanguageButton == 1)
-            button3.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
-        if (ConfigPersonButton == 2) button3.setEnabled(false);
-        button3.addClickListener(event -> {
-            progressBar3.setIndeterminate(true);
+            buttonPersonUpload.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
+        if (ConfigPersonButton == 2) buttonPersonUpload.setEnabled(false);
+
+        buttonPersonUpload.addClickListener(event -> {
+            progressBarPerson.setIndeterminate(true);
             List<Person> personsok = new ArrayList<>();
             new Thread(() -> {
                 for (Person pers : persons) {
-                    long rndCity = new RandomDataGenerator().nextLong(0, service.countCities());
-                    long rndlang = new RandomDataGenerator().nextLong(0, service.countLanguage());
-                    long rndlang2 = new RandomDataGenerator().nextLong(0, service.countLanguage());
+                    long rndCity = new RandomDataGenerator().nextLong(0, appController.countCities());
+                    long rndlang = new RandomDataGenerator().nextLong(0, appController.countLanguage());
+                    long rndlang2 = new RandomDataGenerator().nextLong(0, appController.countLanguage());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getlanguage()==null) System.out.println("null lang");
-                    pers.setcity(service.findAllCities().get((int) rndCity));//findByCity("1"));
-                    pers.getlanguage().add(service.findAllLanguage().get((int) rndlang));
-                    pers.getlanguage().add(service.findAllLanguage().get((int) rndlang2));
+                    pers.setcity(appController.findAllCities().get((int) rndCity));//findByCity("1"));
+                    pers.getlanguage().add(appController.findAllLanguage().get((int) rndlang));
+                    pers.getlanguage().add(appController.findAllLanguage().get((int) rndlang2));
 
                     {
                         Study study = new Study();
@@ -169,10 +172,10 @@ public class StartingDataUpload extends VerticalLayout {
                     //pers.setlanguage(service.findLanguageByName("English"));
                     personsok.add(pers);
                 }
-                service.savePerson(personsok);
+                appController.savePerson(personsok);
             }).start();
-            progressBar3.setIndeterminate(false);
-            button3.setEnabled(false);
+            progressBarPerson.setIndeterminate(false);
+            buttonPersonUpload.setEnabled(false);
         });
     }
 
@@ -180,11 +183,11 @@ public class StartingDataUpload extends VerticalLayout {
      * kezdeti értékek beállítása a proerties fileba, ha az adatbázisba még nincs beírva leglább 10 sor -> biztos még nem nyomott a gombra hogy írja be
      */
     private void PropertiesNull() {
-        if (service.findAllLanguage().size() < 10) ConfigLanguageButton = 1;
+        if (appController.findAllLanguage().size() < 10) ConfigLanguageButton = 1;
         else ConfigLanguageButton = 2;
-        if (service.findAllCities().size() < 10) ConfigCityButton = 1;
+        if (appController.findAllCities().size() < 10) ConfigCityButton = 1;
         else ConfigCityButton = 2;
-        if (service.findAllPersons().size() < 2) ConfigPersonButton = 1;
+        if (appController.findAllPersons().size() < 2) ConfigPersonButton = 1;
         else ConfigPersonButton = 2;
         SetButtonAppPropertyValue(ConfigLanguageButton, ConfigCityButton, ConfigPersonButton);
 
@@ -193,24 +196,24 @@ public class StartingDataUpload extends VerticalLayout {
     private Component LanguageFillButton() {
         HorizontalLayout progresLayout = new HorizontalLayout();
         //progressBar.setVisible(false);
-        button1.setDisableOnClick(true);
-        progresLayout.add(button1, progressBar1);
+        buttonLanguageUpload.setDisableOnClick(true);
+        progresLayout.add(buttonLanguageUpload, progressBarLanguage);
         progresLayout.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         return progresLayout;
     }
 
     private Component CityFillButton() {
         HorizontalLayout layout2 = new HorizontalLayout();
-        button2.setDisableOnClick(true);
-        layout2.add(button2, progressBar2);
+        buttonCityUpload.setDisableOnClick(true);
+        layout2.add(buttonCityUpload, progressBarCity);
         layout2.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         return layout2;
     }
 
     private Component PersonFillButton() {
         HorizontalLayout layout3 = new HorizontalLayout();
-        button3.setDisableOnClick(true);
-        layout3.add(button3, progressBar3);
+        buttonPersonUpload.setDisableOnClick(true);
+        layout3.add(buttonPersonUpload, progressBarPerson);
         layout3.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         return layout3;
     }

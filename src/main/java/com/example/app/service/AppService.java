@@ -38,7 +38,33 @@ public class AppService {
         //PeldaadatokHozzaadasa();
     }
 
+    public  void saveCities(List<City> cities){
+        if(cities == null){
+            System.out.println("Nincsenek városok!");
+        }
 
+        for(City cit: cities){
+            cityRepository.save(cit);
+        }
+    }
+
+    public void saveLanguage(List<Language> languages){
+        if(languages == null){
+            System.out.println("Nincsenek nyelvek");
+        }
+
+        //languages.stream()
+        for (Language ny: languages) {
+            languageRepository.save(ny);
+            //System.out.println("1");
+        }
+    }
+
+    public void savePerson(List<Person> persons){
+        if(persons == null) System.out.println("Nincsennek személyek");
+
+        for(Person per: persons) personRepository.save(per);
+    }
 
     // Person Repository-s dolgok-
 
@@ -187,33 +213,7 @@ public class AppService {
 
     public List<Person> findAllPersons(){return personRepository.findAll();};
 
-    public  void saveCities(List<City> cities){
-        if(cities == null){
-            System.out.println("Nincsenek városok!");
-        }
 
-        for(City cit: cities){
-            cityRepository.save(cit);
-        }
-    }
-
-    public void saveLanguage(List<Language> languages){
-        if(languages == null){
-            System.out.println("Nincsenek nyelvek");
-        }
-
-        //languages.stream()
-        for (Language ny: languages) {
-            languageRepository.save(ny);
-            //System.out.println("1");
-        }
-    }
-
-    public void savePerson(List<Person> persons){
-        if(persons == null) System.out.println("Nincsennek személyek");
-
-        for(Person per: persons) personRepository.save(per);
-    }
 
    /* private void PeldaadatokHozzaadasa() {
 

@@ -1,7 +1,11 @@
 package com.example.app.service;
 
+import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
+import com.example.app.data.repository.CityRepository;
+import com.example.app.data.repository.LanguageRepository;
+import com.example.app.data.repository.PersonRepository;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -27,7 +31,19 @@ import java.util.List;
 
 //Kiolvasás .Json fileból, és beírás adatbázisba
 @Service
-public class DataService {
+public class StartingDataService {
+
+    private final PersonRepository personRepository;
+    private final CityRepository cityRepository;
+    private final LanguageRepository languageRepository;
+
+    public StartingDataService(PersonRepository personRepository, CityRepository cityRepository, LanguageRepository languageRepository) {
+        this.personRepository = personRepository;
+        this.cityRepository = cityRepository;
+        this.languageRepository = languageRepository;
+    }
+
+     // Load data from files
 
     public static <T> T getItems(Class<T> clazz, String dataFileName) {
         ObjectMapper mapper = new ObjectMapper();

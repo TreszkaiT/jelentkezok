@@ -2,7 +2,6 @@ package com.example.app.views.pages;
 
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
-import com.example.app.service.AppService;
 import com.example.app.viewcontroller.AppController;
 import com.example.app.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -31,13 +30,11 @@ public class ListView extends VerticalLayout {
     TextField filterTextLang = new TextField();
     DatePicker getFilterDateDate = new DatePicker();
     PersonForm form;
-    private AppService service;
 
     private AppController appController;
 
-    public ListView(AppService service, AppController appController) {   // Autowire kell, hogy elérjük a nézetünket : (AppService service), ehhez kell még az updateList() metódust megírni itt
+    public ListView(AppController appController) {   // Autowire kell, hogy elérjük a nézetünket : (AppService service), ehhez kell még az updateList() metódust megírni itt
         this.appController = appController;
-        this.service = service;
 
         addClassName("list-view");  // CSS osztálynév hozzáadása
         setSizeFull();
@@ -70,9 +67,9 @@ public class ListView extends VerticalLayout {
 
         grid.setItems(appController.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
 
-        /*if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
-        else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextLang.getValue(), date, why));
-        else if(why=="DATE") grid.setItems(service.findAllPersons("Date", getFilterDateDate.getValue(), why));*/
+        /*if(why=="") grid.setItems(appController.findAllPersons(filterTextName.getValue(), date, why));
+        else if(why=="LANG") grid.setItems(appController.findAllPersons(filterTextLang.getValue(), date, why));
+        else if(why=="DATE") grid.setItems(appController.findAllPersons("Date", getFilterDateDate.getValue(), why));*/
     }
 
     private Component getContent() {
@@ -86,7 +83,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new PersonForm(service.findAllCities(), service.findAllLanguage());//, service);    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
+        form = new PersonForm(appController.findAllCities(), appController.findAllLanguage());    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
         form.setWidth("25em");
 
         form.addListener(PersonForm.SaveEvent.class, this::savePerson);
@@ -95,13 +92,13 @@ public class ListView extends VerticalLayout {
     }
 
     private void savePerson(PersonForm.SaveEvent event) {
-        service.savePerson(event.getPerson());
+        appController.savePerson(event.getPerson());
         updateList();
         closeEditor();
     }
 
     private void deletePerson(PersonForm.DeleteEvent event) {
-        service.deletePerson(event.getPerson());
+        appController.deletePerson(event.getPerson());
         updateList();
         closeEditor();
     }
