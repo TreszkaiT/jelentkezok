@@ -22,15 +22,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
     public LoginView(Product product) {
         this.product = product;
         addClassName("login-view");
-        //setSizeFull();
-        //setAlignItems(Alignment.CENTER);
-        //setJustifyContentMode(JustifyContentMode.CENTER);
 
-        //LoginOverlay loginOverlay = new LoginOverlay();
         loginOverlay.setTitle("Önéletrajz adatokat tároló alkalmazás v." + product.getVersion());
         loginOverlay.setDescription("Készítette: T.Tamás");
         loginOverlay.setOpened(true);
-        loginOverlay.setError(true);
+        loginOverlay.setError(false);
         loginOverlay.setAction("login");
         loginOverlay.setI18n(createLoginI18n());
 
@@ -39,7 +35,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
                 loginOverlay
                 //login
         );
-        //loginOverlay.setOpened(true);
+
         loginOverlay.getElement().setAttribute("no-autofocus", "");
         loginOverlay.getElement().getThemeList().add("dark");
         this.getElement().getStyle().set("background-image", "images/art_back.jpg");
@@ -67,24 +63,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
         i18n.setErrorMessage(i18nErrorMessage);
 
         i18n.setAdditionalInformation("Ha nem tudnál belépni az adataiddal, akkor kérlek vedd fel a kapcsolatot velünk: admin@company.com");
-    /*
-        // define all visible Strings to the values you want
-        // this code is copied from above-linked example codes for Login
-        // in a truly international application you would use i.e. `getTranslation(USERNAME)` instead of hardcoded string values. Make use of your I18nProvider
-        //i18n.getHeader().setTitle("Nome do aplicativo");
-        //i18n.getHeader().setDescription("Descrição do aplicativo");
-        i18n.getForm().setUsername("Usuário"); // this is the one you asked for.
-        i18n.getForm().setTitle("Acesse a sua conta");
-        i18n.getForm().setSubmit("Entrar");
-        i18n.getForm().setPassword("Senha");
-        i18n.getForm().setForgotPassword("Esqueci minha senha");
-        i18n.getErrorMessage().setTitle("Usuário/senha inválidos");
-        i18n.getErrorMessage()
-                .setMessage("Confira seu usuário e senha e tente novamente.");
-        i18n.setAdditionalInformation(
-                "Caso necessite apresentar alguma informação extra para o usuário"
-                        + " (como credenciais padrão), este é o lugar.");
-        */
+
         return i18n;
     }
 
@@ -100,7 +79,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {
-            //login.setError(true);
             loginOverlay.setError(true);
         }
     }

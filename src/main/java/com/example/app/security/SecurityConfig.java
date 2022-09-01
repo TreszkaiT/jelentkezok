@@ -38,8 +38,8 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**");       // minden kép mappában lévő fájlt letiltunk
-        web.ignoring().antMatchers("/images/**");       // minden kép mappában lévő fájlt letiltunk
+        web.ignoring().antMatchers("/h2-console/**");       // h2-console engedélyezése
+        web.ignoring().antMatchers("/images/**");           // kép mappa engedélyezése
         super.configure(web);
     }
 
