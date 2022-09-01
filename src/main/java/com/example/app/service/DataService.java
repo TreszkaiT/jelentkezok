@@ -42,8 +42,6 @@ public class DataService {
 
     public static List<Language> getLanguage() {
         return Arrays.asList(getItems(Language[].class, "languages.json"));
-        //List<Language> languages = Arrays.asList(getItems(Language[].class, "languages.json"));
-        //return languages;
     }
 
     public static List<Language> getLanguage(int count) {

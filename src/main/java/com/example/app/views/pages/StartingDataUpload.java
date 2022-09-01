@@ -77,14 +77,7 @@ public class StartingDataUpload extends VerticalLayout {
 
             new Thread(() -> {
 
-                // ide jön a feltöltés
-
                 service.saveLanguage(languages);
-
-                //this.getUI()..access(() -> {
-                //progressBar1.se
-                //
-                //});
 
             }).start();
             progressBar1.setIndeterminate(false);
