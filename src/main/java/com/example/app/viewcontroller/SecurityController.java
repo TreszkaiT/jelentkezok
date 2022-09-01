@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SecurityController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);        // az osztályhoz elkérek egy loggert,
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityController.class);        // az osztályhoz elkérek egy loggert,
 
     private static SecurityService securityService;
 

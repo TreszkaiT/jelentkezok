@@ -1,7 +1,7 @@
 package com.example.app.views;
 
 
-import com.example.app.service.component.Product;
+import com.example.app.viewcontroller.ProductController;
 import com.example.app.viewcontroller.SecurityController;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
@@ -25,14 +25,13 @@ public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
 
-    private Product product;
-
     private SecurityController securityController;
+    private ProductController productController;
 
-    public MainLayout(Product product, SecurityController securityController) {           // v. így használok a Product Component Bean-ból; így nem lesz null
+    public MainLayout(ProductController productController, SecurityController securityController) {           // v. így használok a Product Component Bean-ból; így nem lesz null
+        this.productController = productController;
         this.securityController = securityController;
 
-        this.product = product;                                                     // és persze ez is kell hozzá
         createHeader();
         createDrawer();
         //setPrimarySection(Section.DRAWER);
@@ -43,7 +42,7 @@ public class MainLayout extends AppLayout {
 
 
     private void createHeader() {
-        H1 logo = new H1("Önéletrajz adatokat tároló alkalmazás v." + product.getVersion());
+        H1 logo = new H1("Önéletrajz adatokat tároló alkalmazás v." + productController.getProductVersion());
         logo.addClassNames("text-l", "m-m");
 
         Button logout = new Button("Kilépés", e -> securityController.Logout());
