@@ -4,8 +4,6 @@ import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.service.AppService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -13,7 +11,6 @@ import java.util.List;
 
 @Controller
 public class AppController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppController.class);        // az osztályhoz elkérek egy loggert,
 
     private static AppService appService;
 
@@ -25,9 +22,7 @@ public class AppController {
         return appService.findAllPersons(filterName, dt, filterLang);
     }
     public List<Person> findAllPersons(){ return appService.findAllPersons(); }
-
     public List<City> findAllCities(){ return appService.findAllCities(); }
-
     public List<Language> findAllLanguage(){ return appService.findAllLanguage(); }
 
 
@@ -37,20 +32,16 @@ public class AppController {
 
     public  void saveCities(List<City> cities) { appService.saveCities(cities); }
     public void saveLanguage(List<Language> languages) { appService.saveLanguage(languages); }
-
     public void savePerson(List<Person> persons){ appService.savePerson(persons); }
-
     public void savePerson(Person person){ appService.savePerson(person); }
 
 
     public long countPersons(){
         return appService.countPersons();
     }
-
     public long countCities(){
         return appService.countCities();
     }
-
     public long countLanguage(){
         return appService.countLanguage();
     }

@@ -1,11 +1,7 @@
 package com.example.app.service;
 
-import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
-import com.example.app.data.repository.CityRepository;
-import com.example.app.data.repository.LanguageRepository;
-import com.example.app.data.repository.PersonRepository;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -33,18 +29,11 @@ import java.util.List;
 @Service
 public class StartingDataService {
 
-    private final PersonRepository personRepository;
-    private final CityRepository cityRepository;
-    private final LanguageRepository languageRepository;
-
-    public StartingDataService(PersonRepository personRepository, CityRepository cityRepository, LanguageRepository languageRepository) {
-        this.personRepository = personRepository;
-        this.cityRepository = cityRepository;
-        this.languageRepository = languageRepository;
+    public StartingDataService() {
     }
 
      // Load data from files
-
+    // GET datas
     public static <T> T getItems(Class<T> clazz, String dataFileName) {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -55,15 +44,12 @@ public class StartingDataService {
         }
         return null;
     }
-
     public static List<Language> getLanguage() {
         return Arrays.asList(getItems(Language[].class, "languages.json"));
     }
-
     public static List<Language> getLanguage(int count) {
         return getLanguage().subList(0, count);
     }
-
     public static List<Person> getPerson() {
         return Arrays.asList(getItems(Person[].class, "person.json"));
     }

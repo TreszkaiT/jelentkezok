@@ -57,6 +57,9 @@ public class PersonForm extends FormLayout {
 
     Binder<Person> binder = new BeanValidationBinder<>(Person.class);             // összekapcsol egy modul objektumor egy Components-el    BeanValidationBinder:a Person osztály validation Annotációit használja a formelemkre is, így már nekünk ezt nem kell megtenni a nézetnél külön
 
+    private Person person;
+
+    // Components
     TextField firstName = new TextField("Vezetéknév");              // automatikus Bind-elés miatt a nevük itt egyezzen meg a Person osztályban lévő nevekkel!!!
     TextField lastName = new TextField("Keresztnév");
     EmailField email = new EmailField("Email");
@@ -99,8 +102,6 @@ public class PersonForm extends FormLayout {
     Button save = new Button("Mentés");
     Button delete = new Button("Törlés");
     Button cancel = new Button("Mégsem");
-
-    private Person person;
 
     public PersonForm(List<City> cities, List<Language> languages) {//}, AppService services) {
 
