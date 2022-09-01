@@ -1,8 +1,8 @@
 package com.example.app.views;
 
 
-import com.example.app.security.SecurityService;
 import com.example.app.service.component.Product;
+import com.example.app.viewcontroller.SecurityController;
 import com.example.app.views.pages.ListView;
 import com.example.app.views.pages.StartingDataUpload;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -24,17 +24,14 @@ import com.vaadin.flow.router.RouterLink;
 public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
-    private SecurityService securityService;
 
     private Product product;
 
-    /*@Autowired                                    // Beant vagy így használok a Product Component Bean-ból;  de így valamiért null lesz  (átpasszolom a labdát ide)
-    public void setProduct(Product product){
-        this.product = product;
-    }*/
+    private SecurityController securityController;
 
-    public MainLayout(SecurityService securityService, Product product) {           // v. így használok a Product Component Bean-ból; így nem lesz null
-        this.securityService = securityService;
+    public MainLayout(Product product, SecurityController securityController) {           // v. így használok a Product Component Bean-ból; így nem lesz null
+        this.securityController = securityController;
+
         this.product = product;                                                     // és persze ez is kell hozzá
         createHeader();
         createDrawer();
@@ -49,7 +46,7 @@ public class MainLayout extends AppLayout {
         H1 logo = new H1("Önéletrajz adatokat tároló alkalmazás v." + product.getVersion());
         logo.addClassNames("text-l", "m-m");
 
-        Button logout = new Button("Kilépés", e -> securityService.logout());
+        Button logout = new Button("Kilépés", e -> securityController.Logout());
 
         HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
 

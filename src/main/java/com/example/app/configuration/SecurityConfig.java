@@ -1,4 +1,4 @@
-package com.example.app.security;
+package com.example.app.configuration;
 
 
 import com.example.app.views.LoginView;
