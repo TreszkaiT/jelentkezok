@@ -1,7 +1,6 @@
 package com.example.app.views;
 
 import com.example.app.viewcontroller.ProductController;
-import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,7 +13,6 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Login | Önéletrajz adatok bevitele")
 public class LoginView extends VerticalLayout implements BeforeEnterListener {
 
-    private LoginForm login = new LoginForm();
     private LoginOverlay loginOverlay = new LoginOverlay();
 
     private ProductController productController;
@@ -31,9 +29,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
         loginOverlay.setI18n(createLoginI18n());
 
         add(
-                //new H1("Önéletrajz adatok bevitele"),
                 loginOverlay
-                //login
         );
 
         loginOverlay.getElement().setAttribute("no-autofocus", "");

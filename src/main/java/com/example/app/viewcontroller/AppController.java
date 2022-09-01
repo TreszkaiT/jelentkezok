@@ -1,9 +1,13 @@
 package com.example.app.viewcontroller;
 
+import com.example.app.data.entity.Person;
 import com.example.app.service.AppService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class AppController {
@@ -13,7 +17,10 @@ public class AppController {
 
     public AppController(AppService appService) {
         this.appService = appService;
+    }
 
+    public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang){
+        return appService.findAllPersons(filterName, dt, filterLang);
     }
 
 }

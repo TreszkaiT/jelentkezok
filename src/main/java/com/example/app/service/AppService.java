@@ -3,7 +3,6 @@ package com.example.app.service;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
-import com.example.app.data.entity.Study;
 import com.example.app.data.repository.CityRepository;
 import com.example.app.data.repository.LanguageRepository;
 import com.example.app.data.repository.PersonRepository;
@@ -11,7 +10,9 @@ import com.example.app.data.repository.StudyRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból

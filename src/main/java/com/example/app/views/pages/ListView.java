@@ -3,6 +3,7 @@ package com.example.app.views.pages;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.service.AppService;
+import com.example.app.viewcontroller.AppController;
 import com.example.app.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -32,8 +33,10 @@ public class ListView extends VerticalLayout {
     PersonForm form;
     private AppService service;
 
-    public ListView(AppService service) {   // Autowire kell, hogy elérjük a nézetünket : (AppService service), ehhez kell még az updateList() metódust megírni itt
+    private AppController appController;
 
+    public ListView(AppService service, AppController appController) {   // Autowire kell, hogy elérjük a nézetünket : (AppService service), ehhez kell még az updateList() metódust megírni itt
+        this.appController = appController;
         this.service = service;
 
         addClassName("list-view");  // CSS osztálynév hozzáadása
@@ -65,7 +68,7 @@ public class ListView extends VerticalLayout {
     private void updateList() {
         //LocalDate date = LocalDate.of(2022, 8, 23);
 
-        grid.setItems(service.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
+        grid.setItems(appController.findAllPersons(filterTextName.getValue(), getFilterDateDate.getValue(), filterTextLang.getValue()));
 
         /*if(why=="") grid.setItems(service.findAllPersons(filterTextName.getValue(), date, why));
         else if(why=="LANG") grid.setItems(service.findAllPersons(filterTextLang.getValue(), date, why));
