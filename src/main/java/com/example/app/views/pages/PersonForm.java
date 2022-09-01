@@ -67,7 +67,7 @@ public class PersonForm extends FormLayout {
     TextField messageApps = new TextField("Üzenetküldő appok");
     TextField webSite = new TextField("Website");
 
-    //TextField studies           = new TextField("Tanulmányok");
+
     Button divstudiesButton = new Button("Hozzáad");
     H5 h5studies = new H5("Tanulmányok");
     Div divstudies = new Div();
@@ -82,21 +82,14 @@ public class PersonForm extends FormLayout {
     TextField otherSkill = new TextField("Egyéb készségek");
 
 
-    //TextField coverLetter   = new TextField("Motivációs levél");
     Button divCoverLetter = new Button("Szerkesztés");
     H5 h5coverLetter = new H5("Motivációs levél");
-    //Scroller scroller2 = new Scroller();
     RichTextEditor coverLetter = new RichTextEditor();
 
 
-    // FileBuffer fileBuffer = new FileBuffer();
-    //Upload singleFileUpload = new Upload(fileBuffer);
-
     MemoryBuffer buffer = new MemoryBuffer();
     Upload upload = new Upload(buffer);
-
     Scroller scroller = new Scroller();
-
     TextField picture = new TextField("Fénykép");
 
 
@@ -124,11 +117,6 @@ public class PersonForm extends FormLayout {
         h5coverLetter.setClassName("h5-style");
         h5ProfExperience.setClassName("h5-style");
 
-        // TextArea textArea = new TextArea("Html Value", "Type html string here to set it as value to the Rich Text Editor above...");
-        // textArea.setWidthFull();
-        // coverLetter1.setValue(textArea.getValue());//Person::getcoverLetter);
-        //coverLetter1.setLabel("Motivációs levél");
-
         add(
                 firstName,
                 lastName,
@@ -139,15 +127,12 @@ public class PersonForm extends FormLayout {
                 socialMedia,
                 messageApps,
                 webSite,
-                //studies,
+
                 h5studies, divstudiesButton, divstudies,
-                //profExperience,
+
                 h5ProfExperience, divProfExperienceButton, divProfExperience,
                 otherSkill,
-                h5coverLetter, divCoverLetter,//coverLetterButt,
-                // coverLetter,
-                //scroller2
-                //coverLetter,
+                h5coverLetter, divCoverLetter,
 
                 picture,
                 upload,
@@ -160,17 +145,14 @@ public class PersonForm extends FormLayout {
         divProfExperience.setWidthFull();
 
         UploadBeallitasa();
-
         UploadUtanKepBetoltese();
 
         DialgProfExperience();
+        DialgStudies();
         showStudiesList();
         showProfExperienceList();
-        DialgStudies();
+
         DialgCoverLetter(coverLetter);
-
-        //this.getElement().getThemeList().add("dark");
-
     }
 
 
@@ -196,7 +178,6 @@ public class PersonForm extends FormLayout {
             );
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
-        //upload.getElement().getThemeList().add("dark");
     }
 
     private void UploadUtanKepBetoltese() {
@@ -232,7 +213,6 @@ public class PersonForm extends FormLayout {
             }
 
             //  File uploadnál a clear gombra kattintva X gombra
-            //component = createComponent(event.getMIMEType(), event.getFileName(), buffer.getInputStream());
             if (component instanceof Image) {
                 upload.getElement().addEventListener("file-remove", event1 -> {
                     //System.out.println("File remove");
@@ -311,8 +291,6 @@ public class PersonForm extends FormLayout {
         scroller.setHeight("200px");
 
         scroller.setContent(content);
-        //outputContainer.add(p);
-        //outputContainer.add(content);
     }
 
     /**
@@ -392,8 +370,7 @@ public class PersonForm extends FormLayout {
         }
     }
 
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
 
@@ -460,10 +437,6 @@ public class PersonForm extends FormLayout {
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e -> removeExperienceOne(profExperience));
             add(dialog);
-            /*scroller2.setContent(button);
-            scroller2.setWidthFull();//("200px");
-            scroller2.setHeight("200px");*/
-            //H5 h5 = new H5(" ");
 
             Scroller sc1 = new Scroller();
             VerticalLayout vl = new VerticalLayout();
@@ -471,8 +444,6 @@ public class PersonForm extends FormLayout {
             hl2.add(buttonShow, buttonClose);
             vl.add(h5,hl2);
 
-
-            //div1.add(hl2);
             sc1.setContent(vl);
 
             divProfExperience.add(sc1);//buttonShow, buttonClose, h5);
@@ -496,44 +467,9 @@ public class PersonForm extends FormLayout {
     }
 
 
-    private static H2 createHeaderLayout() {
-        H2 headline = new H2("Szakmai Tapasztalat");
-        headline.addClassName("draggable");
-        headline.getStyle().set("margin", "0").set("font-size", "1.5em")
-                .set("font-weight", "bold")
-                .set("cursor", "move")
-                .set("padding", "var(--lumo-space-m) 0")
-                .set("flex", "1");
-
-        return headline;
-    }
-
-    private static VerticalLayout createDialogLayout() {
-
-        TextField titleField = new TextField("Munkahely");
-        DatePicker dtFrom = new DatePicker("Tól");
-        DatePicker dtTo = new DatePicker("ig");
-        HorizontalLayout hzLay1 = new HorizontalLayout();
-        hzLay1.add(dtFrom, dtTo);
-        TextArea descriptionArea = new TextArea("Megjegyzés");
-
-        VerticalLayout fieldLayout = new VerticalLayout(titleField,
-                hzLay1,
-                descriptionArea);
-        fieldLayout.setSpacing(false);
-        fieldLayout.setPadding(false);
-        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
-
-        return fieldLayout;
-    }
-
     private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
         ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
 
-        //fieldLayout.setSpacing(false);
-        //fieldLayout.setPadding(false);
-        //fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
         return profExperienceLayout;
@@ -551,14 +487,6 @@ public class PersonForm extends FormLayout {
         dialog.getFooter().add(saveButton);
     }
 
-    private static void createFooter(Dialog dialog) {
-        Button cancelButton = new Button("Mégsem", e -> dialog.close());
-        Button saveButton = new Button("Mentés", e -> dialog.close());
-        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        dialog.getFooter().add(cancelButton);
-        dialog.getFooter().add(saveButton);
-    }
 
     /**
      * Create Dialog window Tanulmányok
@@ -621,10 +549,6 @@ public class PersonForm extends FormLayout {
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e->removeStudent(study));
             add(dialog);
-            /*scroller2.setContent(button);
-            scroller2.setWidthFull();//("200px");
-            scroller2.setHeight("200px");*/
-            //H5 h5 = new H5(" ");
 
             Scroller sc1 = new Scroller();
             HorizontalLayout hl2 = new HorizontalLayout();
@@ -632,11 +556,9 @@ public class PersonForm extends FormLayout {
             VerticalLayout vl = new VerticalLayout();
             vl.add(h5,hl2);
 
-
-            //div1.add(hl2);
             sc1.setContent(vl);
 
-            divstudies.add(sc1);//buttonShow, buttonClose, h5);
+            divstudies.add(sc1);
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
             createFooterStudies(dialog, studyForm);
@@ -658,9 +580,7 @@ public class PersonForm extends FormLayout {
 
     private static StudyForm createDialogLayoutStudies(Study study) {
         StudyForm fieldLayout = new StudyForm(study);
-//        fieldLayout.setSpacing(false);
-//        fieldLayout.setPadding(false);
-//        fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
         fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
         return fieldLayout;
@@ -689,7 +609,6 @@ public class PersonForm extends FormLayout {
 
         dialog.getHeader().add(createHeaderLayoutCoverLetter());
 
-
         VerticalLayout dialogLayout = createDialogLayoutCoverLetter(coverLetter);
         dialog.add(dialogLayout);
         dialog.setModal(false);
@@ -715,8 +634,6 @@ public class PersonForm extends FormLayout {
     }
 
     private static VerticalLayout createDialogLayoutCoverLetter(RichTextEditor coverLetter) {
-
-        //RichTextEditor coverLetter  = new RichTextEditor();
 
         VerticalLayout fieldLayout = new VerticalLayout(coverLetter);
         fieldLayout.setSpacing(false);
