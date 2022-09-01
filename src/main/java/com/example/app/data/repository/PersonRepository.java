@@ -33,7 +33,7 @@ public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecif
         if ((null == person || person.isEmpty()) && null == date && (null == lang || lang.isEmpty())) {
             return findAll();
         }
-        Specification<Person> condition = (root, query, builder) -> {
+        Specification<Person> condition = (root, query, builder) -> {   // Lambda
             List<Predicate> predicates = new ArrayList<>();
             if (null != person && !person.isEmpty()) {
                 predicates.add(builder.like(builder.upper(root.get("firstName")), "%" + person.toUpperCase() + "%"));
