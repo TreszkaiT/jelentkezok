@@ -26,14 +26,14 @@ public class StudyForm extends FormLayout {
 
     public StudyForm(Study study) {
         add(nameSchool, formDate, toDate, comment);
-        binder.bindInstanceFields(this);                                    // itt történik meg a tényleges összecsatolás. Itt tudja meg ezt, hogy ő melyik Vaadin-os elemen fog dolgozni
+        binder.bindInstanceFields(this);                                    // összekapcsolás Components-Beans: itt történik meg a tényleges összecsatolás. Itt tudja meg ezt, hogy ő melyik Vaadin-os elemen fog dolgozni
         this.study = study;
-        binder.readBean(study);                                                                 // aztán, mikor rácsatlakozott ő a formra, ézrékelte, leolvasta a mezőket, beolvassuk magát a Beant (study), amit itt fentebb konstruktorba kaptuk. És ezt a study-t kirakja ő a formra
+        binder.readBean(study);                                                                 // Components-ek kitöltése: Bean->Component-be: aztán, mikor rácsatlakozott ő a formra, ézrékelte, leolvasta a mezőket, beolvassuk magát a Beant (study), amit itt fentebb konstruktorba kaptuk. És ezt a study-t kirakja ő a formra
     }
 
     public void save() {
         try {
-            binder.writeBean(study);                                                            // a a binder a study-ba visszaírja itt a form értékét. Itt a study a Person egy csatolt eleme volt, a Study-nak is benne van a Person beállítva. és ---->> PersonForm validateAndSave()
+            binder.writeBean(study);                                                            // Component->Bean-be írás: a a binder a study-ba visszaírja itt a form értékét. Itt a study a Person egy csatolt eleme volt, a Study-nak is benne van a Person beállítva. és ---->> PersonForm validateAndSave()
         } catch (ValidationException e) {                                                       // lehetnek itt problémák -> try catch blokk
             //LOGGER.error(e.getMessage(), e);
             throw new InvalidBeanWriteException("A tanulmányok mentése közben hiba történt!");

@@ -12,49 +12,65 @@ import java.util.Set;
 
 
 @Entity
+@Table(name = "ADT_PERSON")
 public class Person extends AbstractEntity {
 
     //@Id
     //@GeneratedValue(strategy = GenerationType.AUTO)             // azt mondja meg, hogy hogyan generálódjon egy ilyen Entitás Id-ja. Megmondjuk, hogy milyen stratégiát használjon ehhez. Auto=AutoIncrement lesz
     //private Long id;
     @NotEmpty
+    @Column(name = "PRSN_FIRST_NAME")
     private String firstName = "";
     @NotEmpty
+    @Column(name = "PRSN_LAST_NAME")
     private String lastName = "";
     @Email
     @NotEmpty
+    @Column(name = "PRSN_EMAIL")
     private String email = "";
     //@NotEmpty
+    @Column(name = "PRSN_BORN_DATE")
     private LocalDate bornDate;
     @NotEmpty
+    @Column(name = "PRSN_PHONE")
     private String phone = "";
 
     @NotEmpty
+    @Column(name = "PRSN_ADDRESS")
     private String address = "";
     @NotNull
+    //@Column(name = "PRSN_CITY_ID")
     @ManyToOne
     private City city;
 
     //@NotEmpty
+    @Column(name = "PRSN_SOCIAL_MEDIA")
     private String socialMedia = "";
     //@NotEmpty
+    @Column(name = "PRSN_MESSAGE_APPS")
     private String messageApps = "";
     //@NotEmpty
+    @Column(name = "PRSN_WEB_SITE")
     private String webSite = "";
 
     @NotEmpty
+    @Column(name = "PRSN_PICTURE")
     private String picture = "";
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@Column(name = "PRSN_STUDIES_ID")
     private List<Study> studies = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@Column(name = "PRSN_PROF_EXPERIENCES_ID")
     private List<ProfExperience> profExperiences = new ArrayList<>();
 
     //@NotEmpty
+    @Column(name = "PRSN_OTHER_SKILL")
     private String otherSkill = "";
 
     @NotEmpty
+    @Column(name = "PRSN_COVER_LETTER")
     private String coverLetter = "";
 
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
@@ -63,6 +79,7 @@ public class Person extends AbstractEntity {
     //private Set<String> language = new HashSet<>();
     //@NotNull
     @ManyToMany(fetch = FetchType.EAGER)
+    //@Column(name = "PRSN_LANGUAGE_ID")
     // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy language-re, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
     private Set<Language> language = new HashSet<>();
 

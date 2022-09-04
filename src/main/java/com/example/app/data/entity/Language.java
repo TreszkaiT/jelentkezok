@@ -1,20 +1,22 @@
 package com.example.app.data.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "ADT_LANGUAGE")
 public class Language extends AbstractEntity {
 
+    @Column(name = "LNG_NAME")
     private String name;
+    @Column(name = "LNG_CODE")
     private String code;
 
     // azért, hogy az így létrehozott kapcsolótáblába ezen oldal felől is tujunk keresni
     @ManyToMany(fetch = FetchType.EAGER)
+    //@Column(name = "LNG_PERSON_ID")
     private Set<Person> person = new HashSet<>();
 
     public Language() {

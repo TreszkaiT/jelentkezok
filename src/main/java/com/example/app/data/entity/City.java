@@ -1,11 +1,16 @@
 package com.example.app.data.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "ADT_CITY")
 public class City extends AbstractEntity {
 
+    @Column(name = "CTY_NAME")
     private String name;
+    @Column(name = "CTY_ZIP")
     private String zip;
 
     public City() {
