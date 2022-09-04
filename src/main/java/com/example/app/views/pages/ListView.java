@@ -86,13 +86,13 @@ public class ListView extends VerticalLayout {
         form = new PersonForm(appController.findAllCities(), appController.findAllLanguage());    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
         form.setWidth("25em");
 
-        form.addListener(PersonForm.SaveEvent.class, this::savePerson);
+        form.addListener(PersonForm.SaveEvent.class, this::savePerson);                         // Mentes 2.: itt egy listener, ami a SaveEvent-re van rárakva. És ha bejön ez, akkor this::savePerson ezt a metódust futtassa le itt, lentebb -->>
         form.addListener(PersonForm.DeleteEvent.class, this::deletePerson);
         form.addListener(PersonForm.CloseEvent.class, e -> closeEditor());
     }
 
     private void savePerson(PersonForm.SaveEvent event) {
-        appController.savePerson(event.getPerson());
+        appController.savePerson(event.getPerson());                                            // Mentes 3.: és ebben van végül is a service. save  -->> appservice / savePerson()
         updateList();
         closeEditor();
     }

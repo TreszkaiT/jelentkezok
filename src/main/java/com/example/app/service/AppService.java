@@ -143,7 +143,12 @@ public class AppService {
             System.out.println("Nincs Személy");
         }
 
-        personRepository.save(person);
+        personRepository.save(person);                              // Mentes 4.: itt történik végül a persistálás
+    }
+    public void savePerson(List<Person> persons){
+        if(persons == null) System.out.println("Nincsennek személyek");
+
+        for(Person per: persons) personRepository.save(per);
     }
     public  void saveCities(List<City> cities){
         if(cities == null){
@@ -164,11 +169,6 @@ public class AppService {
             languageRepository.save(ny);
             //System.out.println("1");
         }
-    }
-    public void savePerson(List<Person> persons){
-        if(persons == null) System.out.println("Nincsennek személyek");
-
-        for(Person per: persons) personRepository.save(per);
     }
 
 

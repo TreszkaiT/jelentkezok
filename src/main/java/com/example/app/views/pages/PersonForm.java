@@ -1,6 +1,7 @@
 package com.example.app.views.pages;
 
 import com.example.app.data.entity.*;
+import com.example.app.viewcontroller.AppController;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -103,8 +104,8 @@ public class PersonForm extends FormLayout {
     Button delete = new Button("Törlés");
     Button cancel = new Button("Mégsem");
 
-    public PersonForm(List<City> cities, List<Language> languages) {//}, AppService services) {
 
+    public PersonForm(List<City> cities, List<Language> languages) {//}, AppService services) {
         addClassName("contact-form");
 
         binder.bindInstanceFields(this);        // a binder meghívása itt van. És this elég !!! azért, mert az itt lévő fenti nevek megyegyeznek a Person osztályban lévő nevekkel!!!
@@ -304,7 +305,7 @@ public class PersonForm extends FormLayout {
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        save.addClickListener(event -> validateAndSave());
+        save.addClickListener(event -> validateAndSave());                                              // Mentes 0.: amikor a Person felmegy perzisztálásra, azaz megnyomjuk a nagy Mentés gombot a Form leglalján, meghívódik a validatAndSave()
         delete.addClickListener(event -> fireEvent(new DeleteEvent(this, person)));
         cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
@@ -329,8 +330,9 @@ public class PersonForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            binder.writeBean(person);
-            fireEvent(new SaveEvent(this, person));
+            binder.writeBean(person);                                                               // Mentes 1.: a Binder visszaírja a Person-ba a Form értékeit, csak itt nincs hozzáadva a Student, mert azt mi megcsináltuk korábban. Így az összes többi elemet visszaírja a Personba,és
+            //appController.savePerson(person);
+            fireEvent(new SaveEvent(this, person));                                          // és egy SaveEvent-et bocsájtunk ki. Ami a SaveEvent-be belerakja a person értékét, és ...>> ListView.java configFormn()
         } catch (ValidationException e) {
             throw new RuntimeException(e);
         }
@@ -510,8 +512,8 @@ public class PersonForm extends FormLayout {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             studyForm.save();
-            PersonForm.this.person.getstudies().add(study);
-            study.setPerson(PersonForm.this.person);
+            PersonForm.this.person.getstudies().add(study);         // itt csak beállítjuk az értékeket, de csak a nagy mentés gombnál metnődik el
+            study.setPerson(PersonForm.this.person);                // ugyanaz
             dialog.close();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -533,18 +535,18 @@ public class PersonForm extends FormLayout {
     }
 
     private void removeStudent(Study study) {
-        Person person = study.getPerson();
-        person.getstudies().remove(study);
-        study.setPerson(null);
-    }
-
+        Person person = study.getPerson();      // a student-ből kiveszi a person-t
+        person.getstudies().remove(study);      // person-nak lekérdezi a student-jeit, majd kiveszi a sudent-et a person-ból
+        study.setPerson(null);                  // a másik oldalon meg student-nél null-ra állítja a person-t
+    }                                           // és mikor majd mentésre kerül -> akkor kiveszi majd a kapcsolatot automatikusan, szétkapcsolódnak de nem fogja törölni az adatbázisból, csak a kapcsolatot szedi szét
+                                                // így már nem lesz köze a Person-hoz, mi meg a person-nal dolgozunk úgyis
     private void showStudiesList() {
-        divstudies.removeAll();
-        if (null == person) {
+        divstudies.removeAll();                                                                 // divből kitörlök mindent
+        if (null == person) {                                                                   // a Persont később Setteljük be, így megnézzük, hogy megkaptuk-e
             return;
         }
-        for (Study study : person.getstudies()) {
-            StudyForm studyForm = createDialogLayoutStudies(study);
+        for (Study study : person.getstudies()) {                                               // ha vannak elemek, akkor azt végig Iteráljuk egy forEach-el
+            StudyForm studyForm = createDialogLayoutStudies(study);                             // StudyForm létrehozása, mert a Binderhez kell, hogy egy FormLayout-unk legyen
             Dialog dialog = createStudyDialog(studyForm);
             H5 h5 = new H5(study.getNameSchool());
             Button buttonShow = new Button("Kitölt", e -> dialog.open());

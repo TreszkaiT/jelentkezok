@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 // db műveleteket oldja meg helyettünk, update, select...
-public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecificationExecutor<Person> {
+public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecificationExecutor<Person> {           // 1. JpaSpecificationExecutor : kézzel összerakhatok parancsokat. Ez használja a Specification interfacet lentebb
 
     @Query("select c from Person c " +
             "where lower(c.firstName) like lower(concat('%', :searchTerm, '%')) " +
@@ -33,10 +33,13 @@ public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecif
         if ((null == person || person.isEmpty()) && null == date && (null == lang || lang.isEmpty())) {
             return findAll();
         }
-        Specification<Person> condition = (root, query, builder) -> {   // Lambda
-            List<Predicate> predicates = new ArrayList<>();
+        Specification<Person> condition = (root, query, builder) -> {   // Lambda                                               // 3. egy Specification interface-t, azaz a metódusati implementálhatjuk, de mivel csak 1 db metódusa van, és így csak 1-et kell implementálni -> az új java már megengedi, hogy egy Lambda-ban implementáljuk ezt itt. Tehát maga a teljes lambda =-jeltől kezdve alul a  return findAll-ig a teljes egytelen metódust jelenti
+                                                                                                                                // megkapjuk a root-ot: ez mindig az az Entitás, amivel dolgozunk, ez a Person most
+                                                                                                                                // megkapjuk a query-t
+                                                                                                                                // és a builder-t, amivel összállítjuk, hogy milyen paramétereket szeretnénk
+            List<Predicate> predicates = new ArrayList<>();                                                                     // 4. a Specification interface-nek ez a toPredicate() egyetlen metódusa van, amit implementálunk itt
             if (null != person && !person.isEmpty()) {
-                predicates.add(builder.like(builder.upper(root.get("firstName")), "%" + person.toUpperCase() + "%"));
+                predicates.add(builder.like(builder.upper(root.get("firstName")), "%" + person.toUpperCase() + "%"));   // 5. a nagybetűs like-al megkeresett personokat átadja a perdicates-nak
                 predicates.add(builder.like(builder.upper(root.get("lastName")), "%" + person.toUpperCase() + "%"));
             }
             if (null != date) {
@@ -46,9 +49,9 @@ public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecif
                 predicates.add(builder.like(builder.upper(root.join("language").get("name")), "%" + lang.toUpperCase() + "%"));
             }
 
-            return builder.or(predicates.toArray(new Predicate[predicates.size()]));
+            return builder.or(predicates.toArray(new Predicate[predicates.size()]));                                            // 6. és a predicates a végén összekapcsolja ezeket or-al
         };
-        return findAll(condition);
+        return findAll(condition);                                                                                              // 2. ekkor a findAll-ba condition-ok tölthetőek, és ő készíti el a tényleges, végső SQL utasítást
     }
 
     @Query("select c from Person c where c.language=?1")
