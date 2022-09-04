@@ -1,6 +1,7 @@
 package com.example.app.views.pages;
 
 import com.example.app.data.entity.ProfExperience;
+import com.example.app.exception.InvalidBeanWriteException;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -33,7 +34,8 @@ public class ProfExperienceForm extends FormLayout {
         try {
             binder.writeBean(profExperience);
         } catch (ValidationException e) {
-            LOGGER.error(e.getMessage(), e);
+            //LOGGER.error(e.getMessage(), e);
+            throw new InvalidBeanWriteException("A szkamai tapasztalatok mentése közben hiba történt!");
         }
     }
 }

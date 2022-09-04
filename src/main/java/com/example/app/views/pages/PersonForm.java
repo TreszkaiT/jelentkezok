@@ -1,6 +1,7 @@
 package com.example.app.views.pages;
 
 import com.example.app.data.entity.*;
+import com.example.app.exception.InvalidBeanWriteException;
 import com.example.app.viewcontroller.AppController;
 import com.example.app.views.pages.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
@@ -322,7 +323,8 @@ public class PersonForm extends FormLayout {
             //appController.savePerson(person);
             fireEvent(new SaveEvent(this, person));                                          // és egy SaveEvent-et bocsájtunk ki. Ami a SaveEvent-be belerakja a person értékét, és ...>> ListView.java configFormn()
         } catch (ValidationException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            throw new InvalidBeanWriteException("A személy mentése közben hiba történt!");
         }
     }
 
