@@ -15,8 +15,6 @@ public class SecurityController {
         this.securityService = securityService;
     }
 
-    public void Logout(){
-        securityService.logout();;
-    }
+    public void Logout(){ securityService.logout();  }
 
 }

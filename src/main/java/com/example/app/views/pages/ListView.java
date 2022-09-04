@@ -100,6 +100,11 @@ public class ListView extends VerticalLayout {
         updateList();
         closeEditor();
     }
+    private void closeEditor() {
+        form.setPerson(null);
+        form.setVisible(false);
+        removeClassName("editing");
+    }
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
     // ezt a Toolbar-ba kell beírni
     private void updateList() {
@@ -111,11 +116,7 @@ public class ListView extends VerticalLayout {
         else if(why=="LANG") grid.setItems(appController.findAllPersons(filterTextLang.getValue(), date, why));
         else if(why=="DATE") grid.setItems(appController.findAllPersons("Date", getFilterDateDate.getValue(), why));*/
     }
-    private void closeEditor() {
-        form.setPerson(null);
-        form.setVisible(false);
-        removeClassName("editing");
-    }
+
 
     private Component getToolbar() {
         filterTextName.setPlaceholder("Keresés névre...");

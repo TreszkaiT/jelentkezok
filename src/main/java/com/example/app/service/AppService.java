@@ -35,6 +35,85 @@ public class AppService {
     }
 
 
+    // COUNT
+    public long countPersons(){
+        return personRepository.count();
+    }
+    public long countCities(){
+        return cityRepository.count();
+    }
+    public long countLanguage(){
+        return languageRepository.count();
+    }
+
+
+    // DELETE
+    public void deletePerson(Person person){
+        personRepository.delete(person);
+    }
+
+
+    // SAVE
+    public void savePerson(Person person){
+        if(person == null){
+            System.out.println("Nincs Személy");
+        }
+
+        personRepository.save(person);                              // Mentes 4.: itt történik végül a persistálás
+    }
+    public void savePerson(List<Person> persons){
+        if(persons == null) System.out.println("Nincsennek személyek");
+
+        for(Person per: persons) personRepository.save(per);
+    }
+    public  void saveCities(List<City> cities){
+        if(cities == null){
+            System.out.println("Nincsenek városok!");
+        }
+
+        for(City cit: cities){
+            cityRepository.save(cit);
+        }
+    }
+    public void saveLanguage(List<Language> languages){
+        if(languages == null){
+            System.out.println("Nincsenek nyelvek");
+        }
+
+        //languages.stream()
+        for (Language ny: languages) {
+            languageRepository.save(ny);
+            //System.out.println("1");
+        }
+    }
+
+
+    // FIND
+    public List<City> findAllCities(){
+        return cityRepository.findAll();
+    }
+    public List<Language> findAllLanguage(){
+        return languageRepository.findAll();
+    }
+    public List<Person> findAllPersons(){return personRepository.findAll();};
+    public Optional<City> findByCity(String id) {
+        return cityRepository.findById(UUID.fromString(id));
+    }
+    public City findCityByName(String name){
+        List<City> cityFindAll = findAllCities();
+        for(City city: cityFindAll){
+            if(city.getName().equals(name)) return city;
+        }
+        return null;
+    }
+    public Language findLanguageByName(String name){
+        List<Language> langFindAll = findAllLanguage();
+        for(Language lang: langFindAll){
+            if(lang.getName().equals(name)) return lang;
+        }
+        return null;
+    }
+
     public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
 
         return personRepository.complexSearch(filterName, dt, filterLang);
@@ -116,86 +195,7 @@ public class AppService {
             //return  personRepository.searchByFirstNameLikeOrLastNameLikeOrBornDateLike("%"+filterName+"%", "%"+filterName+"%", dt);
 
             else return personRepository.findAll();*/
-       // }
-    }
-
-    // COUNT
-    public long countPersons(){
-        return personRepository.count();
-    }
-    public long countCities(){
-        return cityRepository.count();
-    }
-    public long countLanguage(){
-        return languageRepository.count();
-    }
-
-
-    // DELETE
-    public void deletePerson(Person person){
-        personRepository.delete(person);
-    }
-
-
-    // SAVE
-    public void savePerson(Person person){
-        if(person == null){
-            System.out.println("Nincs Személy");
-        }
-
-        personRepository.save(person);                              // Mentes 4.: itt történik végül a persistálás
-    }
-    public void savePerson(List<Person> persons){
-        if(persons == null) System.out.println("Nincsennek személyek");
-
-        for(Person per: persons) personRepository.save(per);
-    }
-    public  void saveCities(List<City> cities){
-        if(cities == null){
-            System.out.println("Nincsenek városok!");
-        }
-
-        for(City cit: cities){
-            cityRepository.save(cit);
-        }
-    }
-    public void saveLanguage(List<Language> languages){
-        if(languages == null){
-            System.out.println("Nincsenek nyelvek");
-        }
-
-        //languages.stream()
-        for (Language ny: languages) {
-            languageRepository.save(ny);
-            //System.out.println("1");
-        }
-    }
-
-
-    // FIND
-    public List<City> findAllCities(){
-        return cityRepository.findAll();
-    }
-    public List<Language> findAllLanguage(){
-        return languageRepository.findAll();
-    }
-    public List<Person> findAllPersons(){return personRepository.findAll();};
-    public Optional<City> findByCity(String id) {
-        return cityRepository.findById(UUID.fromString(id));
-    }
-    public City findCityByName(String name){
-        List<City> cityFindAll = findAllCities();
-        for(City city: cityFindAll){
-            if(city.getName().equals(name)) return city;
-        }
-        return null;
-    }
-    public Language findLanguageByName(String name){
-        List<Language> langFindAll = findAllLanguage();
-        for(Language lang: langFindAll){
-            if(lang.getName().equals(name)) return lang;
-        }
-        return null;
+        // }
     }
 
     // UPLOAD

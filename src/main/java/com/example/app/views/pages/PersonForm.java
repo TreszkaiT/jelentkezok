@@ -352,18 +352,14 @@ public class PersonForm extends FormLayout {
     }
 
     public static class SaveEvent extends PersonFormEvent {
-        SaveEvent(PersonForm source, Person person) {
-            super(source, person);
-        }
+        SaveEvent(PersonForm source, Person person) { super(source, person);  }
     }
-
     public static class DeleteEvent extends PersonFormEvent {
         DeleteEvent(PersonForm source, Person person) {
             super(source, person);
         }
 
     }
-
     public static class CloseEvent extends PersonFormEvent {
         CloseEvent(PersonForm source) {
             super(source, null);
