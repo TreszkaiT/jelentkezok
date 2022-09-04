@@ -262,7 +262,9 @@
     "@polymer/polymer": "$@polymer/polymer",
     "chokidar": "$chokidar",
     "date-fns": "$date-fns",
-    "multiselect-combo-box": "$multiselect-combo-box"
+    "multiselect-combo-box": "$multiselect-combo-box",
+    "@vaadin-component-factory/vcf-nav": "$@vaadin-component-factory/vcf-nav",
+    "line-awesome": "$line-awesome"
   },
   "vaadin": {
     "dependencies": {

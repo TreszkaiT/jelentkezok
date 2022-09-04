@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -315,19 +316,6 @@ public class PersonForm extends FormLayout {
         return new HorizontalLayout(save, delete, cancel);
     }
 
-
-    /**
-     * Person adatok beállítása és mentése
-     *
-     * @param person
-     */
-    public void setPerson(Person person) {
-        this.person = person;
-        binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
-        showStudiesList();
-        showProfExperienceList();
-    }
-
     private void validateAndSave() {
         try {
             binder.writeBean(person);                                                               // Mentes 1.: a Binder visszaírja a Person-ba a Form értékeit, csak itt nincs hozzáadva a Student, mert azt mi megcsináltuk korábban. Így az összes többi elemet visszaírja a Personba,és
@@ -337,6 +325,13 @@ public class PersonForm extends FormLayout {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Person adatok beállítása és mentése
+     *
+     * @param person
+     */
+
 
     /**
      * Eventek Class elkészítése
@@ -379,15 +374,29 @@ public class PersonForm extends FormLayout {
 
 
     /**
+     * Mindegyik gombhoz alul kell, a mentéshez és a remove-hoz
+     * @param person
+     */
+
+    public void setPerson(Person person) {
+        this.person = person;
+        binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
+        showStudiesList();
+        showProfExperienceList();
+    }
+
+    /**
+     * SZAKMAI TAPASZTALAT
+     * Hozzáad gombra kattintva
      * Create Dialog window Szakmai Tapasztalat
      */
+    public List<String> profExpNameClass = new ArrayList<>();
     private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
             ProfExperience profExperience = new ProfExperience();
             createProfExperianceFormNew(profExperience, createDialogLayoutProfExperience(profExperience)).open();
         });
     }
-
     private Dialog createProfExperianceFormNew(ProfExperience profExperience, ProfExperienceForm profExperienceForm){
         Dialog dialog = new Dialog();
         dialog.getElement().setAttribute("aria-label", "Add note");
@@ -403,6 +412,8 @@ public class PersonForm extends FormLayout {
             PersonForm.this.person.getProfExperiences().add(profExperience);    // itt beállítjuk mindkettőt az elmentéshez, és a nagy mentés gombbra kattintva menti csak majd el
             profExperience.setPerson(PersonForm.this.person);
             dialog.close();
+            profExpNameClass.add(profExperience.getNameWork());
+            showProfExperienceList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         dialog.getFooter().add(cancelButton);
@@ -410,24 +421,15 @@ public class PersonForm extends FormLayout {
         return dialog;
     }
 
-    private Dialog createProfExperienceDialog(ProfExperienceForm profExperienceForm){
-        Dialog dialog = new Dialog();
-        dialog.getElement().setAttribute("aria-label", "Add note");
-
-        dialog.getHeader().add(createHeaderLayoutProfExperience());
-
-        dialog.add(profExperienceForm);
-        dialog.setModal(false);
-        dialog.setDraggable(true);
-        return dialog;
-    }
-
+    /**
+     * Kitölt gombra kattintva a listában
+     * Create Dialog window Szakmai Tapasztalat
+     */
     private void removeExperienceOne(ProfExperience profExperience) {
         Person person =  profExperience.getPerson();
         person.getProfExperiences().remove(profExperience);
         profExperience.setPerson(null);
     }
-
     private void showProfExperienceList() {
         divProfExperience.removeAll();
         if (null == person){
@@ -437,6 +439,11 @@ public class PersonForm extends FormLayout {
             ProfExperienceForm profExperienceForm = createDialogLayoutProfExperience(profExperience);
             Dialog dialog = createProfExperienceDialog(profExperienceForm);
             H5 h5 = new H5(profExperience.getNameWork());
+            if(profExpNameClass.size()>0){
+                for(String str: profExpNameClass){
+                    if(profExperience.getNameWork().equals(str)) h5.addClassName("prof-experience-change"); else h5.addClassName("prof-experience");
+                }
+            }
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e -> removeExperienceOne(profExperience));
             add(dialog);
@@ -453,10 +460,27 @@ public class PersonForm extends FormLayout {
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
 
-            createFooterProfExperience(dialog, profExperienceForm);
+            createFooterProfExperience(dialog, profExperienceForm, profExperience);
         }
     }
+    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
+        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
 
+        profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
+
+        return profExperienceLayout;
+    }
+    private Dialog createProfExperienceDialog(ProfExperienceForm profExperienceForm){
+        Dialog dialog = new Dialog();
+        dialog.getElement().setAttribute("aria-label", "Add note");
+
+        dialog.getHeader().add(createHeaderLayoutProfExperience());
+
+        dialog.add(profExperienceForm);
+        dialog.setModal(false);
+        dialog.setDraggable(true);
+        return dialog;
+    }
     private static H2 createHeaderLayoutProfExperience() {
         H2 headline = new H2("Szakmai Tapasztalat");
         headline.addClassName("draggable");
@@ -468,21 +492,13 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-
-
-    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
-        ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
-
-        profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
-
-        return profExperienceLayout;
-    }
-
-    private static void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm) {
+    private void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm, ProfExperience profExperience) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             profExperienceForm.save();
             dialog.close();
+            profExpNameClass.add(profExperience.getNameWork());
+            showProfExperienceList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -492,15 +508,18 @@ public class PersonForm extends FormLayout {
 
 
     /**
+     * TANULMÁNYOK
+     * Hozzáad gombra kattintva
      * Create Dialog window Tanulmányok
      */
+    public List<String> studyNameClass = new ArrayList<>();
     private void DialgStudies() {
         divstudiesButton.addClickListener(event -> {
             Study study = new Study();
-            createStudyDialogForNew(study, createDialogLayoutStudies(study)).open();
+            Dialog dialog = createStudyDialogForNew(study, createDialogLayoutStudies(study));
+            dialog.open();
         });
     }
-
     private Dialog createStudyDialogForNew(Study study, StudyForm studyForm) {
         Dialog dialog = new Dialog();
         dialog.getElement().setAttribute("aria-label", "Add note");
@@ -515,6 +534,8 @@ public class PersonForm extends FormLayout {
             PersonForm.this.person.getstudies().add(study);         // itt csak beállítjuk az értékeket, de csak a nagy mentés gombnál metnődik el
             study.setPerson(PersonForm.this.person);                // ugyanaz
             dialog.close();
+            studyNameClass.add(study.getNameSchool());
+            showStudiesList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         dialog.getFooter().add(cancelButton);
@@ -522,17 +543,11 @@ public class PersonForm extends FormLayout {
         return dialog;
     }
 
-    private Dialog createStudyDialog(StudyForm studyForm) {
-        Dialog dialog = new Dialog();
-        dialog.getElement().setAttribute("aria-label", "Add note");
-
-        dialog.getHeader().add(createHeaderLayoutStudies());
-
-        dialog.add(studyForm);
-        dialog.setModal(false);
-        dialog.setDraggable(true);
-        return dialog;
-    }
+    /**
+     * Kitölt gombra kattintva a listában
+     * Create Dialog window Tanulmányok
+     * @return
+     */
 
     private void removeStudent(Study study) {
         Person person = study.getPerson();      // a student-ből kiveszi a person-t
@@ -549,6 +564,11 @@ public class PersonForm extends FormLayout {
             StudyForm studyForm = createDialogLayoutStudies(study);                             // StudyForm létrehozása, mert a Binderhez kell, hogy egy FormLayout-unk legyen
             Dialog dialog = createStudyDialog(studyForm);
             H5 h5 = new H5(study.getNameSchool());
+            if(studyNameClass.size()>0){
+                for(String str: studyNameClass){
+                    if(study.getNameSchool().equals(str)) h5.addClassName("study-name-change"); else h5.addClassName("study-name");
+                }
+            }
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
             Button buttonClose = new Button("Töröl", e->removeStudent(study));
             add(dialog);
@@ -564,11 +584,27 @@ public class PersonForm extends FormLayout {
             divstudies.add(sc1);
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
-            createFooterStudies(dialog, studyForm);
+            createFooterStudies(dialog, studyForm, study);
         }
     }
+    private static StudyForm createDialogLayoutStudies(Study study) {
+        StudyForm fieldLayout = new StudyForm(study);
 
+        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
+        return fieldLayout;
+    }
+    private Dialog createStudyDialog(StudyForm studyForm) {
+        Dialog dialog = new Dialog();
+        dialog.getElement().setAttribute("aria-label", "Add note");
+
+        dialog.getHeader().add(createHeaderLayoutStudies());
+
+        dialog.add(studyForm);
+        dialog.setModal(false);
+        dialog.setDraggable(true);
+        return dialog;
+    }
     private static H2 createHeaderLayoutStudies() {
         H2 headline = new H2("Tanulmányok");
         headline.addClassName("draggable");
@@ -580,20 +616,13 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-
-    private static StudyForm createDialogLayoutStudies(Study study) {
-        StudyForm fieldLayout = new StudyForm(study);
-
-        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
-
-        return fieldLayout;
-    }
-
-    private static void createFooterStudies(Dialog dialog, StudyForm studyForm) {
+    private void createFooterStudies(Dialog dialog, StudyForm studyForm, Study study) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             studyForm.save();
             dialog.close();
+            studyNameClass.add(study.getNameSchool());
+            showStudiesList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -603,6 +632,8 @@ public class PersonForm extends FormLayout {
 
 
     /**
+     * MOTIVÁCIÓS LEVÉL
+     * Hozzáad gombra kattintva
      * Create Dialog window Motivációs levél
      */
     private void DialgCoverLetter(RichTextEditor coverLetter) {

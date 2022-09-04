@@ -27,3 +27,15 @@ a[highlight] {
     border-color: dodgerblue;
     border-width: 7px;
 }
+.prof-experience{
+    color: #000003;
+}
+.prof-experience-change{
+    color: #0b8043;
+}
+.study-name{
+    color: #000003;
+}
+.study-name-change{
+    color: #0b8043;
+}

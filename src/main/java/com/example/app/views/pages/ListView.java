@@ -54,12 +54,52 @@ public class ListView extends VerticalLayout {
         //this.getElement().getThemeList().add("dark");
     }
 
-    private void closeEditor() {
-        form.setPerson(null);
-        form.setVisible(false);
-        removeClassName("editing");
+    private void configureGrid() {
+        grid.addClassName("person-grid");  // CSS osztálynév hozzáadása
+        grid.setSizeFull();
+        //grid.setColumns("firstName", "lastName", "email", "phone");
+        grid.setColumns();
+        grid.addColumn(person -> person.getfirstName()).setHeader("Vezetéknév");
+        grid.addColumn(person -> person.getlastName()).setHeader("Keresztnév");
+        grid.addColumn(person -> person.getemail()).setHeader("Email");
+        grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
+        grid.addColumn(new LocalDateRenderer<>(Person::getbornDate, "YYYY. MM .dd.")).setHeader("Születési idő");
+        grid.addColumn(person -> person.getlanguage().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
+
+        grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor
+    }
+    private void editPerson(Person person) {
+        if (person == null) {
+            closeEditor();
+        } else {
+            form.setPerson(person);
+            form.setVisible(true);
+            addClassName("editing");
+        }
     }
 
+    private void configureForm() {
+        form = new PersonForm(appController.findAllCities(), appController.findAllLanguage());    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
+        form.setWidth("25em");
+
+        form.addListener(PersonForm.SaveEvent.class, this::savePerson);                         // Mentes 2.: itt egy listener, ami a SaveEvent-re van rárakva. És ha bejön ez, akkor this::savePerson ezt a metódust futtassa le itt, lentebb -->>
+        form.addListener(PersonForm.DeleteEvent.class, this::deletePerson);
+        form.addListener(PersonForm.CloseEvent.class, e -> closeEditor());
+    }
+    private void savePerson(PersonForm.SaveEvent event) {
+        appController.savePerson(event.getPerson());                                            // Mentes 3.: és ebben van végül is a service. save  -->> appservice / savePerson()
+        updateList();
+        closeEditor();
+        form.profExpNameClass.clear();
+        form.studyNameClass.clear();
+    }
+
+    private void deletePerson(PersonForm.DeleteEvent event) {
+        appController.deletePerson(event.getPerson());
+        updateList();
+        closeEditor();
+    }
     // hogy frissítse a formot .. ekkor bemegyünk az adatbázisba, és fetch-eljük onnan az új adatokat
     // ezt a Toolbar-ba kell beírni
     private void updateList() {
@@ -71,36 +111,10 @@ public class ListView extends VerticalLayout {
         else if(why=="LANG") grid.setItems(appController.findAllPersons(filterTextLang.getValue(), date, why));
         else if(why=="DATE") grid.setItems(appController.findAllPersons("Date", getFilterDateDate.getValue(), why));*/
     }
-
-    private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(grid, form);
-        content.setFlexGrow(2, grid);
-        content.setFlexGrow(1, form);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        return content;
-    }
-
-    private void configureForm() {
-        form = new PersonForm(appController.findAllCities(), appController.findAllLanguage());    // Collections.emptyList(), Collections.emptyList());  -- az elején ez volt itt, mert még semmi nem volt az adatbázisba
-        form.setWidth("25em");
-
-        form.addListener(PersonForm.SaveEvent.class, this::savePerson);                         // Mentes 2.: itt egy listener, ami a SaveEvent-re van rárakva. És ha bejön ez, akkor this::savePerson ezt a metódust futtassa le itt, lentebb -->>
-        form.addListener(PersonForm.DeleteEvent.class, this::deletePerson);
-        form.addListener(PersonForm.CloseEvent.class, e -> closeEditor());
-    }
-
-    private void savePerson(PersonForm.SaveEvent event) {
-        appController.savePerson(event.getPerson());                                            // Mentes 3.: és ebben van végül is a service. save  -->> appservice / savePerson()
-        updateList();
-        closeEditor();
-    }
-
-    private void deletePerson(PersonForm.DeleteEvent event) {
-        appController.deletePerson(event.getPerson());
-        updateList();
-        closeEditor();
+    private void closeEditor() {
+        form.setPerson(null);
+        form.setVisible(false);
+        removeClassName("editing");
     }
 
     private Component getToolbar() {
@@ -127,36 +141,32 @@ public class ListView extends VerticalLayout {
         toolbar.addClassName("toolbar");    // CSS stílus miatt CSS osztálynév hozzáadása
         return toolbar;
     }
-
     private void addPerson() {
         grid.asSingleSelect().clear();
         editPerson(new Person());
     }
 
-    private void configureGrid() {
-        grid.addClassName("person-grid");  // CSS osztálynév hozzáadása
-        grid.setSizeFull();
-        //grid.setColumns("firstName", "lastName", "email", "phone");
-        grid.setColumns();
-        grid.addColumn(person -> person.getfirstName()).setHeader("Vezetéknév");
-        grid.addColumn(person -> person.getlastName()).setHeader("Keresztnév");
-        grid.addColumn(person -> person.getemail()).setHeader("Email");
-        grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
-        grid.addColumn(new LocalDateRenderer<>(Person::getbornDate, "YYYY. MM .dd.")).setHeader("Születési idő");
-        grid.addColumn(person -> person.getlanguage().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(grid, form);
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, form);
+        content.addClassName("content");
+        content.setSizeFull();
 
-        grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor
+        return content;
     }
 
-    private void editPerson(Person person) {
-        if (person == null) {
-            closeEditor();
-        } else {
-            form.setPerson(person);
-            form.setVisible(true);
-            addClassName("editing");
-        }
-    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
