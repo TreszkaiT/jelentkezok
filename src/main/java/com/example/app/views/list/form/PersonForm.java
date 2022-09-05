@@ -1,9 +1,8 @@
-package com.example.app.views.pages;
+package com.example.app.views.list.form;
 
 import com.example.app.data.entity.*;
 import com.example.app.exception.InvalidBeanWriteException;
-import com.example.app.viewcontroller.AppController;
-import com.example.app.views.pages.upload.UploadPictureI18N;
+import com.example.app.views.list.upload.UploadPictureI18N;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -23,7 +22,6 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;

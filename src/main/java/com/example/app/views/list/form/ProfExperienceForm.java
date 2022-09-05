@@ -1,4 +1,4 @@
-package com.example.app.views.pages;
+package com.example.app.views.list.form;
 
 import com.example.app.data.entity.ProfExperience;
 import com.example.app.exception.InvalidBeanWriteException;

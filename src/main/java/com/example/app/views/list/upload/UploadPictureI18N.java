@@ -1,4 +1,4 @@
-package com.example.app.views.pages.upload;
+package com.example.app.views.list.upload;
 
 import com.vaadin.flow.component.upload.UploadI18N;
 

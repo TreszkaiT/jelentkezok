@@ -3,8 +3,8 @@ package com.example.app.views;
 
 import com.example.app.viewcontroller.ProductController;
 import com.example.app.viewcontroller.SecurityController;
-import com.example.app.views.pages.ListView;
-import com.example.app.views.pages.StartingDataUpload;
+import com.example.app.views.list.ListView;
+import com.example.app.views.dataup.StartingDataUploadView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -60,7 +60,7 @@ public class MainLayout extends AppLayout {
 
         VerticalLayout menuBar = new VerticalLayout();
         menuBar.add(listLink,
-                new RouterLink("Adatszótárak feltöltése", StartingDataUpload.class));
+                new RouterLink("Adatszótárak feltöltése", StartingDataUploadView.class));
         menuBar.setHeightFull();
         menuBar.getElement().getThemeList().add("dark");
         addToDrawer(menuBar);

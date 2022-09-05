@@ -1,4 +1,4 @@
-package com.example.app.views.pages;
+package com.example.app.views.dataup;
 
 import com.example.app.data.entity.*;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
@@ -25,7 +25,7 @@ import static com.example.app.data.properties.SetProperties.SetButtonAppProperty
 @Route(value = "startingdataupload", layout = MainLayout.class)
 @PageTitle("Adatszótárak feltöltése")
 @PermitAll          // login security miatt
-public class StartingDataUpload extends VerticalLayout {
+public class StartingDataUploadView extends VerticalLayout {
 
     private StartingDataController startingDataController;
     private AppController appController;
@@ -41,7 +41,7 @@ public class StartingDataUpload extends VerticalLayout {
     public static int ConfigCityButton;
     public static int ConfigPersonButton;
 
-    public StartingDataUpload(AppController appController, StartingDataController startingDataController) {
+    public StartingDataUploadView(AppController appController, StartingDataController startingDataController) {
         this.appController = appController;
         this.startingDataController = startingDataController;
 

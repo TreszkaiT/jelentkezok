@@ -1,9 +1,10 @@
-package com.example.app.views.pages;
+package com.example.app.views.list;
 
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.viewcontroller.AppController;
 import com.example.app.views.MainLayout;
+import com.example.app.views.list.form.PersonForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;

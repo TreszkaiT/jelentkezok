@@ -1,4 +1,4 @@
-package com.example.app.views;
+package com.example.app.views.login;
 
 import com.example.app.viewcontroller.ProductController;
 import com.vaadin.flow.component.login.LoginI18n;
