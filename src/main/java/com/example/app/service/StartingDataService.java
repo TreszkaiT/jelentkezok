@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import com.example.app.data.dto.LanguageDTO;
+import com.example.app.data.dto.PersonDTO;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.fasterxml.jackson.core.JacksonException;
@@ -44,14 +46,14 @@ public class StartingDataService {
         }
         return null;
     }
-    public static List<Language> getLanguage() {
-        return Arrays.asList(getItems(Language[].class, "languages.json"));
+    public static List<LanguageDTO> getLanguage() {
+        return Arrays.asList(getItems(LanguageDTO[].class, "languages.json"));
     }
-    public static List<Language> getLanguage(int count) {
+    public static List<LanguageDTO> getLanguage(int count) {
         return getLanguage().subList(0, count);
     }
-    public static List<Person> getPerson() {
-        return Arrays.asList(getItems(Person[].class, "person.json"));
+    public static List<PersonDTO> getPerson() {
+        return Arrays.asList(getItems(PersonDTO[].class, "person.json"));
     }
 
 
@@ -75,8 +77,8 @@ public class StartingDataService {
         return null;
     }
 
-    public static List<Person> getPersonSerializer() {
-        return Arrays.asList(getItemsSerializer(Person[].class, "person.json"));
+    public static List<PersonDTO> getPersonSerializer() {
+        return Arrays.asList(getItemsSerializer(PersonDTO[].class, "person.json"));
     }
 
     public static class CustomPersonDeserializer extends StdDeserializer<Person> {

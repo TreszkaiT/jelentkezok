@@ -1,5 +1,7 @@
 package com.example.app.viewcontroller;
 
+import com.example.app.data.dto.LanguageDTO;
+import com.example.app.data.dto.PersonDTO;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.service.StartingDataService;
@@ -16,8 +18,8 @@ public class StartingDataController {
         this.startingDataService = startingDataService;
     }
 
-    public static List<Language> getLanguage() { return StartingDataService.getLanguage(); }
+    public static List<LanguageDTO> getLanguage() { return StartingDataService.getLanguage(); }
 
-    public static List<Person> getPersonSerializer() { return StartingDataService.getPersonSerializer(); }
+    public static List<PersonDTO> getPersonSerializer() { return StartingDataService.getPersonSerializer(); }
 }
 

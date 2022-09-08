@@ -1,17 +1,22 @@
 package com.example.app.service;
 
+import com.example.app.data.dto.CityDTO;
+import com.example.app.data.dto.LanguageDTO;
+import com.example.app.data.dto.PersonDTO;
 import com.example.app.data.entity.City;
 import com.example.app.data.entity.Language;
 import com.example.app.data.entity.Person;
 import com.example.app.data.repository.CityRepository;
 import com.example.app.data.repository.LanguageRepository;
 import com.example.app.data.repository.PersonRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * ez API- adatbázishoz kapcsolódhatunk az Applikációból
@@ -23,15 +28,21 @@ public class AppService {
     private final CityRepository cityRepository;
     private final LanguageRepository languageRepository;
 
+    private final ModelMapper modelMapper;
+
     public AppService(PersonRepository personRepository,
                       CityRepository cityRepository,
-                      LanguageRepository languageRepository) {
+                      LanguageRepository languageRepository,
+                      ModelMapper modelMapper) {
 
         this.personRepository = personRepository;
         this.cityRepository = cityRepository;
         this.languageRepository = languageRepository;
 
+        this.modelMapper = modelMapper;
+
         //PeldaadatokHozzaadasa();
+
     }
 
 
@@ -48,40 +59,55 @@ public class AppService {
 
 
     // DELETE
-    public void deletePerson(Person person){
+    public void deletePerson(PersonDTO personDTO){
+        Person person = modelMapper.map(personDTO, Person.class);
         personRepository.delete(person);
     }
 
 
     // SAVE
-    public void savePerson(Person person){
-        if(person == null){
+    public void savePerson(PersonDTO personDTO){
+        if(personDTO == null){
             System.out.println("Nincs Személy");
         }
 
-        personRepository.save(person);                              // Mentes 4.: itt történik végül a persistálás
-    }
-    public void savePerson(List<Person> persons){
-        if(persons == null) System.out.println("Nincsennek személyek");
+        Person personToSave = modelMapper.map(personDTO, Person.class);
 
-        for(Person per: persons) personRepository.save(per);
+        personRepository.save(personToSave);                              // Mentes 4.: itt történik végül a persistálás
     }
-    public  void saveCities(List<City> cities){
+    public void savePerson(List<PersonDTO> personsDTO){
+        if(personsDTO == null) System.out.println("Nincsennek személyek");
+
+        List<Person> personList = personsDTO.stream()
+                .map(personDTO -> modelMapper.map(personDTO, Person.class))
+                .collect(Collectors.toList());
+
+        for(Person per: personList) personRepository.save(per);
+    }
+    public  void saveCities(List<CityDTO> cities){
         if(cities == null){
             System.out.println("Nincsenek városok!");
         }
 
-        for(City cit: cities){
+        List<City> cityList = cities.stream()
+                .map(cityDTO -> modelMapper.map(cityDTO, City.class))
+                .collect(Collectors.toList());
+
+        for(City cit: cityList){
             cityRepository.save(cit);
         }
     }
-    public void saveLanguage(List<Language> languages){
-        if(languages == null){
+    public void saveLanguage(List<LanguageDTO> languagesDTO){
+        if(languagesDTO == null){
             System.out.println("Nincsenek nyelvek");
         }
 
+        List<Language> languageList = languagesDTO.stream()
+                .map(languageDTO -> modelMapper.map(languageDTO, Language.class))
+                .collect(Collectors.toList());
+
         //languages.stream()
-        for (Language ny: languages) {
+        for (Language ny: languageList) {
             languageRepository.save(ny);
             //System.out.println("1");
         }
@@ -89,34 +115,53 @@ public class AppService {
 
 
     // FIND
-    public List<City> findAllCities(){
-        return cityRepository.findAll();
+    public List<CityDTO> findAllCities(){
+        List<City> cityList = cityRepository.findAll();
+
+        return cityList.stream()
+                .map(city -> modelMapper.map(city, CityDTO.class))
+                .collect(Collectors.toList());
     }
-    public List<Language> findAllLanguage(){
-        return languageRepository.findAll();
+    public List<LanguageDTO> findAllLanguage(){
+        List<Language> languageList = languageRepository.findAll();
+
+        return languageList.stream()
+                .map(language -> modelMapper.map(language, LanguageDTO.class))
+                .collect(Collectors.toList());
     }
-    public List<Person> findAllPersons(){return personRepository.findAll();};
-    public Optional<City> findByCity(String id) {
-        return cityRepository.findById(UUID.fromString(id));
+    public List<PersonDTO> findAllPersons(){
+        List<Person> personList = personRepository.findAll();
+
+        return personList.stream()
+                .map(person -> modelMapper.map(person, PersonDTO.class))
+                .collect(Collectors.toList());
+    };
+    public Optional<CityDTO> findByCity(String id) {
+        Optional<City> optionalCity = cityRepository.findById(UUID.fromString(id));
+
+        return optionalCity.map(city -> modelMapper.map(city, CityDTO.class));
     }
-    public City findCityByName(String name){
-        List<City> cityFindAll = findAllCities();
-        for(City city: cityFindAll){
+    public CityDTO findCityByName(String name){
+        List<CityDTO> cityFindAll = findAllCities();
+        for(CityDTO city: cityFindAll){
             if(city.getName().equals(name)) return city;
         }
         return null;
     }
-    public Language findLanguageByName(String name){
-        List<Language> langFindAll = findAllLanguage();
-        for(Language lang: langFindAll){
+    public LanguageDTO findLanguageByName(String name){
+        List<LanguageDTO> langFindAll = findAllLanguage();
+        for(LanguageDTO lang: langFindAll){
             if(lang.getName().equals(name)) return lang;
         }
         return null;
     }
 
-    public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang) {
+    public List<PersonDTO> findAllPersons(String filterName, LocalDate dt, String filterLang) {
+        List<Person> personList =  personRepository.complexSearch(filterName, dt, filterLang);
 
-        return personRepository.complexSearch(filterName, dt, filterLang);
+        return personList.stream()
+                .map(person -> modelMapper.map(person, PersonDTO.class))
+                .collect(Collectors.toList());
 
         /*if (filterName == null) System.out.println("filtername null");
         if (filterName.isEmpty()) System.out.println("filtename empty");

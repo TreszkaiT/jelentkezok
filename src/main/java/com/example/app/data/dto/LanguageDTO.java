@@ -1,7 +1,5 @@
 package com.example.app.data.dto;
 
-import com.example.app.data.entity.Person;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +9,7 @@ public class LanguageDTO {
 
     private String code;
 
-    private Set<Person> person = new HashSet<>();
+    private Set<PersonDTO> personDTO = new HashSet<>();
 
     public LanguageDTO() {
 
@@ -37,11 +35,11 @@ public class LanguageDTO {
         this.name = name;
     }
 
-    public Set<Person> getPerson() {
-        return person;
+    public Set<PersonDTO> getPersonDTO() {
+        return personDTO;
     }
 
-    public void setPerson(Set<Person> person) {
-        this.person = person;
+    public void setPersonDTO(Set<PersonDTO> personDTO) {
+        this.personDTO = personDTO;
     }
 }

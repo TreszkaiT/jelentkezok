@@ -1,14 +1,5 @@
 package com.example.app.data.dto;
 
-import com.example.app.data.entity.City;
-import com.example.app.data.entity.Language;
-import com.example.app.data.entity.ProfExperience;
-import com.example.app.data.entity.Study;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +13,6 @@ public class PersonDTO {
     private String lastName = "";
 
     private String email = "";
-    //@NotEmpty
 
     private LocalDate bornDate;
 
@@ -31,7 +21,7 @@ public class PersonDTO {
 
     private String address = "";
 
-    private City city;
+    private CityDTO cityDTO;
 
 
     private String socialMedia = "";
@@ -44,9 +34,9 @@ public class PersonDTO {
     private String picture = "";
 
 
-    private List<Study> studies = new ArrayList<>();
+    private List<StudyDTO> studiesDTO = new ArrayList<>();
 
-    private List<ProfExperience> profExperiences = new ArrayList<>();
+    private List<ProfExperienceDTO> profExperiencesDTO = new ArrayList<>();
 
 
     private String otherSkill = "";
@@ -54,141 +44,137 @@ public class PersonDTO {
 
     private String coverLetter = "";
 
-    private Set<Language> language = new HashSet<>();
+    private Set<LanguageDTO> languageDTO = new HashSet<>();
 
 
     public PersonDTO() {
     }
 
-    public String toString() {
-        return firstName + " " + lastName;
-    }
-
-    public String getfirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setfirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getlastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setlastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public LocalDate getbornDate() {
+    public LocalDate getBornDate() {
         return bornDate;
     }
 
-    public void setbornDate(LocalDate bornDate) {
+    public void setBornDate(LocalDate bornDate) {
         this.bornDate = bornDate;
     }
 
-    public String getphone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setphone(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public String getaddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setaddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public City getcity() {
-        return city;
+    public CityDTO getCityDTO() {
+        return cityDTO;
     }
 
-    public void setcity(City city) {
-        this.city = city;
+    public void setCityDTO(CityDTO cityDTO) {
+        this.cityDTO = cityDTO;
     }
 
-    public String getsocialMedia() {
+    public String getSocialMedia() {
         return socialMedia;
     }
 
-    public void setsocialMedia(String socialMedia) {
+    public void setSocialMedia(String socialMedia) {
         this.socialMedia = socialMedia;
     }
 
-    public String getmessageApps() {
+    public String getMessageApps() {
         return messageApps;
     }
 
-    public void setmessageApps(String messageApps) {
+    public void setMessageApps(String messageApps) {
         this.messageApps = messageApps;
     }
 
-    public String getwebSite() {
+    public String getWebSite() {
         return webSite;
     }
 
-    public void setwebSite(String webSite) {
+    public void setWebSite(String webSite) {
         this.webSite = webSite;
     }
 
-    public String getpicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setpicture(String picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
-    public List<Study> getstudies() {
-        return studies;
+    public List<StudyDTO> getStudiesDTO() {
+        return studiesDTO;
     }
 
-    public void setstudies(List<Study> studies) {
-        this.studies = studies;
+    public void setStudiesDTO(List<StudyDTO> studiesDTO) {
+        this.studiesDTO = studiesDTO;
     }
 
-    public List<ProfExperience> getProfExperiences() {
-        return profExperiences;
+    public List<ProfExperienceDTO> getProfExperiencesDTO() {
+        return profExperiencesDTO;
     }
 
-    public void setProfExperiences(List<ProfExperience> profExperience) {
-        this.profExperiences = profExperience;
+    public void setProfExperiencesDTO(List<ProfExperienceDTO> profExperiencesDTO) {
+        this.profExperiencesDTO = profExperiencesDTO;
     }
 
-    public Set<Language> getlanguage() {
-        return language;
-    }
-
-    public void setlanguage(Set<Language> language) {
-        this.language = language;
-    }
-
-    public String getotherSkill() {
+    public String getOtherSkill() {
         return otherSkill;
     }
 
-    public void setotherSkill(String otherSkill) {
+    public void setOtherSkill(String otherSkill) {
         this.otherSkill = otherSkill;
     }
 
-    public String getcoverLetter() {
+    public String getCoverLetter() {
         return coverLetter;
     }
 
-    public void setcoverLetter(String coverLetter) {
+    public void setCoverLetter(String coverLetter) {
         this.coverLetter = coverLetter;
+    }
+
+    public Set<LanguageDTO> getLanguageDTO() {
+        return languageDTO;
+    }
+
+    public void setLanguageDTO(Set<LanguageDTO> languageDTO) {
+        this.languageDTO = languageDTO;
     }
 }

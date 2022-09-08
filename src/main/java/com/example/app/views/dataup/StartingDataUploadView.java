@@ -1,5 +1,6 @@
 package com.example.app.views.dataup;
 
+import com.example.app.data.dto.*;
 import com.example.app.data.entity.*;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
@@ -46,8 +47,8 @@ public class StartingDataUploadView extends VerticalLayout {
         this.startingDataController = startingDataController;
 
 
-        List<Language> languages = startingDataController.getLanguage();
-        List<Person> persons = startingDataController.getPersonSerializer();
+        List<LanguageDTO> languages = startingDataController.getLanguage();
+        List<PersonDTO> persons = startingDataController.getPersonSerializer();
 
         addClassName("starting-data-upload");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -68,7 +69,7 @@ public class StartingDataUploadView extends VerticalLayout {
 
     }
 
-    private void LangButtonClick(List<Language> languages) {
+    private void LangButtonClick(List<LanguageDTO> languages) {
         if (ConfigLanguageButton == 2) buttonLanguageUpload.setEnabled(false);
 
         buttonLanguageUpload.addClickListener(event -> {
@@ -94,11 +95,11 @@ public class StartingDataUploadView extends VerticalLayout {
             new Thread(() -> {
 
                 String[][] dataTable = ExcelXlsAndXlsxRead.getEXlsXlsx("telepulesek.xlsx", 0);        // read from cells -- .xls
-                List<City> cities = new ArrayList<>();
+                List<CityDTO> cities = new ArrayList<>();
                 for (int i = 0; i < dataTable.length; i++) {
                     if (dataTable[i][1] == null || dataTable[i][1].isEmpty() || dataTable[i][1].equals("")) {
                     } else {
-                        cities.add(new City(dataTable[i][1], dataTable[i][0]));
+                        cities.add(new CityDTO(dataTable[i][1], dataTable[i][0]));
                     }
                 }
 
@@ -113,60 +114,60 @@ public class StartingDataUploadView extends VerticalLayout {
         });
     }
 
-    private void PersonButtonClick(List<Person> persons) {
+    private void PersonButtonClick(List<PersonDTO> persons) {
         if (ConfigCityButton == 1 || ConfigLanguageButton == 1)
             buttonPersonUpload.setEnabled(false);      // addig nem lehet aktív, míg a másik két táblát fel nem töltöttük, foreign key-ek miatt
         if (ConfigPersonButton == 2) buttonPersonUpload.setEnabled(false);
 
         buttonPersonUpload.addClickListener(event -> {
             progressBarPerson.setIndeterminate(true);
-            List<Person> personsok = new ArrayList<>();
+            List<PersonDTO> personsok = new ArrayList<>();
             new Thread(() -> {
-                for (Person pers : persons) {
+                for (PersonDTO pers : persons) {
                     long rndCity = new RandomDataGenerator().nextLong(0, appController.countCities());
                     long rndlang = new RandomDataGenerator().nextLong(0, appController.countLanguage());
                     long rndlang2 = new RandomDataGenerator().nextLong(0, appController.countLanguage());
                     //if(pers.getcity()==null) pers.System.out.println("null city");
                     //if(pers.getlanguage()==null) System.out.println("null lang");
-                    pers.setcity(appController.findAllCities().get((int) rndCity));//findByCity("1"));
-                    pers.getlanguage().add(appController.findAllLanguage().get((int) rndlang));
-                    pers.getlanguage().add(appController.findAllLanguage().get((int) rndlang2));
+                    pers.setCityDTO(appController.findAllCities().get((int) rndCity));//findByCity("1"));
+                    pers.getLanguageDTO().add(appController.findAllLanguage().get((int) rndlang));
+                    pers.getLanguageDTO().add(appController.findAllLanguage().get((int) rndlang2));
 
                     {
-                        Study study = new Study();
+                        StudyDTO study = new StudyDTO();
                         study.setNameSchool("Test1 Iskola");
                         study.setFormDate(LocalDate.of(1977, 11, 12));
                         study.setToDate(LocalDate.of(1978, 11, 12));
-                        pers.getstudies().add(study);
-                        study.setPerson(pers);
+                        pers.getStudiesDTO().add(study);
+                        study.setPersonDTO(pers);
                     }
                     {
-                        Study study = new Study();
+                        StudyDTO study = new StudyDTO();
                         study.setNameSchool("Maosidik Iskola");
                         study.setFormDate(LocalDate.of(1979, 9, 12));
                         study.setToDate(LocalDate.of(1981, 11, 12));
                         study.setComment("ez egy megjegyzes");
-                        pers.getstudies().add(study);
-                        study.setPerson(pers);
+                        pers.getStudiesDTO().add(study);
+                        study.setPersonDTO(pers);
                     }
 
                     {
-                        ProfExperience proof = new ProfExperience();
+                        ProfExperienceDTO proof = new ProfExperienceDTO();
                         proof.setNameWork("Első");
                         proof.setFromDate(LocalDate.of(1977,11,12));
                         proof.setToDate(LocalDate.of(1978,11,12));
                         proof.setComment("Valami");
-                        pers.getProfExperiences().add(proof);
-                        proof.setPerson(pers);
+                        pers.getProfExperiencesDTO().add(proof);
+                        proof.setPersonDTO(pers);
                     }
                     {
-                        ProfExperience proof = new ProfExperience();
+                        ProfExperienceDTO proof = new ProfExperienceDTO();
                         proof.setNameWork("Második");
                         proof.setFromDate(LocalDate.of(1979,9,12));
                         proof.setToDate(LocalDate.of(1981,11,12));
                         proof.setComment("Valami2");
-                        pers.getProfExperiences().add(proof);
-                        proof.setPerson(pers);
+                        pers.getProfExperiencesDTO().add(proof);
+                        proof.setPersonDTO(pers);
                     }
                     //pers.setcity(service.findCityByName("Nyíregyháza"));
                     //pers.setlanguage(service.findLanguageByName("English"));

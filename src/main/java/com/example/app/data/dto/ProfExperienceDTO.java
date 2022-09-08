@@ -1,7 +1,5 @@
 package com.example.app.data.dto;
 
-import com.example.app.data.entity.Person;
-
 import java.time.LocalDate;
 
 public class ProfExperienceDTO {
@@ -15,7 +13,7 @@ public class ProfExperienceDTO {
 
     private String comment;
 
-    private Person person;
+    private PersonDTO personDTO;
 
     public ProfExperienceDTO() {
     }
@@ -53,11 +51,11 @@ public class ProfExperienceDTO {
         this.comment = comment;
     }
 
-    public Person getPerson() {
-        return person;
+    public PersonDTO getPersonDTO() {
+        return personDTO;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
     }
 }

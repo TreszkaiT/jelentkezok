@@ -1,7 +1,7 @@
 package com.example.app.views.list;
 
-import com.example.app.data.entity.Language;
-import com.example.app.data.entity.Person;
+import com.example.app.data.dto.LanguageDTO;
+import com.example.app.data.dto.PersonDTO;
 import com.example.app.viewcontroller.AppController;
 import com.example.app.views.MainLayout;
 import com.example.app.views.list.form.PersonForm;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @PermitAll          // login security miatt
 public class ListView extends VerticalLayout {
 
-    Grid<Person> grid = new Grid<>(Person.class);
+    Grid<PersonDTO> grid = new Grid<>(PersonDTO.class);
     TextField filterTextName = new TextField();
     TextField filterTextLang = new TextField();
     DatePicker getFilterDateDate = new DatePicker();
@@ -60,21 +60,21 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         //grid.setColumns("firstName", "lastName", "email", "phone");
         grid.setColumns();
-        grid.addColumn(person -> person.getfirstName()).setHeader("Vezetéknév");
-        grid.addColumn(person -> person.getlastName()).setHeader("Keresztnév");
-        grid.addColumn(person -> person.getemail()).setHeader("Email");
-        grid.addColumn(person -> person.getphone()).setHeader("Telefonszám");
-        grid.addColumn(new LocalDateRenderer<>(Person::getbornDate, "YYYY. MM .dd.")).setHeader("Születési idő");
-        grid.addColumn(person -> person.getlanguage().stream().map(Language::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
+        grid.addColumn(personDTO -> personDTO.getFirstName()).setHeader("Vezetéknév");
+        grid.addColumn(personDTO -> personDTO.getLastName()).setHeader("Keresztnév");
+        grid.addColumn(personDTO -> personDTO.getEmail()).setHeader("Email");
+        grid.addColumn(personDTO -> personDTO.getPhone()).setHeader("Telefonszám");
+        grid.addColumn(new LocalDateRenderer<>(PersonDTO::getBornDate, "YYYY. MM .dd.")).setHeader("Születési idő");
+        grid.addColumn(personDTO -> personDTO.getLanguageDTO().stream().map(LanguageDTO::getName).collect(Collectors.joining(", "))).setHeader("Nyelvismeret"); // LAMBDA ->
         grid.getColumns().forEach(col -> col.setAutoWidth(true));   // show the contents
 
         grid.asSingleSelect().addValueChangeListener(e -> editPerson(e.getValue()));            // egy sorra kattintáskor
     }
-    private void editPerson(Person person) {
-        if (person == null) {
+    private void editPerson(PersonDTO personDTO) {
+        if (personDTO == null) {
             closeEditor();
         } else {
-            form.setPerson(person);
+            form.setPersonDTO(personDTO);
             form.setVisible(true);
             addClassName("editing");
         }
@@ -102,7 +102,7 @@ public class ListView extends VerticalLayout {
         closeEditor();
     }
     private void closeEditor() {
-        form.setPerson(null);
+        form.setPersonDTO(null);
         form.setVisible(false);
         removeClassName("editing");
     }
@@ -145,7 +145,7 @@ public class ListView extends VerticalLayout {
     }
     private void addPerson() {
         grid.asSingleSelect().clear();
-        editPerson(new Person());
+        editPerson(new PersonDTO());
     }
 
     private Component getContent() {

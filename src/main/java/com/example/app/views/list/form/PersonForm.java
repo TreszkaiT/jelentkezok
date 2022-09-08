@@ -1,6 +1,7 @@
 package com.example.app.views.list.form;
 
-import com.example.app.data.entity.*;
+import com.example.app.data.dto.*;
+import com.example.app.data.entity.ProfExperience;
 import com.example.app.exception.InvalidBeanWriteException;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -55,9 +56,9 @@ public class PersonForm extends FormLayout {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonForm.class);
 
-    Binder<Person> binder = new BeanValidationBinder<>(Person.class);             // összekapcsol egy modul objektumor egy Components-el    BeanValidationBinder:a Person osztály validation Annotációit használja a formelemkre is, így már nekünk ezt nem kell megtenni a nézetnél külön
+    Binder<PersonDTO> binder = new BeanValidationBinder<>(PersonDTO.class);             // összekapcsol egy modul objektumor egy Components-el    BeanValidationBinder:a Person osztály validation Annotációit használja a formelemkre is, így már nekünk ezt nem kell megtenni a nézetnél külön
 
-    private Person person;
+    private PersonDTO personDTO;
 
     // Components
     TextField firstName = new TextField("Vezetéknév");              // automatikus Bind-elés miatt a nevük itt egyezzen meg a Person osztályban lévő nevekkel!!!
@@ -96,24 +97,24 @@ public class PersonForm extends FormLayout {
     TextField picture = new TextField("Fénykép");
 
 
-    MultiselectComboBox<Language> language = new MultiselectComboBox<>("Nyelvismeret");
-    ComboBox<City> city = new ComboBox<>("Város");
+    MultiselectComboBox<LanguageDTO> language = new MultiselectComboBox<>("Nyelvismeret");
+    ComboBox<CityDTO> city = new ComboBox<>("Város");
 
     Button save = new Button("Mentés");
     Button delete = new Button("Törlés");
     Button cancel = new Button("Mégsem");
 
 
-    public PersonForm(List<City> cities, List<Language> languages) {//}, AppService services) {
+    public PersonForm(List<CityDTO> cities, List<LanguageDTO> languages) {//}, AppService services) {
         addClassName("contact-form");
 
         binder.bindInstanceFields(this);        // a binder meghívása itt van. És this elég !!! azért, mert az itt lévő fenti nevek megyegyeznek a Person osztályban lévő nevekkel!!!
 
         city.setItems(cities);
-        city.setItemLabelGenerator(City::getName);                      // mit jelenítsünk meg a ComboBoxban
+        city.setItemLabelGenerator(CityDTO::getName);                      // mit jelenítsünk meg a ComboBoxban
 
         language.setItems(languages);
-        language.setItemLabelGenerator(Language::getName);
+        language.setItemLabelGenerator(LanguageDTO::getName);
 
         h5coverLetter.setClassName("h5-style");
         h5ProfExperience.setClassName("h5-style");
@@ -305,7 +306,7 @@ public class PersonForm extends FormLayout {
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickListener(event -> validateAndSave());                                              // Mentes 0.: amikor a Person felmegy perzisztálásra, azaz megnyomjuk a nagy Mentés gombot a Form leglalján, meghívódik a validatAndSave()
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, person)));
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, personDTO)));
         cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
         save.addClickShortcut(Key.ENTER);
@@ -316,9 +317,9 @@ public class PersonForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            binder.writeBean(person);                                                               // Mentes 1.: a Binder visszaírja a Person-ba a Form értékeit, csak itt nincs hozzáadva a Student, mert azt mi megcsináltuk korábban. Így az összes többi elemet visszaírja a Personba,és
-            //appController.savePerson(person);
-            fireEvent(new SaveEvent(this, person));                                          // és egy SaveEvent-et bocsájtunk ki. Ami a SaveEvent-be belerakja a person értékét, és ...>> ListView.java configFormn()
+            binder.writeBean(personDTO);                                                               // Mentes 1.: a Binder visszaírja a Person-ba a Form értékeit, csak itt nincs hozzáadva a Student, mert azt mi megcsináltuk korábban. Így az összes többi elemet visszaírja a Personba,és
+            //appController.savePerson(personDTO);
+            fireEvent(new SaveEvent(this, personDTO));                                          // és egy SaveEvent-et bocsájtunk ki. Ami a SaveEvent-be belerakja a person értékét, és ...>> ListView.java configFormn()
         } catch (ValidationException e) {
             //throw new RuntimeException(e);
             throw new InvalidBeanWriteException("A személy mentése közben hiba történt!");
@@ -336,24 +337,24 @@ public class PersonForm extends FormLayout {
      * Eventek Class elkészítése
      */
     public static abstract class PersonFormEvent extends ComponentEvent<PersonForm> {
-        private Person person;
+        private PersonDTO personDTO;
 
-        protected PersonFormEvent(PersonForm source, Person person) {
+        protected PersonFormEvent(PersonForm source, PersonDTO personDTO) {
             super(source, false);
-            this.person = person;
+            this.personDTO = personDTO;
         }
 
-        public Person getPerson() {
-            return person;
+        public PersonDTO getPerson() {
+            return personDTO;
         }
     }
 
     public static class SaveEvent extends PersonFormEvent {
-        SaveEvent(PersonForm source, Person person) { super(source, person);  }
+        SaveEvent(PersonForm source, PersonDTO personDTO) { super(source, personDTO);  }
     }
     public static class DeleteEvent extends PersonFormEvent {
-        DeleteEvent(PersonForm source, Person person) {
-            super(source, person);
+        DeleteEvent(PersonForm source, PersonDTO personDTO) {
+            super(source, personDTO);
         }
 
     }
@@ -370,12 +371,12 @@ public class PersonForm extends FormLayout {
 
     /**
      * Mindegyik gombhoz alul kell, a mentéshez és a remove-hoz
-     * @param person
+     * @param personDTO
      */
 
-    public void setPerson(Person person) {
-        this.person = person;
-        binder.readBean(person);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
+        binder.readBean(personDTO);        // Binder beolvassa ezt a persont, és ezek a fentebbi mezők az add( firstName, ...  ez alapján töltődnek fel
         showStudiesList();
         showProfExperienceList();
     }
@@ -388,11 +389,11 @@ public class PersonForm extends FormLayout {
     public List<String> profExpNameClass = new ArrayList<>();
     private void DialgProfExperience() {
         divProfExperienceButton.addClickListener(event -> {
-            ProfExperience profExperience = new ProfExperience();
+            ProfExperienceDTO profExperience = new ProfExperienceDTO();
             createProfExperianceFormNew(profExperience, createDialogLayoutProfExperience(profExperience)).open();
         });
     }
-    private Dialog createProfExperianceFormNew(ProfExperience profExperience, ProfExperienceForm profExperienceForm){
+    private Dialog createProfExperianceFormNew(ProfExperienceDTO profExperience, ProfExperienceForm profExperienceForm){
         Dialog dialog = new Dialog();
         dialog.getElement().setAttribute("aria-label", "Add note");
         dialog.getHeader().add(createHeaderLayoutProfExperience());
@@ -404,8 +405,8 @@ public class PersonForm extends FormLayout {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             profExperienceForm.save();
-            PersonForm.this.person.getProfExperiences().add(profExperience);    // itt beállítjuk mindkettőt az elmentéshez, és a nagy mentés gombbra kattintva menti csak majd el
-            profExperience.setPerson(PersonForm.this.person);
+            PersonForm.this.personDTO.getProfExperiencesDTO().add(profExperience);    // itt beállítjuk mindkettőt az elmentéshez, és a nagy mentés gombbra kattintva menti csak majd el
+            profExperience.setPersonDTO(PersonForm.this.personDTO);
             dialog.close();
             profExpNameClass.add(profExperience.getNameWork());
             showProfExperienceList();
@@ -420,17 +421,17 @@ public class PersonForm extends FormLayout {
      * Kitölt gombra kattintva a listában
      * Create Dialog window Szakmai Tapasztalat
      */
-    private void removeExperienceOne(ProfExperience profExperience) {
-        Person person =  profExperience.getPerson();
-        person.getProfExperiences().remove(profExperience);
-        profExperience.setPerson(null);
+    private void removeExperienceOne(ProfExperienceDTO profExperience) {
+        PersonDTO personDTO =  profExperience.getPersonDTO();
+        personDTO.getProfExperiencesDTO().remove(profExperience);
+        profExperience.setPersonDTO(null);
     }
     private void showProfExperienceList() {
         divProfExperience.removeAll();
-        if (null == person){
+        if (null == personDTO){
             return;
         }
-        for (ProfExperience profExperience : person.getProfExperiences()) {
+        for (ProfExperienceDTO profExperience : personDTO.getProfExperiencesDTO()) {
             ProfExperienceForm profExperienceForm = createDialogLayoutProfExperience(profExperience);
             Dialog dialog = createProfExperienceDialog(profExperienceForm);
             H5 h5 = new H5(profExperience.getNameWork());
@@ -458,7 +459,7 @@ public class PersonForm extends FormLayout {
             createFooterProfExperience(dialog, profExperienceForm, profExperience);
         }
     }
-    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperience profExperience) {
+    private static ProfExperienceForm createDialogLayoutProfExperience(ProfExperienceDTO profExperience) {
         ProfExperienceForm profExperienceLayout= new ProfExperienceForm(profExperience);
 
         profExperienceLayout.getStyle().set("width", "400px").set("max-width", "100%");
@@ -487,7 +488,7 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-    private void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm, ProfExperience profExperience) {
+    private void createFooterProfExperience(Dialog dialog, ProfExperienceForm profExperienceForm, ProfExperienceDTO profExperience) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             profExperienceForm.save();
@@ -510,12 +511,12 @@ public class PersonForm extends FormLayout {
     public List<String> studyNameClass = new ArrayList<>();
     private void DialgStudies() {
         divstudiesButton.addClickListener(event -> {
-            Study study = new Study();
-            Dialog dialog = createStudyDialogForNew(study, createDialogLayoutStudies(study));
+            StudyDTO studyDTO = new StudyDTO();
+            Dialog dialog = createStudyDialogForNew(studyDTO, createDialogLayoutStudies(studyDTO));
             dialog.open();
         });
     }
-    private Dialog createStudyDialogForNew(Study study, StudyForm studyForm) {
+    private Dialog createStudyDialogForNew(StudyDTO studyDTO, StudyForm studyForm) {
         Dialog dialog = new Dialog();
         dialog.getElement().setAttribute("aria-label", "Add note");
         dialog.getHeader().add(createHeaderLayoutStudies());
@@ -526,10 +527,10 @@ public class PersonForm extends FormLayout {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             studyForm.save();
-            PersonForm.this.person.getstudies().add(study);         // itt csak beállítjuk az értékeket, de csak a nagy mentés gombnál metnődik el
-            study.setPerson(PersonForm.this.person);                // ugyanaz
+            PersonForm.this.personDTO.getStudiesDTO().add(studyDTO);         // itt csak beállítjuk az értékeket, de csak a nagy mentés gombnál metnődik el
+            studyDTO.setPersonDTO(PersonForm.this.personDTO);                // ugyanaz
             dialog.close();
-            studyNameClass.add(study.getNameSchool());
+            studyNameClass.add(studyDTO.getNameSchool());
             showStudiesList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -544,28 +545,28 @@ public class PersonForm extends FormLayout {
      * @return
      */
 
-    private void removeStudent(Study study) {
-        Person person = study.getPerson();      // a student-ből kiveszi a person-t
-        person.getstudies().remove(study);      // person-nak lekérdezi a student-jeit, majd kiveszi a sudent-et a person-ból
-        study.setPerson(null);                  // a másik oldalon meg student-nél null-ra állítja a person-t
+    private void removeStudent(StudyDTO studyDTO) {
+        PersonDTO personDTO = studyDTO.getPersonDTO();      // a student-ből kiveszi a person-t
+        personDTO.getStudiesDTO().remove(studyDTO);      // person-nak lekérdezi a student-jeit, majd kiveszi a sudent-et a person-ból
+        studyDTO.setPersonDTO(null);                  // a másik oldalon meg student-nél null-ra állítja a person-t
     }                                           // és mikor majd mentésre kerül -> akkor kiveszi majd a kapcsolatot automatikusan, szétkapcsolódnak de nem fogja törölni az adatbázisból, csak a kapcsolatot szedi szét
                                                 // így már nem lesz köze a Person-hoz, mi meg a person-nal dolgozunk úgyis
     private void showStudiesList() {
         divstudies.removeAll();                                                                 // divből kitörlök mindent
-        if (null == person) {                                                                   // a Persont később Setteljük be, így megnézzük, hogy megkaptuk-e
+        if (null == personDTO) {                                                                   // a Persont később Setteljük be, így megnézzük, hogy megkaptuk-e
             return;
         }
-        for (Study study : person.getstudies()) {                                               // ha vannak elemek, akkor azt végig Iteráljuk egy forEach-el
-            StudyForm studyForm = createDialogLayoutStudies(study);                             // StudyForm létrehozása, mert a Binderhez kell, hogy egy FormLayout-unk legyen
+        for (StudyDTO studyDTO : personDTO.getStudiesDTO()) {                                               // ha vannak elemek, akkor azt végig Iteráljuk egy forEach-el
+            StudyForm studyForm = createDialogLayoutStudies(studyDTO);                             // StudyForm létrehozása, mert a Binderhez kell, hogy egy FormLayout-unk legyen
             Dialog dialog = createStudyDialog(studyForm);
-            H5 h5 = new H5(study.getNameSchool());
+            H5 h5 = new H5(studyDTO.getNameSchool());
             if(studyNameClass.size()>0){
                 for(String str: studyNameClass){
-                    if(study.getNameSchool().equals(str)) h5.addClassName("study-name-change"); else h5.addClassName("study-name");
+                    if(studyDTO.getNameSchool().equals(str)) h5.addClassName("study-name-change"); else h5.addClassName("study-name");
                 }
             }
             Button buttonShow = new Button("Kitölt", e -> dialog.open());
-            Button buttonClose = new Button("Töröl", e->removeStudent(study));
+            Button buttonClose = new Button("Töröl", e->removeStudent(studyDTO));
             add(dialog);
 
             Scroller sc1 = new Scroller();
@@ -579,11 +580,11 @@ public class PersonForm extends FormLayout {
             divstudies.add(sc1);
 
             buttonClose.addClickListener(e -> sc1.setContent(null));
-            createFooterStudies(dialog, studyForm, study);
+            createFooterStudies(dialog, studyForm, studyDTO);
         }
     }
-    private static StudyForm createDialogLayoutStudies(Study study) {
-        StudyForm fieldLayout = new StudyForm(study);
+    private static StudyForm createDialogLayoutStudies(StudyDTO studyDTO) {
+        StudyForm fieldLayout = new StudyForm(studyDTO);
 
         fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
 
@@ -611,12 +612,12 @@ public class PersonForm extends FormLayout {
 
         return headline;
     }
-    private void createFooterStudies(Dialog dialog, StudyForm studyForm, Study study) {
+    private void createFooterStudies(Dialog dialog, StudyForm studyForm, StudyDTO studyDTO) {
         Button cancelButton = new Button("Mégsem", e -> dialog.close());
         Button saveButton = new Button("Mentés", e -> {
             studyForm.save();
             dialog.close();
-            studyNameClass.add(study.getNameSchool());
+            studyNameClass.add(studyDTO.getNameSchool());
             showStudiesList();
         });
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

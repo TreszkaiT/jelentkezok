@@ -1,7 +1,8 @@
 package com.example.app.viewcontroller;
 
-import com.example.app.data.entity.City;
-import com.example.app.data.entity.Language;
+import com.example.app.data.dto.CityDTO;
+import com.example.app.data.dto.LanguageDTO;
+import com.example.app.data.dto.PersonDTO;
 import com.example.app.data.entity.Person;
 import com.example.app.service.AppService;
 import org.springframework.stereotype.Controller;
@@ -31,19 +32,19 @@ public class AppController {
     }
 
     //DELETE
-    public void deletePerson(Person person) { appService.deletePerson(person); }
+    public void deletePerson(PersonDTO personDTO) { appService.deletePerson(personDTO); }
 
     //SAVE
-    public  void saveCities(List<City> cities) { appService.saveCities(cities); }
-    public void saveLanguage(List<Language> languages) { appService.saveLanguage(languages); }
-    public void savePerson(List<Person> persons){ appService.savePerson(persons); }
-    public void savePerson(Person person){ appService.savePerson(person); }
+    public  void saveCities(List<CityDTO> cities) { appService.saveCities(cities); }
+    public void saveLanguage(List<LanguageDTO> languages) { appService.saveLanguage(languages); }
+    public void savePerson(List<PersonDTO> persons){ appService.savePerson(persons); }
+    public void savePerson(PersonDTO personDTO){ appService.savePerson(personDTO); }
 
     // Find
-    public List<Person> findAllPersons(){ return appService.findAllPersons(); }
-    public List<City> findAllCities(){ return appService.findAllCities(); }
-    public List<Language> findAllLanguage(){ return appService.findAllLanguage(); }
-    public List<Person> findAllPersons(String filterName, LocalDate dt, String filterLang){
+    public List<PersonDTO> findAllPersons(){ return appService.findAllPersons(); }
+    public List<CityDTO> findAllCities(){ return appService.findAllCities(); }
+    public List<LanguageDTO> findAllLanguage(){ return appService.findAllLanguage(); }
+    public List<PersonDTO> findAllPersons(String filterName, LocalDate dt, String filterLang){
         return appService.findAllPersons(filterName, dt, filterLang);
     }
 
