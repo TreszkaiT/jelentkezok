@@ -2,8 +2,6 @@ package com.example.app.service;
 
 import com.example.app.data.dto.LanguageDTO;
 import com.example.app.data.dto.PersonDTO;
-import com.example.app.data.entity.Language;
-import com.example.app.data.entity.Person;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -67,7 +65,7 @@ public class StartingDataService {
 
             SimpleModule module =
                     new SimpleModule("CustomCarDeserializer", new Version(1, 0, 0, null, null, null));
-            module.addDeserializer(Person.class, new CustomPersonDeserializer());
+            module.addDeserializer(PersonDTO.class, new CustomPersonDeserializer());
             mapper.registerModule(module);
 
             return mapper.readValue(stream, clazz);
@@ -81,7 +79,7 @@ public class StartingDataService {
         return Arrays.asList(getItemsSerializer(PersonDTO[].class, "person.json"));
     }
 
-    public static class CustomPersonDeserializer extends StdDeserializer<Person> {
+    public static class CustomPersonDeserializer extends StdDeserializer<PersonDTO> {
 
         public CustomPersonDeserializer() {
             this(null);
@@ -92,8 +90,8 @@ public class StartingDataService {
         }
 
         @Override
-        public Person deserialize(JsonParser parser, DeserializationContext deserializer) throws IOException, JacksonException {
-            Person pers = new Person();
+        public PersonDTO deserialize(JsonParser parser, DeserializationContext deserializer) throws IOException, JacksonException {
+            PersonDTO pers = new PersonDTO();
             ObjectCodec codec = parser.getCodec();
             JsonNode node = null;
             try {
@@ -107,13 +105,13 @@ public class StartingDataService {
             // try catch block
             JsonNode firstNameNode = node.get("firstName");
             String firstName = firstNameNode.asText();
-            pers.setfirstName(firstName);
+            pers.setFirstName(firstName);
             JsonNode lastNameNode = node.get("lastName");
             String lastName = lastNameNode.asText();
-            pers.setlastName(lastName);
+            pers.setLastName(lastName);
             JsonNode emailNode = node.get("email");
             String email = emailNode.asText();
-            pers.setemail(email);
+            pers.setEmail(email);
 
             JsonNode bornDateNode = node.get("bornDate");
             String bornDate = bornDateNode.asText();
@@ -125,35 +123,35 @@ public class StartingDataService {
             }
 
             LocalDate bornDateDateUj = LocalDate.ofInstant(bornDateDate.toInstant(), ZoneId.systemDefault()); // import java.util.Date to java.time.LocalDate
-            pers.setbornDate(bornDateDateUj);
+            pers.setBornDate(bornDateDateUj);
 
             JsonNode phoneNode = node.get("phone");
             String phone = phoneNode.asText();
-            pers.setphone(phone);
+            pers.setPhone(phone);
             JsonNode addressNode = node.get("address");
             String address = addressNode.asText();
-            pers.setaddress(address);
+            pers.setAddress(address);
             //JsonNode cityNode = node.get("city");     String city = cityNode.asText();      pers.setcity(city);
             JsonNode socialMediaNode = node.get("socialMedia");
             String socialMedia = socialMediaNode.asText();
-            pers.setsocialMedia(socialMedia);
+            pers.setSocialMedia(socialMedia);
             JsonNode messageAppsNode = node.get("messageApps");
             String messageApps = messageAppsNode.asText();
-            pers.setmessageApps(messageApps);
+            pers.setMessageApps(messageApps);
             JsonNode webSiteNode = node.get("webSite");
             String webSite = webSiteNode.asText();
-            pers.setwebSite(webSite);
+            pers.setWebSite(webSite);
             JsonNode pictureNode = node.get("picture");
             String picture = pictureNode.asText();
-            pers.setpicture(picture);
+            pers.setPicture(picture);
             JsonNode studiesNode = node.get("studies");     /*String studies = studiesNode.asText();      pers.setstudies(studies);*/
             JsonNode profExperienceNode = node.get("profExperience");     /*String profExperience = profExperienceNode.asText();      pers.setprofExperience(profExperience);*/
             JsonNode otherSkillNode = node.get("otherSkill");
             String otherSkill = otherSkillNode.asText();
-            pers.setotherSkill(otherSkill);
+            pers.setOtherSkill(otherSkill);
             JsonNode coverLetterNode = node.get("coverLetter");
             String coverLetter = coverLetterNode.asText();
-            pers.setcoverLetter(coverLetter);
+            pers.setCoverLetter(coverLetter);
             //JsonNode languageNode = node.get("language");     String language = languageNode.asText();      pers.setlanguage(language);
 
 

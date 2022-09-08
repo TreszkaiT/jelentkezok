@@ -1,7 +1,6 @@
 package com.example.app.views.dataup;
 
 import com.example.app.data.dto.*;
-import com.example.app.data.entity.*;
 import com.example.app.data.excel.ExcelXlsAndXlsxRead;
 import com.example.app.data.properties.GetProperties;
 import com.example.app.viewcontroller.AppController;

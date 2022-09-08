@@ -1,5 +1,6 @@
 package com.example.app.data.dto;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ public class PersonDTO {
 
     private String address = "";
 
+    @ManyToOne
     private CityDTO cityDTO;
 
 
@@ -34,8 +36,10 @@ public class PersonDTO {
     private String picture = "";
 
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<StudyDTO> studiesDTO = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProfExperienceDTO> profExperiencesDTO = new ArrayList<>();
 
 
@@ -44,6 +48,7 @@ public class PersonDTO {
 
     private String coverLetter = "";
 
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<LanguageDTO> languageDTO = new HashSet<>();
 
 

@@ -1,5 +1,7 @@
 package com.example.app.data.dto;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +11,7 @@ public class LanguageDTO {
 
     private String code;
 
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<PersonDTO> personDTO = new HashSet<>();
 
     public LanguageDTO() {

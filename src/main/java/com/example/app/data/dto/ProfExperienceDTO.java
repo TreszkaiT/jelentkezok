@@ -1,5 +1,6 @@
 package com.example.app.data.dto;
 
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 public class ProfExperienceDTO {
@@ -13,6 +14,7 @@ public class ProfExperienceDTO {
 
     private String comment;
 
+    @ManyToOne
     private PersonDTO personDTO;
 
     public ProfExperienceDTO() {
