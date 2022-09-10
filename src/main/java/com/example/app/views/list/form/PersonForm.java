@@ -1,7 +1,6 @@
 package com.example.app.views.list.form;
 
 import com.example.app.data.dto.*;
-import com.example.app.data.entity.ProfExperience;
 import com.example.app.exception.InvalidBeanWriteException;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;

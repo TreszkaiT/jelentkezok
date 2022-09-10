@@ -48,12 +48,4 @@ public class AppController {
         return appService.findAllPersons(filterName, dt, filterLang);
     }
 
-
-
-
-
-
-
-
-
 }
