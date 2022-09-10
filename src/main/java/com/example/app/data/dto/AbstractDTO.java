@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class AbstractDTO {
 
-
     @Type(type = "uuid-char")
     private UUID id;
 

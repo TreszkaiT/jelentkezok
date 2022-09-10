@@ -1,6 +1,9 @@
 package com.example.app.data.dto;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,19 +12,26 @@ import java.util.Set;
 
 public class PersonDTO extends AbstractDTO {
 
+    @NotEmpty
     private String firstName = "";
 
+    @NotEmpty
     private String lastName = "";
 
+    @Email
+    @NotEmpty
     private String email = "";
+
 
     private LocalDate bornDate;
 
+    @NotEmpty
     private String phone = "";
 
-
+    @NotEmpty
     private String address = "";
 
+    @NotNull
     @ManyToOne
     private CityDTO cityDTO;
 
@@ -32,7 +42,7 @@ public class PersonDTO extends AbstractDTO {
 
     private String webSite = "";
 
-
+    @NotEmpty
     private String picture = "";
 
 
@@ -45,7 +55,7 @@ public class PersonDTO extends AbstractDTO {
 
     private String otherSkill = "";
 
-
+    @NotEmpty
     private String coverLetter = "";
 
     @ManyToMany(fetch = FetchType.EAGER)
