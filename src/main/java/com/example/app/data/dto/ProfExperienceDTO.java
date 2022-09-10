@@ -3,7 +3,7 @@ package com.example.app.data.dto;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
-public class ProfExperienceDTO {
+public class ProfExperienceDTO extends AbstractDTO {
 
 
     private String nameWork;

@@ -1,6 +1,7 @@
 package com.example.app.data.dto;
 
-public class CityDTO {
+public class CityDTO extends AbstractDTO{
+
 
     private String name;
     private String zip;

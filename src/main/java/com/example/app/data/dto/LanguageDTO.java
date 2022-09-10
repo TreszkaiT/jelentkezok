@@ -5,7 +5,7 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LanguageDTO {
+public class LanguageDTO extends AbstractDTO {
 
     private String name;
 
