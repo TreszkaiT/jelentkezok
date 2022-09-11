@@ -1,5 +1,6 @@
 package com.example.app.data.dto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public class LanguageDTO extends AbstractDTO {
 
     private String code;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<PersonDTO> personDTO = new HashSet<>();
 
     public LanguageDTO() {

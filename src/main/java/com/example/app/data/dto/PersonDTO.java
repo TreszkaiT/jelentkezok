@@ -32,7 +32,7 @@ public class PersonDTO extends AbstractDTO {
     private String address = "";
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private CityDTO cityDTO;
 
 
@@ -58,7 +58,7 @@ public class PersonDTO extends AbstractDTO {
     @NotEmpty
     private String coverLetter = "";
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<LanguageDTO> languageDTO = new HashSet<>();
 
 

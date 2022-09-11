@@ -1,5 +1,6 @@
 package com.example.app.data.dto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
@@ -14,7 +15,7 @@ public class ProfExperienceDTO extends AbstractDTO {
 
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private PersonDTO personDTO;
 
     public ProfExperienceDTO() {

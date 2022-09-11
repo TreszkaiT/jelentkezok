@@ -1,5 +1,7 @@
 package com.example.app.data.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -40,7 +42,7 @@ public class Person extends AbstractEntity {
     private String address = "";
     @NotNull
     //@Column(name = "PRSN_CITY_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private City city;
 
     //@NotEmpty
@@ -70,7 +72,7 @@ public class Person extends AbstractEntity {
     private String otherSkill = "";
 
     @NotEmpty
-    @Column(name = "PRSN_COVER_LETTER")
+    @Column(name = "PRSN_COVER_LETTER", columnDefinition = "TEXT")
     private String coverLetter = "";
 
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás
@@ -78,7 +80,7 @@ public class Person extends AbstractEntity {
     //@ElementCollection
     //private Set<String> language = new HashSet<>();
     //@NotNull
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@Column(name = "PRSN_LANGUAGE_ID")
     // hogy előtöltse a kapcsolatot. Mert ha betöltődik az Entitás, azaz inkább egy proxy. Ha itt ráhívok egy language-re, akkro a proxy elpattint egy lekérdezést, és belekérdez, hogy mi tartozik ehhez. De ahhoz ennek egy élő Session-nak kell lennie. De a View felület kívül van. LAZY nélkül no Session hiba lesz
     private Set<Language> language = new HashSet<>();

@@ -17,7 +17,7 @@ public class Study extends AbstractEntity {
     @Column(name = "STD_COMMENT")
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "STD_PERSON_ID")
     private Person person;
 

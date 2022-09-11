@@ -1,6 +1,8 @@
 package com.example.app.data.entity;
 
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +17,7 @@ public class Language extends AbstractEntity {
     private String code;
 
     // azért, hogy az így létrehozott kapcsolótáblába ezen oldal felől is tujunk keresni
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@Column(name = "LNG_PERSON_ID")
     private Set<Person> person = new HashSet<>();
 
