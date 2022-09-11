@@ -19,24 +19,24 @@ public class Person extends AbstractEntity {
     //@GeneratedValue(strategy = GenerationType.AUTO)             // azt mondja meg, hogy hogyan generálódjon egy ilyen Entitás Id-ja. Megmondjuk, hogy milyen stratégiát használjon ehhez. Auto=AutoIncrement lesz
     //private Long id;
     @NotEmpty
-    @Column(name = "PRSN_FIRST_NAME")
+    @Column(name = "PRSN_FIRST_NAME", length = 20)
     private String firstName = "";
     @NotEmpty
-    @Column(name = "PRSN_LAST_NAME")
+    @Column(name = "PRSN_LAST_NAME", columnDefinition = "varchar(30) default 'Smith'")
     private String lastName = "";
     @Email
     @NotEmpty
-    @Column(name = "PRSN_EMAIL")
+    @Column(name = "PRSN_EMAIL", length = 30)
     private String email = "";
     //@NotEmpty
     @Column(name = "PRSN_BORN_DATE")
     private LocalDate bornDate;
     @NotEmpty
-    @Column(name = "PRSN_PHONE")
+    @Column(name = "PRSN_PHONE", length = 20)
     private String phone = "";
 
     @NotEmpty
-    @Column(name = "PRSN_ADDRESS")
+    @Column(name = "PRSN_ADDRESS", length = 250)
     private String address = "";
     @NotNull
     //@Column(name = "PRSN_CITY_ID")
@@ -44,13 +44,13 @@ public class Person extends AbstractEntity {
     private City city;
 
     //@NotEmpty
-    @Column(name = "PRSN_SOCIAL_MEDIA")
+    @Column(name = "PRSN_SOCIAL_MEDIA", length = 250)
     private String socialMedia = "";
     //@NotEmpty
-    @Column(name = "PRSN_MESSAGE_APPS")
+    @Column(name = "PRSN_MESSAGE_APPS", length = 250)
     private String messageApps = "";
     //@NotEmpty
-    @Column(name = "PRSN_WEB_SITE")
+    @Column(name = "PRSN_WEB_SITE", length = 100)
     private String webSite = "";
 
     @NotEmpty
@@ -66,11 +66,11 @@ public class Person extends AbstractEntity {
     private List<ProfExperience> profExperiences = new ArrayList<>();
 
     //@NotEmpty
-    @Column(name = "PRSN_OTHER_SKILL")
+    @Column(name = "PRSN_OTHER_SKILL", length = 150)
     private String otherSkill = "";
 
     @NotEmpty
-    @Column(name = "PRSN_COVER_LETTER")
+    @Column(name = "PRSN_COVER_LETTER", columnDefinition = "TEXT")
     private String coverLetter = "";
 
     // magától a Set Stringek halmazát nem tudja betenni az adatbázisba, sőt Exceptionnal el is száll az alkalmazás

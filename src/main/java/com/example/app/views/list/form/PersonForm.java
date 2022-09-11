@@ -119,6 +119,23 @@ public class PersonForm extends FormLayout {
         h5coverLetter.setClassName("h5-style");
         h5ProfExperience.setClassName("h5-style");
 
+        binder.forField(firstName)
+                .withValidator(firstName -> firstName.length() >=3, "Túl kevés karaktert írtál ide!")
+                .asRequired("Nem lehet üres")
+                .bind(Person::getfirstName, Person::setfirstName);
+        binder.forField(lastName)
+                .withValidator(lastName -> lastName.length() >=3, "Túl kevés karaktert írtál ide!")
+                .bind(Person::getlastName, Person::setlastName);
+        binder.forField(phone)
+                .withValidator(phone -> phone.length() >=8, "Túl kevés karaktert írtál ide!")
+                .bind(Person::getphone, Person::setphone);
+        binder.forField(address)
+                .withValidator(address -> address.length() >=5, "Túl kevés karaktert írtál ide!")
+                .bind(Person::getaddress, Person::setaddress);
+        binder.forField(picture)
+                .withValidator(picture -> picture.length() >=2, "Túl kevés karaktert írtál ide!")
+                .bind(Person::getpicture, Person::setpicture);
+
         add(
                 firstName,
                 lastName,
