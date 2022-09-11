@@ -74,5 +74,6 @@ public class RouteNotFoundErrorView extends Component
 //        status.setText("Status: " + value);
 //        status.setVisible(true);
         this.getUI().ifPresent(ui -> ui.navigate(""));
+        // UI.getCurrent().getPage().setLocation("/");
     }
 }

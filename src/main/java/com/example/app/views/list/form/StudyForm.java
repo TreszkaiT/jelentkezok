@@ -26,6 +26,9 @@ public class StudyForm extends FormLayout {
 
     public StudyForm(Study study) {
         add(nameSchool, formDate, toDate, comment);
+
+        nameSchool.focus();
+
         binder.bindInstanceFields(this);                                    // összekapcsolás Components-Beans: itt történik meg a tényleges összecsatolás. Itt tudja meg ezt, hogy ő melyik Vaadin-os elemen fog dolgozni
         this.study = study;
         binder.readBean(study);                                                                 // Components-ek kitöltése: Bean->Component-be: aztán, mikor rácsatlakozott ő a formra, ézrékelte, leolvasta a mezőket, beolvassuk magát a Beant (study), amit itt fentebb konstruktorba kaptuk. És ezt a study-t kirakja ő a formra

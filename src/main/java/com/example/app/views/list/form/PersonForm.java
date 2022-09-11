@@ -136,6 +136,22 @@ public class PersonForm extends FormLayout {
                 .withValidator(picture -> picture.length() >=2, "Túl kevés karaktert írtál ide!")
                 .bind(Person::getpicture, Person::setpicture);
 
+        firstName.setPlaceholder("Kiss");
+        lastName.setPlaceholder("János");
+        email.setPlaceholder("kissjanos@gmail.com");
+        phone.setPlaceholder("06-30-3487-952");
+        bornDate.setPlaceholder("2022. 09. 12.");
+        address.setPlaceholder("Bessenyei tér 4/A");
+        socialMedia.setPlaceholder("facebook, twitter, iwiw");
+        messageApps.setPlaceholder("messenger, skype");
+        webSite.setPlaceholder("www.sajatoldalam.hu");
+        otherSkill.setPlaceholder("jó szociális készség, agilitás");
+        picture.setPlaceholder("igazolványkép.jpg");
+
+        firstName.focus();
+        //firstName.setAutofocus(true);
+
+
         add(
                 firstName,
                 lastName,
@@ -686,7 +702,7 @@ public class PersonForm extends FormLayout {
         fieldLayout.setSpacing(false);
         fieldLayout.setPadding(false);
         fieldLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldLayout.getStyle().set("width", "400px").set("max-width", "100%");
+        fieldLayout.getStyle().set("width", "600px").set("max-width", "100%");
 
         return fieldLayout;
     }

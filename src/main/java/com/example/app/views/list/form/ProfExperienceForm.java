@@ -25,6 +25,8 @@ public class ProfExperienceForm extends FormLayout {
     public ProfExperienceForm(ProfExperience profExperience) {
         this.profExperience = profExperience;
 
+        nameWork.focus();
+
         add(nameWork, formDate, toDate, comment);
         binder.bindInstanceFields(this);
         binder.readBean(profExperience);
