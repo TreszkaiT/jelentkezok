@@ -25,7 +25,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 @Theme(value = "adatok")
 //@Theme(value = "custom-theme")
-@PWA(name = "adatok", shortName = "adatok", offlineResources = {})
+@PWA(
+        name = "Adatok bevitele App",
+        shortName = "adatok",
+        offlinePath="offline.html",
+        offlineResources = {"images/logo.png", "images/offline.png"})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
 @ConfigurationProperties
