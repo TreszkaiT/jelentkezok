@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - 32101:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+
+#  db:
+#    image: mcr.microsoft.com/mssql/server:2019-CU9-ubuntu-16.04
+#    restart: 'no'
+#    volumes:
+#      - ./sqlServerData:/tmp/script
+#    ports:
+#      - 32101:1433
+#    environment:
+#      - ACCEPT_EULA=Y
+#      - SA_PASSWORD=aB123456789#
+
+volumes:
+  geoserver-data:
