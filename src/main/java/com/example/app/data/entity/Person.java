@@ -57,11 +57,11 @@ public class Person extends AbstractEntity {
     @Column(name = "PRSN_PICTURE")
     private String picture = "";
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)       // fetch = FetchType.EAGER,  -- h2-ben ok, de mariaDB-ben nem;  mert nem tudja egyszerre becsatolni a két táblát
     //@Column(name = "PRSN_STUDIES_ID")
     private List<Study> studies = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)      // fetch = FetchType.EAGER,  -- h2-ben ok, de mariaDB-ben nem
     //@Column(name = "PRSN_PROF_EXPERIENCES_ID")
     private List<ProfExperience> profExperiences = new ArrayList<>();
 
