@@ -35,8 +35,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 @ConfigurationProperties
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
 
-    //@Autowired
-    //private Product product;
+
 
     public static void main(String[] args) {
         ConfigurableApplicationContext ct = SpringApplication.run(Application.class, args);
