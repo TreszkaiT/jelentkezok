@@ -4,10 +4,12 @@ services:
 
   db:
     image: mariadb
+    container_name: adatok
     restart: always
     ports:
       - 32101:3306
     environment:
+      MARIADB_DATABASE: testDb
       MARIADB_ROOT_PASSWORD: example
 
 #  adminer:
